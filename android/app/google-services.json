@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "901803702180",
+    "project_id": "awesome-eccommerce-app",
+    "storage_bucket": "awesome-eccommerce-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:901803702180:android:9a1f1c7eec4d341abbf331",
+        "android_client_info": {
+          "package_name": "com.example.ecommerce_app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBSrDXRkDsf5btNVk6rvZCYG317eVtglOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
