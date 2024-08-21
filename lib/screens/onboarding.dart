@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class Onboarding extends StatelessWidget {
   const Onboarding({super.key});
@@ -6,39 +7,49 @@ class Onboarding extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-          color: const Color(0xFF92E3A9),
-          height: double.infinity,
-          width: double.infinity,
-          child: const Center(
-            child: Wrap(
-              children: [
-                Text(
-                  'eSh',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 32,
-                      letterSpacing: -0.25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
+        backgroundColor: const Color(0xFF92E3A9),
+        body: Stack(
+          children: [
+            Positioned(
+                left: -160.w,
+                top: -191.sp,
+                child: Image.asset('assets/Vectoronboardingup.png')),
+            Positioned(
+                left: 213.w,
+                top: 717.h,
+                child: Image.asset('assets/Vectoronbordingdown.png')),
+            const SafeArea(
+              child: Center(
+                child: Wrap(
+                  children: [
+                    Text(
+                      'eSh',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 32,
+                        letterSpacing: -0.3,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
-                ),
-                Text(
-                  'op',
-                  style: TextStyle(
-                      fontStyle: FontStyle.italic,
-                      fontSize: 32,
-                      letterSpacing: -0.25,
-                      color: Colors.white,
-                      fontWeight: FontWeight.w600,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Colors.white,
-                      decorationThickness: 1.5,
+                    Text(
+                      'op',
+                      style: TextStyle(
+                        fontStyle: FontStyle.italic,
+                        fontSize: 32,
+                        letterSpacing: -0.3,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600,
+                        decoration: TextDecoration.underline,
+                        decorationColor: Colors.white,
+                        decorationThickness: 1.5,
+                      ),
                     ),
+                  ],
                 ),
-              ],
-            ),
-          )),
-    );
+              ),
+            )
+          ],
+        ));
   }
 }

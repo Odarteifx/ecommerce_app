@@ -3,8 +3,9 @@ import 'package:ecommerce_app/screens/onboarding.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-Future<void> main() async{
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
@@ -16,14 +17,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        textTheme: GoogleFonts.robotoTextTheme(),
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF92E3A9)),
-        useMaterial3: true,
+    return ScreenUtilInit(
+      builder: (context, child) => MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          textTheme: GoogleFonts.robotoTextTheme(),
+          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF92E3A9)),
+          useMaterial3: true,
+        ),
+        home: const MyHomePage(),
       ),
-      home: const MyHomePage(),
+      designSize: const Size(390, 844),
     );
   }
 }
