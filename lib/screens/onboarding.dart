@@ -18,7 +18,7 @@ class Onboarding extends StatelessWidget {
                 left: 213.w,
                 top: 717.h,
                 child: Image.asset('assets/Vectoronbordingdown.png')),
-            const SafeArea(
+            SafeArea(
               child: Center(
                 child: Wrap(
                   children: [
@@ -26,8 +26,8 @@ class Onboarding extends StatelessWidget {
                       'eSh',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
-                        fontSize: 32,
-                        letterSpacing: -0.3,
+                        fontSize: 32.sp,
+                        letterSpacing: -0.3.sp,
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                       ),
@@ -36,13 +36,13 @@ class Onboarding extends StatelessWidget {
                       'op',
                       style: TextStyle(
                         fontStyle: FontStyle.italic,
-                        fontSize: 32,
-                        letterSpacing: -0.3,
+                        fontSize: 32.sp,
+                        letterSpacing: -0.3.sp,
                         color: Colors.white,
                         fontWeight: FontWeight.w600,
                         decoration: TextDecoration.underline,
                         decorationColor: Colors.white,
-                        decorationThickness: 1.5,
+                        decorationThickness: 1.5.sp,
                       ),
                     ),
                   ],
