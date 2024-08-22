@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScreenUtilInit(
       builder: (context, child) => MaterialApp(
-        title: 'Flutter Demo',
+        title: 'eShop',
         theme: ThemeData(
           textTheme: GoogleFonts.robotoTextTheme(),
           colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF92E3A9)),
