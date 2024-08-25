@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
+import 'package:ecommerce_app/screens/eshop_pageview.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +13,7 @@ class WelcomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Appcolors.backgroundColor,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,7 +69,11 @@ class WelcomePage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(5)),
                     backgroundColor: Appcolors.primaryColor),
                 onPressed: () {
-                  //action
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const EshopPageview(),
+                      ));
                 },
                 child: Text(
                   'Get Started',

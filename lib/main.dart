@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/firebase_options.dart';
 import 'package:ecommerce_app/screens/onboarding.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,8 +22,10 @@ class MyApp extends StatelessWidget {
       builder: (context, child) => MaterialApp(
         title: 'eShop',
         theme: ThemeData(
-          textTheme: GoogleFonts.robotoTextTheme(),
-          colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF92E3A9)),
+          textTheme: GoogleFonts.robotoTextTheme().apply(
+            bodyColor: Appcolors.textColor,
+          ),
+          colorScheme: ColorScheme.fromSeed(seedColor: Appcolors.primaryColor),
           useMaterial3: true,
         ),
         home: const MyHomePage(),

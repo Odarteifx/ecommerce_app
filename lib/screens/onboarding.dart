@@ -16,27 +16,11 @@ class Onboarding extends StatefulWidget {
 class _OnboardingState extends State<Onboarding> {
   @override
   void initState() {
-    Future.delayed(const Duration(milliseconds: 1000), () {
+    Future.delayed(const Duration(seconds: 2), () {
       Navigator.push(
           context,
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const WelcomePage(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-              const begin = Offset(0.1, 0.0);
-              const end = Offset.zero;
-              const curve = Curves.easeIn;
-
-              var tween =
-                  Tween(begin: begin, end: end).chain(CurveTween(curve: curve));
-              var offsetAnimation = animation.drive(tween);
-
-              return SlideTransition(
-                position: offsetAnimation,
-                child: child,
-              );
-            },
+          MaterialPageRoute(
+            builder: (context) => const WelcomePage(),
           ));
     });
     super.initState();
