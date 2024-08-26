@@ -72,7 +72,7 @@ class MajorButton extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: SizedBox(
-        height: 50,
+        height: 50.h,
         width: double.infinity,
         child: FilledButton(
           style: FilledButton.styleFrom(
@@ -174,14 +174,17 @@ class UnderNote extends StatelessWidget {
               fontWeight: EshopFontweight.regular,
               color: Appcolors.subtextColor),
         ),
-        InkWell(
-          onTap: function,
-          child: Text(
-            actionText,
-            style: GoogleFonts.roboto(
-                fontSize: EshopTypography.subtext,
-                fontWeight: EshopFontweight.medium,
-                color: Appcolors.primaryColor),
+        Container(
+          color: Appcolors.backgroundColor,
+          child: InkWell(
+            onTap: function,
+            child: Text(
+              actionText,
+              style: GoogleFonts.roboto(
+                  fontSize: EshopTypography.subtext,
+                  fontWeight: EshopFontweight.medium,
+                  color: Appcolors.primaryColor),
+            ),
           ),
         )
       ],
@@ -231,8 +234,43 @@ class EmailTextField extends StatelessWidget {
         }
       },
       controller: controller,
+      keyboardType: TextInputType.emailAddress,
       decoration: InputDecoration(
           hintText: 'Enter email address',
+          filled: true,
+          fillColor: Appcolors.backgroundColor,
+          hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
+          border: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(4),
+          ),
+          enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Appcolors.iconColor))),
+    );
+  }
+}
+
+// Full Name Textfield
+class NameTextField extends StatelessWidget {
+  final TextEditingController controller;
+
+  const NameTextField({super.key, required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Enter your name';
+        } else {
+          return null;
+        }
+      },
+      controller: controller,
+      keyboardType: TextInputType.name,
+      decoration: InputDecoration(
+          hintText: 'Full Name',
+          filled: true,
+          fillColor: Appcolors.backgroundColor,
           hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(4),
@@ -246,10 +284,12 @@ class EmailTextField extends StatelessWidget {
 // Password textfield
 class PasswordTextField extends StatefulWidget {
   final TextEditingController controller;
+  final String hintText;
 
   const PasswordTextField({
     super.key,
     required this.controller,
+    required this.hintText,
   });
 
   @override
@@ -259,6 +299,8 @@ class PasswordTextField extends StatefulWidget {
 bool _hidepassword = true;
 
 class _PasswordTextFieldState extends State<PasswordTextField> {
+ 
+
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -274,7 +316,9 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
       obscureText: _hidepassword,
       obscuringCharacter: '*',
       decoration: InputDecoration(
-          hintText: 'Password',
+          hintText: widget.hintText,
+          filled: true,
+          fillColor: Appcolors.backgroundColor,
           suffixIcon: IconButton(
             onPressed: () {
               setState(() {
@@ -292,6 +336,67 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
           ),
           enabledBorder: const OutlineInputBorder(
               borderSide: BorderSide(color: Appcolors.iconColor))),
+    );
+  }
+}
+
+//Terms & Conditions 
+class EshopTermsConditions extends StatefulWidget {
+  const EshopTermsConditions({super.key});
+
+  @override
+  State<EshopTermsConditions> createState() => _EshopTermsConditionsState();
+}
+
+class _EshopTermsConditionsState extends State<EshopTermsConditions> {
+  bool _checked = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Checkbox(
+          value: _checked,
+          onChanged: (value) {
+            setState(() {
+              _checked = !_checked;
+            });
+          },
+        ),
+        Wrap(
+          children: [
+            Text(
+              'I agree to the ',
+              style: GoogleFonts.roboto(
+                  color: Appcolors.subtextColor,
+                  fontSize: EshopTypography.termsfont,
+                  fontWeight: EshopFontweight.regular),
+            ),
+            Text(
+              'Terms of Service ',
+              style: GoogleFonts.roboto(
+                  color: Appcolors.primaryColor,
+                  fontSize: EshopTypography.termsfont,
+                  fontWeight: EshopFontweight.medium),
+            ),
+            Text(
+              'and ',
+              style: GoogleFonts.roboto(
+                  color: Appcolors.subtextColor,
+                  fontSize: EshopTypography.termsfont,
+                  fontWeight: EshopFontweight.regular),
+            ),
+            Text(
+              'Privacy Policy. ',
+              style: GoogleFonts.roboto(
+                  color: Appcolors.primaryColor,
+                  fontSize: EshopTypography.termsfont,
+                  fontWeight: EshopFontweight.medium),
+            ),
+          ],
+        ),
+      ],
     );
   }
 }

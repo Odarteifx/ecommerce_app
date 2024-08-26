@@ -1,10 +1,10 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
+import 'package:ecommerce_app/screens/signup_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconsax/iconsax.dart';
 
 class EshopSignInPage extends StatefulWidget {
   const EshopSignInPage({super.key});
@@ -18,9 +18,6 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
   late final TextEditingController _passwordcontroller;
 
   final _formkey = GlobalKey<FormState>();
-
-  late final email;
-  late final password;
 
   @override
   void initState() {
@@ -72,6 +69,7 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
                     padding: EdgeInsets.symmetric(horizontal: 20.h),
                     child: PasswordTextField(
                       controller: _passwordcontroller,
+                      hintText: 'Password',
                     )),
                 SizedBox(
                   height: 5.h,
@@ -103,8 +101,8 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
                     buttonText: 'Log In',
                     function: () {
                       if (_formkey.currentState!.validate()) {
-                        email = _emailcontroller;
-                        password = _passwordcontroller;
+                       // email = _emailcontroller;
+                      //  password = _passwordcontroller;
                       }
                       //login
                     }),
@@ -155,7 +153,11 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
                     questionText: 'Don’t have an account? ',
                     actionText: 'Sign up',
                     function: () {
-                      //Navigate to signup Page
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const EshopSignupPage(),
+                          ));
                     })
               ],
             ),
