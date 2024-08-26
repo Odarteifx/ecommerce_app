@@ -58,32 +58,15 @@ class WelcomePage extends StatelessWidget {
           SizedBox(
             height: 124.h,
           ),
-          Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.h),
-            child: SizedBox(
-              height: 50.h,
-              width: double.infinity,
-              child: FilledButton(
-                style: FilledButton.styleFrom(
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(5)),
-                    backgroundColor: Appcolors.primaryColor),
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const EshopPageview(),
-                      ));
-                },
-                child: Text(
-                  'Get Started',
-                  style: GoogleFonts.roboto(
-                      fontSize: EshopTypography.signbody,
-                      fontWeight: EshopFontweight.medium),
-                ),
-              ),
-            ),
-          )
+          MajorButton(
+              buttonText: 'Get Started',
+              function: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => const EshopPageview(),
+                    ));
+              })
         ],
       ),
     );

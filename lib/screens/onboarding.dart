@@ -1,10 +1,9 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
-import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/screens/welcome_page.dart';
+import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class Onboarding extends StatefulWidget {
   const Onboarding({super.key});
@@ -40,36 +39,11 @@ class _OnboardingState extends State<Onboarding> {
                 left: 213.w,
                 top: 717.h,
                 child: Image.asset(EshopAssets.onboardingdown)),
-            SafeArea(
+            const SafeArea(
               child: Center(
-                child: Wrap(
-                  children: [
-                    Text(
-                      'eSh',
-                      style: GoogleFonts.roboto(
-                        fontStyle: FontStyle.italic,
-                        fontSize: EshopTypography.heading1,
-                        letterSpacing: -0.3.sp,
-                        color: Colors.white,
-                        fontWeight: EshopFontweight.semibold,
-                      ),
-                    ),
-                    Text(
-                      'op',
-                      style: GoogleFonts.roboto(
-                        fontStyle: FontStyle.italic,
-                        fontSize: EshopTypography.heading1,
-                        letterSpacing: -0.3.sp,
-                        color: Colors.white,
-                        fontWeight: EshopFontweight.semibold,
-                        decoration: TextDecoration.underline,
-                        decorationColor: Colors.white,
-                        decorationThickness: 1.5.sp,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
+                  child: EshopLogo(
+                logoColor: Appcolors.backgroundColor,
+              )),
             )
           ],
         ));

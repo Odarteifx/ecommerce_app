@@ -3,6 +3,7 @@ import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/screens/pageview_one.dart';
 import 'package:ecommerce_app/screens/pageview_three.dart';
 import 'package:ecommerce_app/screens/pageview_two.dart';
+import 'package:ecommerce_app/screens/signin_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -55,7 +56,7 @@ class _EshopPageviewState extends State<EshopPageview> {
                               'Skip',
                               style: GoogleFonts.roboto(
                                   color: Appcolors.subtextColor,
-                                  fontSize: EshopTypography.signbody,
+                                  fontSize: EshopTypography.subtext,
                                   fontWeight: EshopFontweight.medium),
                             )),
                     SmoothPageIndicator(
@@ -71,7 +72,12 @@ class _EshopPageviewState extends State<EshopPageview> {
                     onlastpage
                         ? FilledButton(
                             onPressed: () {
-                              //signIn page
+                              Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const EshopSignInPage(),
+                                  ));
                             },
                             style: FilledButton.styleFrom(
                                 backgroundColor: Appcolors.primaryColor,
@@ -81,7 +87,7 @@ class _EshopPageviewState extends State<EshopPageview> {
                               'Done',
                               style: GoogleFonts.roboto(
                                   fontWeight: EshopFontweight.medium,
-                                  fontSize: EshopTypography.signbody),
+                                  fontSize: EshopTypography.subtext),
                             ))
                         : FilledButton(
                             onPressed: () {
@@ -97,7 +103,7 @@ class _EshopPageviewState extends State<EshopPageview> {
                               'Next',
                               style: GoogleFonts.roboto(
                                   fontWeight: EshopFontweight.medium,
-                                  fontSize: EshopTypography.signbody),
+                                  fontSize: EshopTypography.subtext),
                             ))
                   ],
                 )),
