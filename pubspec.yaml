@@ -41,6 +41,7 @@ dependencies:
   iconsax: ^0.0.8
   smooth_page_indicator: ^1.2.0+3
   firebase_auth: ^5.1.4
+  flutter_riverpod: ^2.5.1
 
 dev_dependencies:
   flutter_test:

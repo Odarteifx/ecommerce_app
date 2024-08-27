@@ -1,23 +1,25 @@
 import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/providers/eshop_providers.dart';
 import 'package:ecommerce_app/screens/homepage.dart';
 import 'package:ecommerce_app/screens/signin_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/eshop_typography.dart';
 
-class EshopSignupPage extends StatefulWidget {
+class EshopSignupPage extends ConsumerStatefulWidget {
   const EshopSignupPage({super.key});
 
   @override
-  State<EshopSignupPage> createState() => _EshopSignupPageState();
+  ConsumerState<EshopSignupPage> createState() => _EshopSignupPageState();
 }
 
 String name = '', email = '', password = '', confirmpassword = '';
 
-class _EshopSignupPageState extends State<EshopSignupPage> {
+class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
   final _formkey = GlobalKey<FormState>();
 
   late final TextEditingController _namecontroller;
@@ -57,7 +59,8 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
           await FirebaseAuth.instance
               .createUserWithEmailAndPassword(email: email, password: password);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Center(child: Text('Account Successfully Created'))),
+            const SnackBar(
+                content: Center(child: Text('Account Successfully Created'))),
           );
 
           Navigator.pushReplacement(
@@ -68,32 +71,34 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
           );
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
-            ScaffoldMessenger.of(context)
-                .showSnackBar(const SnackBar(content: Center(child: Text('Your password is too simple. Try adding more characters, numbers, or symbols.'))));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text(
+                    'Your password is too simple. Try adding more characters, numbers, or symbols.')));
           } else if (e.code == 'email-already-in-use') {
-            ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Center(child: Text('Account already exists. Try logging in or use a different email.'))));
+            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                content: Text(
+                    'Account already exists. Try logging in or use a different email.')));
           } else {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Center(child: Text('${e.message}'))));
+                .showSnackBar(SnackBar(content: Text('${e.message}')));
           } // ... (error handling remains the same)
         } catch (e) {
           // Handle any other errors
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Center(child: Text('Error: ${e.toString()}'))),
+            SnackBar(content: Text('Error: ${e.toString()}')),
           );
         }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Center(child: Text('Passwords do not match')),
+            content: Text('Passwords do not match'),
           ),
         );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Center(child: Text('Please fill in all fields')),
+          content: Text('Please fill in all fields'),
         ),
       );
     }
@@ -101,6 +106,8 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
 
   @override
   Widget build(BuildContext context) {
+    final isAccepted = ref.watch(termsProvdier);
+
     final screenheight = MediaQuery.of(context).size.height;
     final isSmaller = screenheight <= 667;
 
@@ -160,7 +167,15 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
             SizedBox(
               height: 15.h,
             ),
-            MajorButton(buttonText: 'Sign Up', function: registration),
+            MajorButton(
+                buttonText: 'Sign Up',
+                function: isAccepted
+                    ? registration
+                    : () {
+                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                            content: Text(
+                                'Accept Terms of Service and Privacy Policy')));
+                      }),
             const EshopTermsConditions(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),

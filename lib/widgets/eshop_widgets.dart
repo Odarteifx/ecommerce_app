@@ -1,6 +1,8 @@
 import 'dart:math';
 import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/providers/eshop_providers.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
@@ -299,8 +301,6 @@ class PasswordTextField extends StatefulWidget {
 bool _hidepassword = true;
 
 class _PasswordTextFieldState extends State<PasswordTextField> {
- 
-
   @override
   Widget build(BuildContext context) {
     return TextFormField(
@@ -340,16 +340,16 @@ class _PasswordTextFieldState extends State<PasswordTextField> {
   }
 }
 
-//Terms & Conditions 
-class EshopTermsConditions extends StatefulWidget {
+//Terms & Conditions
+class EshopTermsConditions extends ConsumerStatefulWidget {
   const EshopTermsConditions({super.key});
 
   @override
-  State<EshopTermsConditions> createState() => _EshopTermsConditionsState();
+  ConsumerState<EshopTermsConditions> createState() => _EshopTermsConditionsState();
 }
 
-class _EshopTermsConditionsState extends State<EshopTermsConditions> {
-  bool _checked = false;
+class _EshopTermsConditionsState extends ConsumerState<EshopTermsConditions> {
+  
 
   @override
   Widget build(BuildContext context) {
@@ -357,11 +357,9 @@ class _EshopTermsConditionsState extends State<EshopTermsConditions> {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Checkbox(
-          value: _checked,
+          value: ref.watch(termsProvdier),
           onChanged: (value) {
-            setState(() {
-              _checked = !_checked;
-            });
+            ref.read(termsProvdier.notifier).state = value!;
           },
         ),
         Wrap(
@@ -400,4 +398,3 @@ class _EshopTermsConditionsState extends State<EshopTermsConditions> {
     );
   }
 }
-
