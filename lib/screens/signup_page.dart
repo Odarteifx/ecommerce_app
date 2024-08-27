@@ -69,10 +69,10 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
         } on FirebaseAuthException catch (e) {
           if (e.code == 'weak-password') {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Center(child: Text('Password is weak'))));
+                .showSnackBar(const SnackBar(content: Center(child: Text('Your password is too simple. Try adding more characters, numbers, or symbols.'))));
           } else if (e.code == 'email-already-in-use') {
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Center(child: Text('Account already exists'))));
+                const SnackBar(content: Center(child: Text('Account already exists. Try logging in or use a different email.'))));
           } else {
             ScaffoldMessenger.of(context)
                 .showSnackBar(SnackBar(content: Center(child: Text('${e.message}'))));
@@ -86,14 +86,14 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
-            content: Text('Passwords do not match'),
+            content: Center(child: Text('Passwords do not match')),
           ),
         );
       }
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
-          content: Text('Please fill in all fields'),
+          content: Center(child: Text('Please fill in all fields')),
         ),
       );
     }
