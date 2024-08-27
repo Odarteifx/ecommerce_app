@@ -170,7 +170,6 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
         body: SigninStack(
             pagecontent: isSmaller
                 ? SingleChildScrollView(
-                  clipBehavior: Clip.none,
                     child: content,
                   )
                 : content));
