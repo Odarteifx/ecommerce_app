@@ -1,10 +1,11 @@
 import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/screens/homepage.dart';
 import 'package:ecommerce_app/screens/signin_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-
 import '../constants/eshop_typography.dart';
 
 class EshopSignupPage extends StatefulWidget {
@@ -13,6 +14,8 @@ class EshopSignupPage extends StatefulWidget {
   @override
   State<EshopSignupPage> createState() => _EshopSignupPageState();
 }
+
+String name = '', email = '', password = '', confirmpassword = '';
 
 class _EshopSignupPageState extends State<EshopSignupPage> {
   final _formkey = GlobalKey<FormState>();
@@ -38,6 +41,60 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
     _passwordcontroller.dispose();
     _confirmpasswordcontroller.dispose();
     super.dispose();
+  }
+
+  registration() async {
+    if (_formkey.currentState!.validate()) {
+      if (password == confirmpassword &&
+          _namecontroller.text.isNotEmpty &&
+          _emailcontroller.text.isNotEmpty &&
+          _passwordcontroller.text.isNotEmpty) {
+        try {
+          await FirebaseAuth.instance
+              .createUserWithEmailAndPassword(email: _emailcontroller.text, password: _passwordcontroller.text);
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('Account Successfully Created')),
+          );
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const EshopHomePage(),
+            ),
+          );
+        } on FirebaseAuthException catch (e) {
+          print('{$email}');
+             
+          if (e.code == 'weak-password') {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('Password is weak')));
+          } else if (e.code == 'email-already-in-use') {
+            ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(content: Text('Account already exists')));
+          } else {
+            ScaffoldMessenger.of(context)
+                .showSnackBar(SnackBar(content: Text('${e.message}')));
+          } // ... (error handling remains the same)
+         } catch (e){
+            // Handle any other errors
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Error: ${e.toString()}')),
+        );
+         }
+      } else {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Passwords do not match'),
+          ),
+        );
+      }
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in all fields'),
+        ),
+      );
+    }
   }
 
   @override
@@ -101,15 +158,7 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
             SizedBox(
               height: 15.h,
             ),
-            MajorButton(
-                buttonText: 'Sign Up',
-                function: () {
-                  if (_formkey.currentState!.validate()) {
-                    //email = _emailcontroller;
-                    // password = _passwordcontroller;
-                  }
-                  //login
-                }),
+            MajorButton(buttonText: 'Sign Up', function: registration),
             const EshopTermsConditions(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
