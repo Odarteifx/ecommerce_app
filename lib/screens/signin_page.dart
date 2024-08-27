@@ -1,6 +1,5 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
-import 'package:ecommerce_app/main.dart';
 import 'package:ecommerce_app/screens/homepage.dart';
 import 'package:ecommerce_app/screens/signup_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
@@ -38,8 +37,9 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
       } else if (e.code == 'wrong-password') {
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Incorrect password. Please try again')));
-      } else{
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${e.message}')));
+      } else {
+        ScaffoldMessenger.of(context)
+            .showSnackBar(SnackBar(content: Text('${e.message}')));
       }
     }
   }

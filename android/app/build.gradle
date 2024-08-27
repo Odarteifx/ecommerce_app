@@ -59,3 +59,16 @@ android {
 flutter {
     source = "../.."
 }
+
+// Dependency section
+dependencies {
+    // Firebase BoM (Bill of Materials) - manage versions
+    implementation platform('com.google.firebase:firebase-bom:33.2.0')
+
+    // Add the dependencies for the Firebase products you want to use
+    implementation 'com.google.firebase:firebase-auth' // Example for Firebase Authentication
+    implementation 'com.google.firebase:firebase-firestore' // Example for Cloud Firestore
+
+    // Other dependencies
+    implementation 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.10'
+}
