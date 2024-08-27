@@ -345,12 +345,11 @@ class EshopTermsConditions extends ConsumerStatefulWidget {
   const EshopTermsConditions({super.key});
 
   @override
-  ConsumerState<EshopTermsConditions> createState() => _EshopTermsConditionsState();
+  ConsumerState<EshopTermsConditions> createState() =>
+      _EshopTermsConditionsState();
 }
 
 class _EshopTermsConditionsState extends ConsumerState<EshopTermsConditions> {
-  
-
   @override
   Widget build(BuildContext context) {
     return Row(

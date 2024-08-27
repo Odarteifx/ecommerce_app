@@ -1,7 +1,10 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
+import 'package:ecommerce_app/main.dart';
+import 'package:ecommerce_app/screens/homepage.dart';
 import 'package:ecommerce_app/screens/signup_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -18,7 +21,28 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
   late final TextEditingController _passwordcontroller;
 
   final _formkey = GlobalKey<FormState>();
-  
+
+  userLogin() async {
+    try {
+      await FirebaseAuth.instance
+          .signInWithEmailAndPassword(email: email, password: password);
+      Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const EshopHomePage(),
+          ));
+    } on FirebaseAuthException catch (e) {
+      if (e.code == 'user-not-found') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(content: Text('No user found for that email.')));
+      } else if (e.code == 'wrong-password') {
+        ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Incorrect password. Please try again')));
+      } else{
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('${e.message}')));
+      }
+    }
+  }
 
   @override
   void initState() {
@@ -102,10 +126,16 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
                     buttonText: 'Log In',
                     function: () {
                       if (_formkey.currentState!.validate()) {
-                       // email = _emailcontroller;
-                      //  password = _passwordcontroller;
+                        email = _emailcontroller.text.trim();
+                        password = _passwordcontroller.text.trim();
+                        userLogin();
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Please fill in all fields'),
+                          ),
+                        );
                       }
-                      //login
                     }),
                 SizedBox(
                   height: 20.h,
