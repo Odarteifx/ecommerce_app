@@ -45,15 +45,19 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
 
   registration() async {
     if (_formkey.currentState!.validate()) {
+      name = _namecontroller.text.trim();
+      email = _emailcontroller.text.trim();
+      password = _passwordcontroller.text.trim();
+      confirmpassword = _confirmpasswordcontroller.text.trim();
       if (password == confirmpassword &&
           _namecontroller.text.isNotEmpty &&
           _emailcontroller.text.isNotEmpty &&
           _passwordcontroller.text.isNotEmpty) {
         try {
           await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(email: _emailcontroller.text, password: _passwordcontroller.text);
+              .createUserWithEmailAndPassword(email: email, password: password);
           ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(content: Text('Account Successfully Created')),
+            const SnackBar(content: Center(child: Text('Account Successfully Created'))),
           );
 
           Navigator.pushReplacement(
@@ -63,24 +67,22 @@ class _EshopSignupPageState extends State<EshopSignupPage> {
             ),
           );
         } on FirebaseAuthException catch (e) {
-          print('{$email}');
-             
           if (e.code == 'weak-password') {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('Password is weak')));
+                .showSnackBar(SnackBar(content: Center(child: Text('Password is weak'))));
           } else if (e.code == 'email-already-in-use') {
             ScaffoldMessenger.of(context).showSnackBar(
-                SnackBar(content: Text('Account already exists')));
+                SnackBar(content: Center(child: Text('Account already exists'))));
           } else {
             ScaffoldMessenger.of(context)
-                .showSnackBar(SnackBar(content: Text('${e.message}')));
+                .showSnackBar(SnackBar(content: Center(child: Text('${e.message}'))));
           } // ... (error handling remains the same)
-         } catch (e){
-            // Handle any other errors
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Error: ${e.toString()}')),
-        );
-         }
+        } catch (e) {
+          // Handle any other errors
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Center(child: Text('Error: ${e.toString()}'))),
+          );
+        }
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
