@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/Auth/eshop_auth.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/screens/homepage.dart';
@@ -170,7 +171,9 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       SigninIcon(
-                          iconUrl: 'assets/icons/google.png', function: () {}),
+                          iconUrl: 'assets/icons/google.png', function: () {
+                            AuthMethods().signInWithGoogle(context);
+                          }),
                       SigninIcon(
                           iconUrl: 'assets/icons/apple-logo.png',
                           function: () {})
