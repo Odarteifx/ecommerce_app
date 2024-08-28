@@ -12,7 +12,7 @@ class AuthMethods {
   }
 
   signInWithGoogle(BuildContext context) async {
-    //final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
+    final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
     final GoogleSignIn googleSignIn = GoogleSignIn();
     final GoogleSignInAccount? googleSignInAccount =
         await googleSignIn.signIn();
@@ -27,7 +27,6 @@ class AuthMethods {
 
     User? userDetails = result.user;
 
-    // ignore: unnecessary_null_comparison
     if (result != null) {
       Map<String, dynamic> userInfoMap = {
         'email': userDetails!.email,
@@ -38,10 +37,10 @@ class AuthMethods {
       await DatabaseMethods()
           .addUser(userDetails.uid, userInfoMap)
           .then((value) {
-        Navigator.push(
+        Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-              builder: (context) => EshopHomePage(),
+              builder: (context) => const EshopHomePage(),
             ));
       });
     }
