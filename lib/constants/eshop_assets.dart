@@ -7,6 +7,9 @@ class EshopAssets {
   static const String pageview1 = 'assets/images/pageview1.png';
   static const String pageview2 = 'assets/images/pageview2.png';
   static const String pageview3 = 'assets/images/pageview3.png';
+  static const String googlelogo = 'assets/icons/google.png';
+  static const String applelogo = 'assets/icons/apple-logo.png';
   static const String banner1 = 'assets/banners/banner1.png';
   static const String banner2 = 'assets/banners/banner2.png';
+  
 }

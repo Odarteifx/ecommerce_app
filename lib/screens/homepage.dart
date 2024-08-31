@@ -15,9 +15,9 @@ class EshopHomePage extends StatefulWidget {
 }
 
 class _EshopHomePageState extends State<EshopHomePage> {
-late final TextEditingController _searchcontroller;
+  late final TextEditingController _searchcontroller;
 
-@override
+  @override
   void initState() {
     super.initState();
     _searchcontroller = SearchController();
@@ -25,12 +25,12 @@ late final TextEditingController _searchcontroller;
 
   @override
   void dispose() {
-   _searchcontroller.dispose();
+    _searchcontroller.dispose();
     super.dispose();
   }
 
-  List imageList= [
-    {'id': 1, 'image_path': EshopAssets.banner1} ,
+  List imageList = [
+    {'id': 1, 'image_path': EshopAssets.banner1},
     {'id': 2, 'image_path': EshopAssets.banner2},
   ];
 
@@ -40,6 +40,23 @@ late final TextEditingController _searchcontroller;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.shifting,
+          selectedItemColor: Appcolors.textColor,
+          unselectedItemColor: Appcolors.subtextColor,
+          currentIndex: currentindex,
+            items: const <BottomNavigationBarItem>[
+              BottomNavigationBarItem(icon: Icon(Iconsax.home), label: 'home', activeIcon: Icon(Iconsax.home_15)),
+              BottomNavigationBarItem(icon: Icon(Iconsax.heart), label: 'Wishlist', activeIcon: Icon(Iconsax.heart5)),
+              BottomNavigationBarItem(icon: Icon(Iconsax.shopping_cart), label: 'Cart', activeIcon: Icon(Iconsax.shopping_cart5)),
+              BottomNavigationBarItem(icon: Icon(Iconsax.profile_circle), label: 'Profile', activeIcon: Icon(Iconsax.profile_circle5))
+            ],
+            onTap: (value) {
+              setState(() {
+                currentindex = value;
+              });
+            },
+            ),
         backgroundColor: Appcolors.backgroundColor,
         body: SafeArea(
           child: Column(
@@ -76,9 +93,7 @@ late final TextEditingController _searchcontroller;
               ),
               const SingleChildScrollView(
                 child: Column(
-                  children: [
-                  
-                  ],
+                  children: [],
                 ),
               )
             ],
