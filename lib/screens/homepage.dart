@@ -17,6 +17,25 @@ class EshopHomePage extends StatefulWidget {
 class _EshopHomePageState extends State<EshopHomePage> {
   late final TextEditingController _searchcontroller;
 
+  List<BottomNavigationBarItem> bottomNavBarList = const <BottomNavigationBarItem>[
+    BottomNavigationBarItem(
+        icon: Icon(Iconsax.home),
+        label: 'home',
+        activeIcon: Icon(Iconsax.home_15)),
+    BottomNavigationBarItem(
+        icon: Icon(Iconsax.heart),
+        label: 'Wishlist',
+        activeIcon: Icon(Iconsax.heart5)),
+    BottomNavigationBarItem(
+        icon: Icon(Iconsax.shopping_cart),
+        label: 'Cart',
+        activeIcon: Icon(Iconsax.shopping_cart5)),
+    BottomNavigationBarItem(
+        icon: Icon(Iconsax.profile_circle),
+        label: 'Profile',
+        activeIcon: Icon(Iconsax.profile_circle5))
+  ];
+
   @override
   void initState() {
     super.initState();
@@ -45,18 +64,13 @@ class _EshopHomePageState extends State<EshopHomePage> {
           selectedItemColor: Appcolors.textColor,
           unselectedItemColor: Appcolors.subtextColor,
           currentIndex: currentindex,
-            items: const <BottomNavigationBarItem>[
-              BottomNavigationBarItem(icon: Icon(Iconsax.home), label: 'home', activeIcon: Icon(Iconsax.home_15)),
-              BottomNavigationBarItem(icon: Icon(Iconsax.heart), label: 'Wishlist', activeIcon: Icon(Iconsax.heart5)),
-              BottomNavigationBarItem(icon: Icon(Iconsax.shopping_cart), label: 'Cart', activeIcon: Icon(Iconsax.shopping_cart5)),
-              BottomNavigationBarItem(icon: Icon(Iconsax.profile_circle), label: 'Profile', activeIcon: Icon(Iconsax.profile_circle5))
-            ],
-            onTap: (value) {
-              setState(() {
-                currentindex = value;
-              });
-            },
-            ),
+          items: bottomNavBarList,
+          onTap: (value) {
+            setState(() {
+              currentindex = value;
+            });
+          },
+        ),
         backgroundColor: Appcolors.backgroundColor,
         body: SafeArea(
           child: Column(
