@@ -397,3 +397,16 @@ class _EshopTermsConditionsState extends ConsumerState<EshopTermsConditions> {
     );
   }
 }
+
+//Sectiontile
+
+class Sorttile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Appcolors.iconColor,
+    );
+  }
+
+  
+}
