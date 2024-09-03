@@ -105,9 +105,20 @@ class _EshopHomePageState extends State<EshopHomePage> {
                   ],
                 ),
               ),
-              const SingleChildScrollView(
+               SingleChildScrollView(
                 child: Column(
-                  children: [],
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10)
+                          ),
+                        )
+
+                      ],
+                    )
+                  ],
                 ),
               )
             ],
