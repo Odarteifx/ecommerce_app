@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
+import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -17,7 +18,8 @@ class EshopHomePage extends StatefulWidget {
 class _EshopHomePageState extends State<EshopHomePage> {
   late final TextEditingController _searchcontroller;
 
-  List<BottomNavigationBarItem> bottomNavBarList = const <BottomNavigationBarItem>[
+  List<BottomNavigationBarItem> bottomNavBarList =
+      const <BottomNavigationBarItem>[
     BottomNavigationBarItem(
         icon: Icon(Iconsax.home),
         label: 'home',
@@ -39,7 +41,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
   @override
   void initState() {
     super.initState();
-    _searchcontroller = SearchController();
+    _searchcontroller = TextEditingController();
   }
 
   @override
@@ -105,18 +107,26 @@ class _EshopHomePageState extends State<EshopHomePage> {
                   ],
                 ),
               ),
-               SingleChildScrollView(
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10)
-                          ),
-                        )
-
-                      ],
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    SizedBox(
+                      height: 175,
+                      width: 350,
+                      child: CarouselSlider(items: [
+                        BannerWidget(
+                          imageUrl: EshopAssets.banner1,
+                          onpressed: () {},
+                        ),
+                        BannerWidget(
+                          imageUrl: EshopAssets.banner2,
+                          onpressed: () {},
+                        ),
+                      ], options: CarouselOptions(viewportFraction: 1)),
                     )
                   ],
                 ),

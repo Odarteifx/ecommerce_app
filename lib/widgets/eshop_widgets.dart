@@ -398,6 +398,33 @@ class _EshopTermsConditionsState extends ConsumerState<EshopTermsConditions> {
   }
 }
 
+//BannerWidget
+class BannerWidget extends StatelessWidget {
+   BannerWidget({
+    super.key, required this.imageUrl, this.onpressed,
+  });
+
+  final String imageUrl;
+  final VoidCallback? onpressed;
+  final double borderRadius = 10.sp;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onpressed,
+      child: Container(
+        height: 175.h,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(borderRadius),
+        ),
+        child: ClipRRect(
+            borderRadius: BorderRadius.circular(borderRadius),
+            child: Image(image: AssetImage(imageUrl), fit: BoxFit.contain,)),
+      ),
+    );
+  }
+}
+
 //Sectiontile
 
 class Sorttile extends StatelessWidget {
@@ -409,6 +436,4 @@ class Sorttile extends StatelessWidget {
       color: Appcolors.iconColor,
     );
   }
-
-  
 }
