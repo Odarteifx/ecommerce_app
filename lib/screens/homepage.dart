@@ -38,7 +38,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
       // activeIcon: Icon(Iconsax.shopping_cart5)
     ),
     GButton(
-      icon: Iconsax.profile_circle,
+      icon: Iconsax.user,
       text: 'Profile',
       // activeIcon: Icon(Iconsax.profile_circle5)
     )
@@ -96,7 +96,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
           child: Column(
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
+                padding: EdgeInsets.symmetric(horizontal: 20.h),
                 child: Row(
                   children: [
                     Flexible(

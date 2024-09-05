@@ -443,5 +443,3 @@ class Sorttile extends StatelessWidget {
     );
   }
 }
-
-
