@@ -455,8 +455,7 @@ class BannerSlider extends StatelessWidget {
               carouselController: _carouselController,
               items: imageList.map((image) {
                 return Padding(
-                  padding:
-                      EdgeInsets.symmetric(horizontal: 5.h),
+                  padding: EdgeInsets.symmetric(horizontal: 5.h),
                   child: BannerWidget(
                     imageUrl: image['image_path'],
                     onpressed: () {},
@@ -477,20 +476,16 @@ class BannerSlider extends StatelessWidget {
               children: [
                 ValueListenableBuilder<int>(
                   valueListenable: bannerIndexNotifier,
-                  builder: (BuildContext context, bannerindex,
-                      Widget? child) {
+                  builder: (BuildContext context, bannerindex, Widget? child) {
                     return SmoothPageIndicator(
-                      controller: PageController(
-                          initialPage: bannerindex),
+                      controller: PageController(initialPage: bannerindex),
                       onDotClicked: (index) {
-                        _carouselController
-                            .animateToPage(index);
+                        _carouselController.animateToPage(index);
                       },
                       count: 3,
                       effect: ExpandingDotsEffect(
                           dotColor: Appcolors.iconColor,
-                          activeDotColor:
-                              Appcolors.primaryColor,
+                          activeDotColor: Appcolors.primaryColor,
                           dotWidth: 6.w,
                           dotHeight: 2.h,
                           spacing: 6.w),
@@ -504,16 +499,71 @@ class BannerSlider extends StatelessWidget {
   }
 }
 
+//Categories tile
+class Categoriestile extends StatelessWidget {
+  final String iconUrl;
+  final String iconName;
 
-//Sectiontile
-
-class Sorttile extends StatelessWidget {
-  const Sorttile({super.key});
+  const Categoriestile({
+    super.key,
+    required this.iconUrl,
+    required this.iconName,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      color: Appcolors.iconColor,
+      height: 60.h,
+      width: 150.w,
+      decoration: BoxDecoration(
+          color: Appcolors.widgetcolor,
+          borderRadius: BorderRadius.all(Radius.circular(10.sp))),
+      child: GestureDetector(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage(iconUrl),
+              height: 30.h,
+            ),
+            SizedBox(
+              width: 8.w,
+            ),
+            Text(
+              iconName,
+              style: GoogleFonts.roboto(
+                  fontSize: EshopTypography.homepagecategories),
+            )
+          ],
+        ),
+      ),
     );
   }
 }
+
+// Categories section
+class CategoriesSection extends StatelessWidget {
+  const CategoriesSection({
+    super.key,
+    required this.iconList,
+  });
+
+  final List iconList;
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+          children: iconList.map((iconData) {
+        return Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.w),
+          child: Categoriestile(
+              iconUrl: iconData['image_path'],
+              iconName: iconData['iconName']),
+        );
+      }).toList()),
+    );
+  }
+}
+

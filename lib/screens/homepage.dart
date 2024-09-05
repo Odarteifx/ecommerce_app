@@ -66,12 +66,32 @@ class _EshopHomePageState extends State<EshopHomePage> {
   ];
 
   List iconList = [
-    {'id': 1, 'image_path': EshopAssets.computerSystems, 'iconName': 'Computer Systems'},
-    {'id': 2, 'image_path': EshopAssets.mobileDevices, 'iconName': 'Mobile Devices'},
-    {'id': 3, 'image_path': EshopAssets.storageDevices, 'iconName': 'Storage Devices'},
-    {'id': 4, 'image_path': EshopAssets.television, 'iconName': 'TV & Home Theatre'},
+    {
+      'id': 1,
+      'image_path': EshopAssets.computerSystems,
+      'iconName': 'Computer Systems'
+    },
+    {
+      'id': 2,
+      'image_path': EshopAssets.mobileDevices,
+      'iconName': 'Mobile Devices'
+    },
+    {
+      'id': 3,
+      'image_path': EshopAssets.storageDevices,
+      'iconName': 'Storage Devices'
+    },
+    {
+      'id': 4,
+      'image_path': EshopAssets.television,
+      'iconName': 'TV & Home Theatre'
+    },
     {'id': 5, 'image_path': EshopAssets.gamingVR, 'iconName': 'Gaming & VR'},
-    {'id': 6, 'image_path': EshopAssets.digitalCamera, 'iconName': 'Digital Cameras'},
+    {
+      'id': 6,
+      'image_path': EshopAssets.digitalCamera,
+      'iconName': 'Digital Cameras'
+    },
     {'id': 7, 'image_path': EshopAssets.headphones, 'iconName': 'Headphones'}
   ];
 
@@ -134,7 +154,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
                 ),
               ),
               SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+                scrollDirection: Axis.vertical,
                 child: Column(
                   children: [
                     SizedBox(
@@ -146,28 +166,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
                     SizedBox(
                       height: 15.h,
                     ),
-                    Row(
-                      children: [
-                        Container(
-                          height: 60.h,
-                          width: 150.w,
-                          decoration: BoxDecoration(
-                             color: Appcolors.widgetcolor,
-                             borderRadius: BorderRadius.all(Radius.circular(10.sp))
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image(image: const AssetImage(EshopAssets.computerSystems), height: 30.h,),
-                              SizedBox(width: 8.w,),
-                              Text('Computer Systems', style: GoogleFonts.roboto(
-                                fontSize: EshopTypography.homepagecategories
-                              ),)
-                            ],
-                          ),
-                        )
-                      ],
-                    )
+                    CategoriesSection(iconList: iconList)
                   ],
                 ),
               )

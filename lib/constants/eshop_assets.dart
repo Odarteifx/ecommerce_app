@@ -29,5 +29,4 @@ class EshopAssets {
   static const String gamingVR = 'assets/icons/game-control.png';
   static const String digitalCamera = 'assets/icons/photo-camera.png';
   static const String headphones = 'assets/icons/headset.png';
-  
 }
