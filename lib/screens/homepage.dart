@@ -1,14 +1,12 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
-import 'package:ecommerce_app/providers/eshop_providers.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
 class EshopHomePage extends StatefulWidget {
@@ -65,6 +63,16 @@ class _EshopHomePageState extends State<EshopHomePage> {
     {'id': 1, 'image_path': EshopAssets.banner1},
     {'id': 2, 'image_path': EshopAssets.banner2},
     {'id': 3, 'image_path': EshopAssets.banner2},
+  ];
+
+  List iconList = [
+    {'id': 1, 'image_path': EshopAssets.computerSystems, 'iconName': 'Computer Systems'},
+    {'id': 2, 'image_path': EshopAssets.mobileDevices, 'iconName': 'Mobile Devices'},
+    {'id': 3, 'image_path': EshopAssets.storageDevices, 'iconName': 'Storage Devices'},
+    {'id': 4, 'image_path': EshopAssets.television, 'iconName': 'TV & Home Theatre'},
+    {'id': 5, 'image_path': EshopAssets.gamingVR, 'iconName': 'Gaming & VR'},
+    {'id': 6, 'image_path': EshopAssets.digitalCamera, 'iconName': 'Digital Cameras'},
+    {'id': 7, 'image_path': EshopAssets.headphones, 'iconName': 'Headphones'}
   ];
 
   @override
@@ -132,59 +140,32 @@ class _EshopHomePageState extends State<EshopHomePage> {
                     SizedBox(
                       height: 15.h,
                     ),
-                    Stack(
+                    BannerSlider(
+                        carouselController: _carouselController,
+                        imageList: imageList),
+                    SizedBox(
+                      height: 15.h,
+                    ),
+                    Row(
                       children: [
-                        SizedBox(
-                          height: 175.h,
-                          width: 350.w,
-                          child: CarouselSlider(
-                              carouselController: _carouselController,
-                              items: imageList.map((image) {
-                                return Padding(
-                                  padding:
-                                      EdgeInsets.symmetric(horizontal: 5.h),
-                                  child: BannerWidget(
-                                    imageUrl: image['image_path'],
-                                    onpressed: () {},
-                                  ),
-                                );
-                              }).toList(),
-                              options: CarouselOptions(
-                                viewportFraction: 1,
-                                onPageChanged: (index, reason) {
-                                  bannerIndexNotifier.value = index;
-                                },
-                              )),
-                        ),
-                        Positioned(
-                            left: 160.w,
-                            top: 165.h,
-                            child: Row(
-                              children: [
-                                ValueListenableBuilder<int>(
-                                  valueListenable: bannerIndexNotifier,
-                                  builder: (BuildContext context, bannerindex,
-                                      Widget? child) {
-                                    return SmoothPageIndicator(
-                                      controller: PageController(
-                                          initialPage: bannerindex),
-                                      onDotClicked: (index) {
-                                        _carouselController
-                                            .animateToPage(index);
-                                      },
-                                      count: 3,
-                                      effect: ExpandingDotsEffect(
-                                          dotColor: Appcolors.iconColor,
-                                          activeDotColor:
-                                              Appcolors.primaryColor,
-                                          dotWidth: 6.w,
-                                          dotHeight: 2.h,
-                                          spacing: 6.w),
-                                    );
-                                  },
-                                ),
-                              ],
-                            )),
+                        Container(
+                          height: 60.h,
+                          width: 150.w,
+                          decoration: BoxDecoration(
+                             color: Appcolors.widgetcolor,
+                             borderRadius: BorderRadius.all(Radius.circular(10.sp))
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image(image: const AssetImage(EshopAssets.computerSystems), height: 30.h,),
+                              SizedBox(width: 8.w,),
+                              Text('Computer Systems', style: GoogleFonts.roboto(
+                                fontSize: EshopTypography.homepagecategories
+                              ),)
+                            ],
+                          ),
+                        )
                       ],
                     )
                   ],

@@ -1,4 +1,6 @@
 import 'dart:math';
+import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/providers/eshop_providers.dart';
 import 'package:flutter/material.dart';
@@ -6,6 +8,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import '../constants/eshop_assets.dart';
 import '../constants/eshop_typography.dart';
 
@@ -430,6 +433,77 @@ class BannerWidget extends StatelessWidget {
     );
   }
 }
+
+class BannerSlider extends StatelessWidget {
+  const BannerSlider({
+    super.key,
+    required CarouselSliderController carouselController,
+    required this.imageList,
+  }) : _carouselController = carouselController;
+
+  final CarouselSliderController _carouselController;
+  final List imageList;
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        SizedBox(
+          height: 175.h,
+          width: 350.w,
+          child: CarouselSlider(
+              carouselController: _carouselController,
+              items: imageList.map((image) {
+                return Padding(
+                  padding:
+                      EdgeInsets.symmetric(horizontal: 5.h),
+                  child: BannerWidget(
+                    imageUrl: image['image_path'],
+                    onpressed: () {},
+                  ),
+                );
+              }).toList(),
+              options: CarouselOptions(
+                viewportFraction: 1,
+                onPageChanged: (index, reason) {
+                  bannerIndexNotifier.value = index;
+                },
+              )),
+        ),
+        Positioned(
+            left: 160.w,
+            top: 165.h,
+            child: Row(
+              children: [
+                ValueListenableBuilder<int>(
+                  valueListenable: bannerIndexNotifier,
+                  builder: (BuildContext context, bannerindex,
+                      Widget? child) {
+                    return SmoothPageIndicator(
+                      controller: PageController(
+                          initialPage: bannerindex),
+                      onDotClicked: (index) {
+                        _carouselController
+                            .animateToPage(index);
+                      },
+                      count: 3,
+                      effect: ExpandingDotsEffect(
+                          dotColor: Appcolors.iconColor,
+                          activeDotColor:
+                              Appcolors.primaryColor,
+                          dotWidth: 6.w,
+                          dotHeight: 2.h,
+                          spacing: 6.w),
+                    );
+                  },
+                ),
+              ],
+            )),
+      ],
+    );
+  }
+}
+
 
 //Sectiontile
 
