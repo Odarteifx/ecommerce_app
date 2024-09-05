@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
@@ -20,24 +21,27 @@ class EshopHomePage extends StatefulWidget {
 class _EshopHomePageState extends State<EshopHomePage> {
   late final TextEditingController _searchcontroller;
 
-  List<BottomNavigationBarItem> bottomNavBarList =
-      const <BottomNavigationBarItem>[
-    BottomNavigationBarItem(
-        icon: Icon(Iconsax.home),
-        label: 'home',
-        activeIcon: Icon(Iconsax.home_15)),
-    BottomNavigationBarItem(
-        icon: Icon(Iconsax.heart),
-        label: 'Wishlist',
-        activeIcon: Icon(Iconsax.heart5)),
-    BottomNavigationBarItem(
-        icon: Icon(Iconsax.shopping_cart),
-        label: 'Cart',
-        activeIcon: Icon(Iconsax.shopping_cart5)),
-    BottomNavigationBarItem(
-        icon: Icon(Iconsax.profile_circle),
-        label: 'Profile',
-        activeIcon: Icon(Iconsax.profile_circle5))
+  List<GButton> bottomNavBarList = const <GButton>[
+    GButton(
+      icon: Iconsax.home,
+      text: 'Home',
+      //activeIcon: Icon(Iconsax.home_15)
+    ),
+    GButton(
+      icon: Iconsax.heart,
+      text: 'Wishlist',
+      // activeIcon: Icon(Iconsax.heart5)
+    ),
+    GButton(
+      icon: Iconsax.shopping_cart,
+      text: 'Cart',
+      // activeIcon: Icon(Iconsax.shopping_cart5)
+    ),
+    GButton(
+      icon: Iconsax.profile_circle,
+      text: 'Profile',
+      // activeIcon: Icon(Iconsax.profile_circle5)
+    )
   ];
 
   @override
@@ -57,20 +61,35 @@ class _EshopHomePageState extends State<EshopHomePage> {
   int currentindex = 0;
   int bannerindex = 0;
 
+  List imageList = [
+    {'id': 1, 'image_path': EshopAssets.banner1},
+    {'id': 2, 'image_path': EshopAssets.banner2},
+    {'id': 3, 'image_path': EshopAssets.banner2},
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.shifting,
-          selectedItemColor: Appcolors.textColor,
-          unselectedItemColor: Appcolors.subtextColor,
-          currentIndex: currentindex,
-          items: bottomNavBarList,
-          onTap: (value) {
-            setState(() {
-              currentindex = value;
-            });
-          },
+        bottomNavigationBar: Container(
+          color: Appcolors.backgroundColor,
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 25.h, vertical: 22.w),
+            child: GNav(
+              tabBackgroundColor: Appcolors.hometabColor,
+              padding: EdgeInsets.all(12.sp),
+              gap: 3,
+              //type: BottomNavigationBarType.shifting,
+              activeColor: Appcolors.textColor,
+              color: Appcolors.subtextColor,
+              selectedIndex: currentindex,
+              tabs: bottomNavBarList,
+              onTabChange: (value) {
+                setState(() {
+                  currentindex = value;
+                });
+              },
+            ),
+          ),
         ),
         backgroundColor: Appcolors.backgroundColor,
         body: SafeArea(
@@ -120,20 +139,16 @@ class _EshopHomePageState extends State<EshopHomePage> {
                           width: 350.w,
                           child: CarouselSlider(
                               carouselController: _carouselController,
-                              items: [
-                                Padding(
+                              items: imageList.map((image) {
+                                return Padding(
                                   padding:
-                                      EdgeInsets.symmetric(horizontal: 10.h),
+                                      EdgeInsets.symmetric(horizontal: 5.h),
                                   child: BannerWidget(
-                                    imageUrl: EshopAssets.banner1,
+                                    imageUrl: image['image_path'],
                                     onpressed: () {},
                                   ),
-                                ),
-                                BannerWidget(
-                                  imageUrl: EshopAssets.banner2,
-                                  onpressed: () {},
-                                ),
-                              ],
+                                );
+                              }).toList(),
                               options: CarouselOptions(
                                 viewportFraction: 1,
                                 onPageChanged: (index, reason) {
@@ -157,7 +172,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
                                         _carouselController
                                             .animateToPage(index);
                                       },
-                                      count: 2,
+                                      count: 3,
                                       effect: ExpandingDotsEffect(
                                           dotColor: Appcolors.iconColor,
                                           activeDotColor:

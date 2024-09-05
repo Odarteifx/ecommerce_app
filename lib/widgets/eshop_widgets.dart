@@ -444,23 +444,4 @@ class Sorttile extends StatelessWidget {
   }
 }
 
-//BannerScroll Indicator
-class Scrollindicator extends StatelessWidget {
-  const Scrollindicator({
-    super.key,
-  });
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 3.h,
-      width: 6.w,
-      margin: EdgeInsets.only(right: 6),
-      padding: EdgeInsets.symmetric(horizontal: 20.h),
-      decoration: BoxDecoration(
-        color: Appcolors.iconColor,
-        borderRadius: BorderRadius.circular(10.sp)
-      ),
-    );
-  }
-}
