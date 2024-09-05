@@ -400,8 +400,10 @@ class _EshopTermsConditionsState extends ConsumerState<EshopTermsConditions> {
 
 //BannerWidget
 class BannerWidget extends StatelessWidget {
-   BannerWidget({
-    super.key, required this.imageUrl, this.onpressed,
+  BannerWidget({
+    super.key,
+    required this.imageUrl,
+    this.onpressed,
   });
 
   final String imageUrl;
@@ -414,12 +416,16 @@ class BannerWidget extends StatelessWidget {
       onTap: onpressed,
       child: Container(
         height: 175.h,
+        width: 350.w,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(borderRadius),
         ),
         child: ClipRRect(
             borderRadius: BorderRadius.circular(borderRadius),
-            child: Image(image: AssetImage(imageUrl), fit: BoxFit.contain,)),
+            child: Image(
+              image: AssetImage(imageUrl),
+              fit: BoxFit.cover,
+            )),
       ),
     );
   }
@@ -434,6 +440,27 @@ class Sorttile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Appcolors.iconColor,
+    );
+  }
+}
+
+//BannerScroll Indicator
+class Scrollindicator extends StatelessWidget {
+  const Scrollindicator({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 3.h,
+      width: 6.w,
+      margin: EdgeInsets.only(right: 6),
+      padding: EdgeInsets.symmetric(horizontal: 20.h),
+      decoration: BoxDecoration(
+        color: Appcolors.iconColor,
+        borderRadius: BorderRadius.circular(10.sp)
+      ),
     );
   }
 }

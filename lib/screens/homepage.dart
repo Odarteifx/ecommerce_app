@@ -1,12 +1,14 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
+import 'package:ecommerce_app/providers/eshop_providers.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
@@ -50,13 +52,10 @@ class _EshopHomePageState extends State<EshopHomePage> {
     super.dispose();
   }
 
-  List imageList = [
-    {'id': 1, 'image_path': EshopAssets.banner1},
-    {'id': 2, 'image_path': EshopAssets.banner2},
-  ];
-
-  final CarouselController _carouselController = CarouselController();
+  final CarouselSliderController _carouselController =
+      CarouselSliderController();
   int currentindex = 0;
+  int bannerindex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -114,19 +113,64 @@ class _EshopHomePageState extends State<EshopHomePage> {
                     SizedBox(
                       height: 15.h,
                     ),
-                    SizedBox(
-                      height: 175,
-                      width: 350,
-                      child: CarouselSlider(items: [
-                        BannerWidget(
-                          imageUrl: EshopAssets.banner1,
-                          onpressed: () {},
+                    Stack(
+                      children: [
+                        SizedBox(
+                          height: 175.h,
+                          width: 350.w,
+                          child: CarouselSlider(
+                              carouselController: _carouselController,
+                              items: [
+                                Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.h),
+                                  child: BannerWidget(
+                                    imageUrl: EshopAssets.banner1,
+                                    onpressed: () {},
+                                  ),
+                                ),
+                                BannerWidget(
+                                  imageUrl: EshopAssets.banner2,
+                                  onpressed: () {},
+                                ),
+                              ],
+                              options: CarouselOptions(
+                                viewportFraction: 1,
+                                onPageChanged: (index, reason) {
+                                  bannerIndexNotifier.value = index;
+                                },
+                              )),
                         ),
-                        BannerWidget(
-                          imageUrl: EshopAssets.banner2,
-                          onpressed: () {},
-                        ),
-                      ], options: CarouselOptions(viewportFraction: 1)),
+                        Positioned(
+                            left: 160.w,
+                            top: 165.h,
+                            child: Row(
+                              children: [
+                                ValueListenableBuilder<int>(
+                                  valueListenable: bannerIndexNotifier,
+                                  builder: (BuildContext context, bannerindex,
+                                      Widget? child) {
+                                    return SmoothPageIndicator(
+                                      controller: PageController(
+                                          initialPage: bannerindex),
+                                      onDotClicked: (index) {
+                                        _carouselController
+                                            .animateToPage(index);
+                                      },
+                                      count: 2,
+                                      effect: ExpandingDotsEffect(
+                                          dotColor: Appcolors.iconColor,
+                                          activeDotColor:
+                                              Appcolors.primaryColor,
+                                          dotWidth: 6.w,
+                                          dotHeight: 2.h,
+                                          spacing: 6.w),
+                                    );
+                                  },
+                                ),
+                              ],
+                            )),
+                      ],
                     )
                   ],
                 ),
