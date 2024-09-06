@@ -166,7 +166,32 @@ class _EshopHomePageState extends State<EshopHomePage> {
                     SizedBox(
                       height: 15.h,
                     ),
-                    CategoriesSection(iconList: iconList)
+                    CategoriesSection(iconList: iconList),
+                    SizedBox(
+                      height: 20.h,
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text('Popular Products',
+                              style: GoogleFonts.roboto(
+                                  fontSize: EshopTypography.subtext,
+                                  fontWeight: EshopFontweight.semibold)),
+                          GestureDetector(
+                            onTap: (){},
+                            child: Text(
+                              'See more',
+                              style: GoogleFonts.roboto(
+                                  fontSize: EshopTypography.subtext,
+                                  color: Appcolors.subtextColor,
+                                  fontWeight: EshopFontweight.regular),
+                            ),
+                          )
+                        ],
+                      ),
+                    )
                   ],
                 ),
               )
