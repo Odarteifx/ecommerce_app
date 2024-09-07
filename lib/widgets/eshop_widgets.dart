@@ -434,6 +434,7 @@ class BannerWidget extends StatelessWidget {
   }
 }
 
+//banner slider
 class BannerSlider extends StatelessWidget {
   const BannerSlider({
     super.key,
