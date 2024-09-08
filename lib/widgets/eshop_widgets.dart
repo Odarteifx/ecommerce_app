@@ -568,3 +568,20 @@ class CategoriesSection extends StatelessWidget {
   }
 }
 
+// Item
+class ItemTile extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+   return Container(
+    height: 240.h,
+    width: 165.w,
+    child: Column(
+      children: [
+        Container(),
+        
+      ],
+    ),
+   );
+  }
+  
+}
