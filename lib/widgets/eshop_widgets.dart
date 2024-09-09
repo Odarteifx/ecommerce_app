@@ -577,8 +577,23 @@ class ItemTile extends StatelessWidget {
     width: 165.w,
     child: Column(
       children: [
-        Container(),
-        
+        Container(
+          height: 165.h,
+          width: 165.w,
+          decoration: BoxDecoration(
+            color: Appcolors.widgetcolor,
+            borderRadius: BorderRadius.circular(10)
+          ),
+        ),
+        SizedBox(height: 10,),
+        Row(
+          children: [
+            Text('price'),
+            IconButton(onPressed: (){}, icon: Icon(Iconsax.heart))
+          ],
+        )
+
+
       ],
     ),
    );
