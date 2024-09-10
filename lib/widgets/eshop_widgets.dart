@@ -560,8 +560,7 @@ class CategoriesSection extends StatelessWidget {
         return Padding(
           padding: EdgeInsets.symmetric(horizontal: 8.w),
           child: Categoriestile(
-              iconUrl: iconData['image_path'],
-              iconName: iconData['iconName']),
+              iconUrl: iconData['image_path'], iconName: iconData['iconName']),
         );
       }).toList()),
     );
@@ -570,33 +569,70 @@ class CategoriesSection extends StatelessWidget {
 
 // Item
 class ItemTile extends StatelessWidget {
+  const ItemTile({super.key});
+
   @override
   Widget build(BuildContext context) {
-   return Container(
-    height: 240.h,
-    width: 165.w,
-    child: Column(
-      children: [
-        Container(
-          height: 165.h,
-          width: 165.w,
-          decoration: BoxDecoration(
-            color: Appcolors.widgetcolor,
-            borderRadius: BorderRadius.circular(10)
+    return Container(
+      height: 250.h,
+      width: 165.w,
+      child: Column(
+        children: [
+          Container(
+            height: 165.h,
+            width: 165.w,
+            decoration: BoxDecoration(
+                color: Appcolors.widgetcolor,
+                borderRadius: BorderRadius.circular(10.sp)),
+            child: Image.asset(
+              EshopAssets.product1,
+              width: 150.w,
+            ),
           ),
-        ),
-        SizedBox(height: 10,),
-        Row(
-          children: [
-            Text('price'),
-            IconButton(onPressed: (){}, icon: Icon(Iconsax.heart))
-          ],
-        )
-
-
-      ],
-    ),
-   );
+          SizedBox(
+            height: 5.h,
+          ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    '\$59.99',
+                    style: GoogleFonts.roboto(
+                        fontWeight: EshopFontweight.medium,
+                        fontSize: EshopTypography.homepagecategories,
+                        decoration: TextDecoration.lineThrough),
+                  ),
+                  Text(
+                    '\$40.00',
+                    style: GoogleFonts.roboto(
+                        fontSize: EshopTypography.subtext,
+                        fontWeight: EshopFontweight.medium,
+                        color: Appcolors.promptColor),
+                  ),
+                ],
+              ),
+              IconButton(
+                  onPressed: () {},
+                  icon: Icon(
+                    Iconsax.heart5,
+                    color: Appcolors.promptColor,
+                  ))
+            ],
+          ),
+          Text(
+            'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            style: GoogleFonts.roboto(
+                color: Appcolors.subtextColor,
+                fontSize: EshopTypography.termsfont),
+          )
+        ],
+      ),
+    );
   }
-  
 }

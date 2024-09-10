@@ -180,7 +180,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
                                   fontSize: EshopTypography.subtext,
                                   fontWeight: EshopFontweight.semibold)),
                           GestureDetector(
-                            onTap: (){},
+                            onTap: () {},
                             child: Text(
                               'See more',
                               style: GoogleFonts.roboto(
@@ -191,6 +191,20 @@ class _EshopHomePageState extends State<EshopHomePage> {
                           )
                         ],
                       ),
+                    ),
+                    SizedBox(
+                      height: 14.h,
+                    ),
+                    GridView.builder(
+                      itemCount: 1,
+                      shrinkWrap: true,
+                      padding: EdgeInsets.zero,
+                      physics: NeverScrollableScrollPhysics(),
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 10,
+                          crossAxisSpacing: 10),
+                      itemBuilder: (context, index) => ItemTile(),
                     )
                   ],
                 ),
