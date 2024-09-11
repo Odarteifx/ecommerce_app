@@ -574,7 +574,7 @@ class ItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 245.h,
+     height: 245.h,
       width: 165.w,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,

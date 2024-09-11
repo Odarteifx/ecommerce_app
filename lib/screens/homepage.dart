@@ -100,7 +100,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
     return Scaffold(
         bottomNavigationBar: Container(
           decoration:
-               BoxDecoration(color: Appcolors.backgroundColor, boxShadow: [
+              BoxDecoration(color: Appcolors.backgroundColor, boxShadow: [
             BoxShadow(
                 color: const Color.fromRGBO(0, 0, 0, 0.25),
                 offset: Offset(0, -1.sp),
@@ -111,7 +111,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
             child: GNav(
               tabBackgroundColor: Appcolors.hometabColor,
               padding: EdgeInsets.all(12.sp),
-              gap: 3,
+              gap: 3.sp,
               //type: BottomNavigationBarType.shifting,
               activeColor: Appcolors.textColor,
               color: Appcolors.subtextColor,
@@ -210,9 +210,9 @@ class _EshopHomePageState extends State<EshopHomePage> {
                         physics: const NeverScrollableScrollPhysics(),
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                             crossAxisCount: 2,
-                            mainAxisSpacing: 20.h,
-                            crossAxisSpacing: 20.w,
-                            mainAxisExtent: 245.h),
+                            mainAxisSpacing: 20.sp,
+                            crossAxisSpacing: 20.sp,
+                            mainAxisExtent: 245.sp),
                         itemBuilder: (context, index) => const ItemTile(),
                       )
                     ],
