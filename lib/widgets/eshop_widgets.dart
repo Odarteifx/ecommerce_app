@@ -574,9 +574,11 @@ class ItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      height: 250.h,
+      height: 245.h,
       width: 165.w,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
             height: 165.h,
@@ -629,7 +631,8 @@ class ItemTile extends StatelessWidget {
             maxLines: 2,
             style: GoogleFonts.roboto(
                 color: Appcolors.subtextColor,
-                fontSize: EshopTypography.termsfont),
+                fontSize: EshopTypography.homepagecategories,
+                fontWeight: EshopFontweight.regular),
           )
         ],
       ),

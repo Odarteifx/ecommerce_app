@@ -99,7 +99,13 @@ class _EshopHomePageState extends State<EshopHomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         bottomNavigationBar: Container(
-          color: Appcolors.backgroundColor,
+          decoration:
+               BoxDecoration(color: Appcolors.backgroundColor, boxShadow: [
+            BoxShadow(
+                color: const Color.fromRGBO(0, 0, 0, 0.25),
+                offset: Offset(0, -1.sp),
+                blurRadius: 4)
+          ]),
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 25.h, vertical: 22.w),
             child: GNav(
@@ -153,60 +159,64 @@ class _EshopHomePageState extends State<EshopHomePage> {
                   ],
                 ),
               ),
-              SingleChildScrollView(
-                scrollDirection: Axis.vertical,
-                child: Column(
-                  children: [
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    BannerSlider(
-                        carouselController: _carouselController,
-                        imageList: imageList),
-                    SizedBox(
-                      height: 15.h,
-                    ),
-                    CategoriesSection(iconList: iconList),
-                    SizedBox(
-                      height: 20.h,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text('Popular Products',
-                              style: GoogleFonts.roboto(
-                                  fontSize: EshopTypography.subtext,
-                                  fontWeight: EshopFontweight.semibold)),
-                          GestureDetector(
-                            onTap: () {},
-                            child: Text(
-                              'See more',
-                              style: GoogleFonts.roboto(
-                                  fontSize: EshopTypography.subtext,
-                                  color: Appcolors.subtextColor,
-                                  fontWeight: EshopFontweight.regular),
-                            ),
-                          )
-                        ],
+              Expanded(
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.vertical,
+                  physics: const AlwaysScrollableScrollPhysics(),
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        height: 15.h,
                       ),
-                    ),
-                    SizedBox(
-                      height: 14.h,
-                    ),
-                    GridView.builder(
-                      itemCount: 1,
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      physics: NeverScrollableScrollPhysics(),
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 10,
-                          crossAxisSpacing: 10),
-                      itemBuilder: (context, index) => ItemTile(),
-                    )
-                  ],
+                      BannerSlider(
+                          carouselController: _carouselController,
+                          imageList: imageList),
+                      SizedBox(
+                        height: 15.h,
+                      ),
+                      CategoriesSection(iconList: iconList),
+                      SizedBox(
+                        height: 20.h,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Popular Products',
+                                style: GoogleFonts.roboto(
+                                    fontSize: EshopTypography.subtext,
+                                    fontWeight: EshopFontweight.semibold)),
+                            GestureDetector(
+                              onTap: () {},
+                              child: Text(
+                                'See more',
+                                style: GoogleFonts.roboto(
+                                    fontSize: EshopTypography.subtext,
+                                    color: Appcolors.subtextColor,
+                                    fontWeight: EshopFontweight.regular),
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
+                      SizedBox(
+                        height: 14.h,
+                      ),
+                      GridView.builder(
+                        itemCount: 6,
+                        shrinkWrap: true,
+                        padding: EdgeInsets.symmetric(horizontal: 20.h),
+                        physics: const NeverScrollableScrollPhysics(),
+                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                            crossAxisCount: 2,
+                            mainAxisSpacing: 20.h,
+                            crossAxisSpacing: 20.w,
+                            mainAxisExtent: 245.h),
+                        itemBuilder: (context, index) => const ItemTile(),
+                      )
+                    ],
+                  ),
                 ),
               )
             ],
