@@ -608,7 +608,7 @@ class ItemTile extends StatelessWidget {
                         decoration: TextDecoration.lineThrough),
                   ),
                   Text(
-                    '\$40.00',
+                    '\$39.50',
                     style: GoogleFonts.roboto(
                         fontSize: EshopTypography.subtext,
                         fontWeight: EshopFontweight.medium,
@@ -636,6 +636,29 @@ class ItemTile extends StatelessWidget {
           )
         ],
       ),
+    );
+  }
+}
+
+//Products layout
+class PGridLayout extends StatelessWidget {
+  const PGridLayout({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GridView.builder(
+      itemCount: 6,
+      shrinkWrap: true,
+      padding: EdgeInsets.symmetric(horizontal: 20.h),
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 20.sp,
+          crossAxisSpacing: 20.sp,
+          mainAxisExtent: 245.sp),
+      itemBuilder: (context, index) => const ItemTile(),
     );
   }
 }
