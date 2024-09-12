@@ -618,7 +618,7 @@ class ItemTile extends StatelessWidget {
               ),
               IconButton(
                   onPressed: () {},
-                  icon: Icon(
+                  icon: const Icon(
                     Iconsax.heart5,
                     color: Appcolors.promptColor,
                   ))
