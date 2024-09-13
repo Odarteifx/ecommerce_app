@@ -203,18 +203,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
                       SizedBox(
                         height: 14.h,
                       ),
-                      GridView.builder(
-                        itemCount: 6,
-                        shrinkWrap: true,
-                        padding: EdgeInsets.symmetric(horizontal: 20.h),
-                        physics: const NeverScrollableScrollPhysics(),
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            mainAxisSpacing: 20.sp,
-                            crossAxisSpacing: 20.sp,
-                            mainAxisExtent: 245.sp),
-                        itemBuilder: (context, index) => const ItemTile(),
-                      )
+                      const PGridLayout()
                     ],
                   ),
                 ),
@@ -224,3 +213,4 @@ class _EshopHomePageState extends State<EshopHomePage> {
         ));
   }
 }
+
