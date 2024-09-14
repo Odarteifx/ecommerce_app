@@ -649,7 +649,7 @@ class PGridLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 6,
+      itemCount: 8,
       shrinkWrap: true,
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       physics: const NeverScrollableScrollPhysics(),
