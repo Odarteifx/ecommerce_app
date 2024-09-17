@@ -126,91 +126,117 @@ class _EshopHomePageState extends State<EshopHomePage> {
           ),
         ),
         backgroundColor: Appcolors.backgroundColor,
-        body: SafeArea(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20.h),
-                child: Row(
-                  children: [
-                    Flexible(
-                        child: SizedBox(
-                            width: 260.w,
-                            child: TextField(
-                              controller: _searchcontroller,
-                              decoration: InputDecoration(
-                                  prefixIcon:
-                                      const Icon(Iconsax.search_normal_1),
-                                  border: const OutlineInputBorder(
-                                      borderSide: BorderSide.none),
-                                  hintText: 'Search',
-                                  hintStyle: GoogleFonts.roboto(
-                                      fontSize: EshopTypography.onboadingbody,
-                                      color: Appcolors.subtextColor)),
-                            ))),
-                    Badge(
-                        //label: Text(''),
-                        alignment: Alignment(0.25.sp, -0.4.sp),
-                        child: IconButton(
-                            onPressed: () {},
-                            icon: const Icon(Iconsax.notification))),
-                    IconButton(
-                        onPressed: () {}, icon: const Icon(Iconsax.messages))
-                  ],
-                ),
-              ),
-              Expanded(
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.vertical,
-                  physics: const AlwaysScrollableScrollPhysics(),
-                  child: Column(
-                    children: [
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      BannerSlider(
-                          carouselController: _carouselController,
-                          imageList: imageList),
-                      SizedBox(
-                        height: 15.h,
-                      ),
-                      CategoriesSection(iconList: iconList),
-                      SizedBox(
-                        height: 20.h,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 20),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Popular Products',
-                                style: GoogleFonts.roboto(
-                                    fontSize: EshopTypography.subtext,
-                                    fontWeight: EshopFontweight.semibold)),
-                            GestureDetector(
-                              onTap: () {},
-                              child: Text(
-                                'See more',
-                                style: GoogleFonts.roboto(
-                                    fontSize: EshopTypography.subtext,
-                                    color: Appcolors.subtextColor,
-                                    fontWeight: EshopFontweight.regular),
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      SizedBox(
-                        height: 14.h,
-                      ),
-                      const PGridLayout()
-                    ],
-                  ),
-                ),
-              )
-            ],
+        body: <Widget>[
+        HomePage(searchcontroller: _searchcontroller, carouselController: _carouselController, imageList: imageList, iconList: iconList),
+          Center(child: Text('Wishlist'),),
+          Center(child: Text('Cart'),),
+          Center(child: Text('Profile'),),
+        ][currentindex],
+  );}
+}
+
+ //HomePage(searchcontroller: _searchcontroller, carouselController: _carouselController, imageList: imageList, iconList: iconList))
+class HomePage extends StatelessWidget {
+  const HomePage({
+    super.key,
+    required TextEditingController searchcontroller,
+    required CarouselSliderController carouselController,
+    required this.imageList,
+    required this.iconList,
+  }) : _searchcontroller = searchcontroller, _carouselController = carouselController;
+
+  final TextEditingController _searchcontroller;
+  final CarouselSliderController _carouselController;
+  final List imageList;
+  final List iconList;
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+      child: Column(
+        children: [
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.h),
+            child: Row(
+              children: [
+                Flexible(
+                    child: SizedBox(
+                        width: 260.w,
+                        child: TextField(
+                          controller: _searchcontroller,
+                          decoration: InputDecoration(
+                              prefixIcon:
+                                  const Icon(Iconsax.search_normal_1),
+                              border: const OutlineInputBorder(
+                                  borderSide: BorderSide.none),
+                              hintText: 'Search',
+                              hintStyle: GoogleFonts.roboto(
+                                  fontSize: EshopTypography.onboadingbody,
+                                  color: Appcolors.subtextColor)),
+                        ))),
+                Badge(
+                    //label: Text(''),
+                    alignment: Alignment(0.25.sp, -0.4.sp),
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(Iconsax.notification))),
+                IconButton(
+                    onPressed: () {}, icon: const Icon(Iconsax.messages))
+              ],
+            ),
           ),
-        ));
+          Expanded(
+            child: SingleChildScrollView(
+              scrollDirection: Axis.vertical,
+              physics: const AlwaysScrollableScrollPhysics(),
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  BannerSlider(
+                      carouselController: _carouselController,
+                      imageList: imageList),
+                  SizedBox(
+                    height: 15.h,
+                  ),
+                  CategoriesSection(iconList: iconList),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Popular Products',
+                            style: GoogleFonts.roboto(
+                                fontSize: EshopTypography.subtext,
+                                fontWeight: EshopFontweight.semibold)),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            'See more',
+                            style: GoogleFonts.roboto(
+                                fontSize: EshopTypography.subtext,
+                                color: Appcolors.subtextColor,
+                                fontWeight: EshopFontweight.regular),
+                          ),
+                        )
+                      ],
+                    ),
+                  ),
+                  SizedBox(
+                    height: 14.h,
+                  ),
+                  const PGridLayout()
+                ],
+              ),
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
 
