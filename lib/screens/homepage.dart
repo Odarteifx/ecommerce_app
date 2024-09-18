@@ -98,44 +98,54 @@ class _EshopHomePageState extends State<EshopHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: Container(
-          decoration:
-              BoxDecoration(color: Appcolors.backgroundColor, boxShadow: [
-            BoxShadow(
-                color: const Color.fromRGBO(0, 0, 0, 0.25),
-                offset: Offset(0, -1.sp),
-                blurRadius: 4)
-          ]),
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 25.h, vertical: 22.w),
-            child: GNav(
-              tabBackgroundColor: Appcolors.hometabColor,
-              padding: EdgeInsets.all(12.sp),
-              gap: 3.sp,
-              //type: BottomNavigationBarType.shifting,
-              activeColor: Appcolors.textColor,
-              color: Appcolors.subtextColor,
-              selectedIndex: currentindex,
-              tabs: bottomNavBarList,
-              onTabChange: (value) {
-                setState(() {
-                  currentindex = value;
-                });
-              },
-            ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(color: Appcolors.backgroundColor, boxShadow: [
+          BoxShadow(
+              color: const Color.fromRGBO(0, 0, 0, 0.25),
+              offset: Offset(0, -1.sp),
+              blurRadius: 4)
+        ]),
+        child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 25.h, vertical: 22.w),
+          child: GNav(
+            tabBackgroundColor: Appcolors.hometabColor,
+            padding: EdgeInsets.all(12.sp),
+            gap: 3.sp,
+            //type: BottomNavigationBarType.shifting,
+            activeColor: Appcolors.textColor,
+            color: Appcolors.subtextColor,
+            selectedIndex: currentindex,
+            tabs: bottomNavBarList,
+            onTabChange: (value) {
+              setState(() {
+                currentindex = value;
+              });
+            },
           ),
         ),
-        backgroundColor: Appcolors.backgroundColor,
-        body: <Widget>[
-        HomePage(searchcontroller: _searchcontroller, carouselController: _carouselController, imageList: imageList, iconList: iconList),
-          Center(child: Text('Wishlist'),),
-          Center(child: Text('Cart'),),
-          Center(child: Text('Profile'),),
-        ][currentindex],
-  );}
+      ),
+      backgroundColor: Appcolors.backgroundColor,
+      body: <Widget>[
+        HomePage(
+            searchcontroller: _searchcontroller,
+            carouselController: _carouselController,
+            imageList: imageList,
+            iconList: iconList),
+        const Center(
+          child: Text('Wishlist'),
+        ),
+        const Center(
+          child: Text('Cart'),
+        ),
+        const Center(
+          child: Text('Profile'),
+        ),
+      ][currentindex],
+    );
+  }
 }
 
- //HomePage(searchcontroller: _searchcontroller, carouselController: _carouselController, imageList: imageList, iconList: iconList))
+//HomePage(searchcontroller: _searchcontroller, carouselController: _carouselController, imageList: imageList, iconList: iconList))
 class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
@@ -143,7 +153,8 @@ class HomePage extends StatelessWidget {
     required CarouselSliderController carouselController,
     required this.imageList,
     required this.iconList,
-  }) : _searchcontroller = searchcontroller, _carouselController = carouselController;
+  })  : _searchcontroller = searchcontroller,
+        _carouselController = carouselController;
 
   final TextEditingController _searchcontroller;
   final CarouselSliderController _carouselController;
@@ -165,8 +176,7 @@ class HomePage extends StatelessWidget {
                         child: TextField(
                           controller: _searchcontroller,
                           decoration: InputDecoration(
-                              prefixIcon:
-                                  const Icon(Iconsax.search_normal_1),
+                              prefixIcon: const Icon(Iconsax.search_normal_1),
                               border: const OutlineInputBorder(
                                   borderSide: BorderSide.none),
                               hintText: 'Search',
@@ -180,8 +190,7 @@ class HomePage extends StatelessWidget {
                     child: IconButton(
                         onPressed: () {},
                         icon: const Icon(Iconsax.notification))),
-                IconButton(
-                    onPressed: () {}, icon: const Icon(Iconsax.messages))
+                IconButton(onPressed: () {}, icon: const Icon(Iconsax.messages))
               ],
             ),
           ),
@@ -240,3 +249,21 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class ProfilePage extends StatelessWidget {
+  const ProfilePage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Column(
+      children: [
+        Text(
+          'My Account',
+          style: GoogleFonts.roboto(
+              fontSize: EshopTypography.heading2,
+              fontWeight: EshopFontweight.medium),
+        )
+      ],
+    ));
+  }
+}
