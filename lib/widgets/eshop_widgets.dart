@@ -649,7 +649,7 @@ class PGridLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 8,
+      itemCount: 4,
       shrinkWrap: true,
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       physics: const NeverScrollableScrollPhysics(),
@@ -657,7 +657,7 @@ class PGridLayout extends StatelessWidget {
           crossAxisCount: 2,
           mainAxisSpacing: 20.sp,
           crossAxisSpacing: 20.sp,
-          mainAxisExtent: 245.sp),
+          mainAxisExtent: 246.sp),
       itemBuilder: (context, index) => const ItemTile(),
     );
   }

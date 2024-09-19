@@ -137,9 +137,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
         const Center(
           child: Text('Cart'),
         ),
-        const Center(
-          child: Text('Profile'),
-        ),
+        ProfilePage(),
       ][currentindex],
     );
   }
@@ -255,15 +253,61 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-        child: Column(
-      children: [
-        Text(
-          'My Account',
-          style: GoogleFonts.roboto(
-              fontSize: EshopTypography.heading2,
-              fontWeight: EshopFontweight.medium),
-        )
-      ],
+        child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 15.h,
+          ),
+          Text(
+            'My Account',
+            style: GoogleFonts.roboto(
+                fontSize: EshopTypography.heading2,
+                fontWeight: EshopFontweight.medium),
+          ),
+          SizedBox(height: 30.h),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              CircleAvatar(
+                radius: 25.r,
+              ),
+              SizedBox(
+                width: 15.w,
+              ),
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'William Lamptey',
+                    style: GoogleFonts.roboto(
+                        fontSize: EshopTypography.onboadingbody,
+                        fontWeight: EshopFontweight.medium),
+                  ),
+                  SizedBox(
+                    height: 2.h,
+                  ),
+                  Text('williamlamptey12@yahoo.com',
+                      style: GoogleFonts.roboto(
+                          fontSize: EshopTypography.subtext,
+                          color: Appcolors.subtextColor,
+                          fontWeight: EshopFontweight.light))
+                ],
+              ),
+              const Expanded(child: SizedBox()),
+              IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Iconsax.edit,
+                    color: Appcolors.subtextColor,
+                  ))
+            ],
+          )
+        ],
+      ),
     ));
   }
 }
