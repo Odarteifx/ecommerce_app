@@ -32,4 +32,7 @@ class EshopAssets {
   
   //Product example
   static const String product1 = 'assets/images/studiopro.png';
+
+  //Profile Photo
+  static const String person = 'assets/images/person.png';
 }

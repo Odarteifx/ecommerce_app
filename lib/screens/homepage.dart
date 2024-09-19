@@ -273,6 +273,7 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CircleAvatar(
+                backgroundImage: AssetImage(EshopAssets.person),
                 radius: 25.r,
               ),
               SizedBox(
