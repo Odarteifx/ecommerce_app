@@ -581,7 +581,7 @@ class ItemTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
-            height: 165.h,
+            height: 165.sp,
             width: 165.w,
             decoration: BoxDecoration(
                 color: Appcolors.widgetcolor,
@@ -655,9 +655,9 @@ class PGridLayout extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 2,
-          mainAxisSpacing: 20.sp,
+          mainAxisSpacing: 20.h,
           crossAxisSpacing: 20.sp,
-          mainAxisExtent: 246.sp),
+          mainAxisExtent: 250.sp),
       itemBuilder: (context, index) => const ItemTile(),
     );
   }
@@ -680,7 +680,7 @@ class ProfileWidget extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.symmetric(horizontal: 8.h),
         width: 170.w,
-        height: 40.h,
+        height: 40.sp,
         decoration: BoxDecoration(
           border: Border.all(color: Appcolors.iconColor),
           borderRadius: BorderRadius.circular(5.r),
