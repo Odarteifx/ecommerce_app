@@ -450,7 +450,7 @@ class BannerSlider extends StatelessWidget {
     return Stack(
       children: [
         SizedBox(
-          height: 175.h,
+          height: 175.sp,
           width: 350.w,
           child: CarouselSlider(
               carouselController: _carouselController,
@@ -471,8 +471,8 @@ class BannerSlider extends StatelessWidget {
               )),
         ),
         Positioned(
-            left: 160.w,
-            top: 165.h,
+            left: 160.sp,
+            top: 165.sp,
             child: Row(
               children: [
                 ValueListenableBuilder<int>(
