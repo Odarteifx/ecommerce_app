@@ -662,3 +662,55 @@ class PGridLayout extends StatelessWidget {
     );
   }
 }
+
+//Profile Widgets
+class ProfileWidget extends StatelessWidget {
+  const ProfileWidget({
+    super.key, required this.icon, required this.iconText, this.onpressed,
+  });
+
+  final IconData icon;
+  final String iconText;
+  final VoidCallback? onpressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onpressed,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 8.h),
+        width: 170.w,
+        height: 40.h,
+        decoration: BoxDecoration(
+          border: Border.all(color: Appcolors.iconColor),
+          borderRadius: BorderRadius.circular(5.r),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Icon(
+              icon,
+              color: Appcolors.subtextColor,
+            ),
+            SizedBox(
+              width: 10.w,
+            ),
+            Text(
+              iconText,
+              style: GoogleFonts.roboto(
+                  fontSize: EshopTypography.onboadingbody,
+                  fontWeight: EshopFontweight.regular),
+            ),
+            const Expanded(child: SizedBox()),
+            const Icon(
+              Iconsax.arrow_right_3,
+              size: 20,
+              color: Appcolors.iconColor,
+            )
+          ],
+        ),
+      ),
+    );
+  }
+}

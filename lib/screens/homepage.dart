@@ -273,7 +273,7 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundImage: AssetImage(EshopAssets.person),
+                backgroundImage: const AssetImage(EshopAssets.person),
                 radius: 25.r,
               ),
               SizedBox(
@@ -306,9 +306,99 @@ class ProfilePage extends StatelessWidget {
                     color: Appcolors.subtextColor,
                   ))
             ],
+          ),
+          SizedBox(
+            height: 30.h,
+          ),
+          Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ProfileWidget(
+                    icon: Iconsax.box,
+                    iconText: 'My Orders',
+                    onpressed: () {},
+                  ),
+                  ProfileWidget(
+                    icon: Iconsax.crown_1,
+                    iconText: 'Insider',
+                    onpressed: () {},
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  ProfileWidget(
+                    icon: Iconsax.discount_shape,
+                    iconText: 'Coupons',
+                    onpressed: () {},
+                  ),
+                  ProfileWidget(
+                    icon: Icons.headset_mic_outlined,
+                    iconText: 'Help Center',
+                    onpressed: () {},
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 30.h,
+              ),
+              ProfileTile(icon: Iconsax.heart, iconText: 'Wishlist', onpressed: (){},),
+              SizedBox(height: 20.h,),
+              ProfileTile(icon: Iconsax.location, iconText: 'Delivery address', onpressed: (){},),
+               SizedBox(height: 20.h,),
+              ProfileTile(icon: Iconsax.wallet_3, iconText: 'Saved cards & Wallets', onpressed: (){},),
+               SizedBox(height: 20.h,),
+              ProfileTile(icon: Iconsax.setting_3, iconText: 'Security settings', onpressed: (){},),
+            ],
           )
         ],
       ),
     ));
+  }
+}
+
+class ProfileTile extends StatelessWidget {
+  const ProfileTile({
+    super.key, required this.icon, required this.iconText, this.onpressed,
+  });
+
+  final IconData icon;
+  final  String iconText;
+  final VoidCallback? onpressed;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onpressed,
+      child: Row(
+        children: [
+          Icon(
+            icon,
+            color: Appcolors.subtextColor,
+          ),
+          SizedBox(
+            width: 20.w,
+          ),
+          Text(
+            iconText,
+            style: GoogleFonts.roboto(
+                fontSize: EshopTypography.onboadingbody,
+                fontWeight: EshopFontweight.regular),
+          ),
+          const Expanded(child: SizedBox()),
+          const Icon(
+            Iconsax.arrow_right_3,
+            size: 20,
+            color: Appcolors.iconColor,
+          )
+        ],
+      ),
+    );
   }
 }
