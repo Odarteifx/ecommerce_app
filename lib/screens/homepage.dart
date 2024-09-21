@@ -137,7 +137,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
         const Center(
           child: Text('Cart'),
         ),
-        ProfilePage(),
+        const ProfilePage(),
       ][currentindex],
     );
   }
