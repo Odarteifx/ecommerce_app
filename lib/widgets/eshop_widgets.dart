@@ -574,7 +574,7 @@ class ItemTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-     height: 245.h,
+      height: 245.h,
       width: 165.w,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -666,7 +666,10 @@ class PGridLayout extends StatelessWidget {
 //Profile Widgets
 class ProfileWidget extends StatelessWidget {
   const ProfileWidget({
-    super.key, required this.icon, required this.iconText, this.onpressed,
+    super.key,
+    required this.icon,
+    required this.iconText,
+    this.onpressed,
   });
 
   final IconData icon;

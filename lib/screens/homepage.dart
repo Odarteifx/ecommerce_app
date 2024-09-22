@@ -131,9 +131,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
             carouselController: _carouselController,
             imageList: imageList,
             iconList: iconList),
-        const Center(
-          child: Text('Wishlist'),
-        ),
+        WishlistPage(),
         const Center(
           child: Text('Cart'),
         ),
@@ -247,6 +245,31 @@ class HomePage extends StatelessWidget {
   }
 }
 
+class WishlistPage extends StatelessWidget {
+  const WishlistPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return SafeArea(
+        child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.h),
+      child: Column(
+        children: [
+          SizedBox(
+            height: 15.h,
+          ),
+          Text(
+            'My Wishlist',
+            style: GoogleFonts.roboto(
+                fontSize: EshopTypography.heading2,
+                fontWeight: EshopFontweight.medium),
+          )
+        ],
+      ),
+    ));
+  }
+}
+
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
@@ -254,7 +277,7 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -348,13 +371,35 @@ class ProfilePage extends StatelessWidget {
               SizedBox(
                 height: 30.h,
               ),
-              ProfileTile(icon: Iconsax.heart, iconText: 'Wishlist', onpressed: (){},),
-              SizedBox(height: 20.h,),
-              ProfileTile(icon: Iconsax.location, iconText: 'Delivery address', onpressed: (){},),
-               SizedBox(height: 20.h,),
-              ProfileTile(icon: Iconsax.wallet_3, iconText: 'Saved cards & Wallets', onpressed: (){},),
-               SizedBox(height: 20.h,),
-              ProfileTile(icon: Iconsax.setting_3, iconText: 'Security settings', onpressed: (){},),
+              ProfileTile(
+                icon: Iconsax.heart,
+                iconText: 'Wishlist',
+                onpressed: () {},
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              ProfileTile(
+                icon: Iconsax.location,
+                iconText: 'Delivery address',
+                onpressed: () {},
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              ProfileTile(
+                icon: Iconsax.wallet_3,
+                iconText: 'Saved cards & Wallets',
+                onpressed: () {},
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              ProfileTile(
+                icon: Iconsax.setting_3,
+                iconText: 'Security settings',
+                onpressed: () {},
+              ),
             ],
           )
         ],
@@ -365,11 +410,14 @@ class ProfilePage extends StatelessWidget {
 
 class ProfileTile extends StatelessWidget {
   const ProfileTile({
-    super.key, required this.icon, required this.iconText, this.onpressed,
+    super.key,
+    required this.icon,
+    required this.iconText,
+    this.onpressed,
   });
 
   final IconData icon;
-  final  String iconText;
+  final String iconText;
   final VoidCallback? onpressed;
 
   @override
