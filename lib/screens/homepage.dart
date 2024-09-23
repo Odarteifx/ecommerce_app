@@ -131,7 +131,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
             carouselController: _carouselController,
             imageList: imageList,
             iconList: iconList),
-        WishlistPage(),
+        WishlistPage(searchcontroller: TextEditingController(),),
         const Center(
           child: Text('Cart'),
         ),
@@ -164,31 +164,7 @@ class HomePage extends StatelessWidget {
         children: [
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.h),
-            child: Row(
-              children: [
-                Flexible(
-                    child: SizedBox(
-                        width: 260.w,
-                        child: TextField(
-                          controller: _searchcontroller,
-                          decoration: InputDecoration(
-                              prefixIcon: const Icon(Iconsax.search_normal_1),
-                              border: const OutlineInputBorder(
-                                  borderSide: BorderSide.none),
-                              hintText: 'Search',
-                              hintStyle: GoogleFonts.roboto(
-                                  fontSize: EshopTypography.onboadingbody,
-                                  color: Appcolors.subtextColor)),
-                        ))),
-                Badge(
-                    //label: Text(''),
-                    alignment: Alignment(0.25.sp, -0.4.sp),
-                    child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(Iconsax.notification))),
-                IconButton(onPressed: () {}, icon: const Icon(Iconsax.messages))
-              ],
-            ),
+            child: EshopAppBar(searchcontroller: _searchcontroller),
           ),
           Expanded(
             child: SingleChildScrollView(
@@ -245,8 +221,64 @@ class HomePage extends StatelessWidget {
   }
 }
 
+//AppBar
+class EshopAppBar extends StatelessWidget {
+  const EshopAppBar({
+    super.key,
+    required TextEditingController searchcontroller,
+  }) : _searchcontroller = searchcontroller;
+
+  final TextEditingController _searchcontroller;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Flexible(
+            child: SizedBox(
+                width: 260.w,
+                child: Searchbar(searchcontroller: _searchcontroller))),
+        Badge(
+            //label: Text(''),
+            alignment: Alignment(0.25.sp, -0.4.sp),
+            child: IconButton(
+                onPressed: () {},
+                icon: const Icon(Iconsax.notification))),
+        IconButton(onPressed: () {}, icon: const Icon(Iconsax.messages))
+      ],
+    );
+  }
+}
+
+//Search bar
+class Searchbar extends StatelessWidget {
+  const Searchbar({
+    super.key,
+    required TextEditingController searchcontroller,
+  }) : _searchcontroller = searchcontroller;
+
+  final TextEditingController _searchcontroller;
+
+  @override
+  Widget build(BuildContext context) {
+    return TextField(
+      controller: _searchcontroller,
+      decoration: InputDecoration(
+          prefixIcon: const Icon(Iconsax.search_normal_1),
+          border: const OutlineInputBorder(
+              borderSide: BorderSide.none),
+          hintText: 'Search',
+          hintStyle: GoogleFonts.roboto(
+              fontSize: EshopTypography.onboadingbody,
+              color: Appcolors.subtextColor)),
+    );
+  }
+}
+
+//Wishlist
 class WishlistPage extends StatelessWidget {
-  const WishlistPage({super.key});
+  final TextEditingController searchcontroller;
+  const WishlistPage({super.key, required this.searchcontroller});
 
   @override
   Widget build(BuildContext context) {
@@ -254,15 +286,27 @@ class WishlistPage extends StatelessWidget {
         child: Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            height: 15.h,
-          ),
+          EshopAppBar(searchcontroller: searchcontroller),
           Text(
             'My Wishlist',
             style: GoogleFonts.roboto(
                 fontSize: EshopTypography.heading2,
                 fontWeight: EshopFontweight.medium),
+          ),
+          SizedBox(height: 20.h,),
+          Container(
+            height: 160.h,
+            decoration: BoxDecoration(
+              color: Appcolors.widgetcolor,
+              borderRadius: BorderRadius.circular(15.sp),
+            ),
+            child: Row(
+              children: [
+               Image.asset(EshopAssets.product1),
+              ],
+            ),
           )
         ],
       ),
@@ -270,6 +314,8 @@ class WishlistPage extends StatelessWidget {
   }
 }
 
+
+//Profile page
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
 
