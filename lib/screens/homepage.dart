@@ -305,6 +305,32 @@ class WishlistPage extends StatelessWidget {
             child: Row(
               children: [
                Image.asset(EshopAssets.product1),
+               Container(
+                width: 180.h,
+                height: 160.h,
+                 child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 20.h,),
+                  Text('Beats Studio Pro – Premium Wireless Noise Cancelling Headphones', softWrap: true, overflow: TextOverflow.ellipsis, maxLines: 6,),
+                  SizedBox(height: 10.h,),
+                  Text(
+                    '\$59.99',
+                    style: GoogleFonts.roboto(
+                        fontWeight: EshopFontweight.medium,
+                        fontSize: EshopTypography.homepagecategories,
+                        decoration: TextDecoration.lineThrough),
+                  ),
+                  Text(
+                    '\$39.50',
+                    style: GoogleFonts.roboto(
+                        fontSize: EshopTypography.subtext,
+                        fontWeight: EshopFontweight.medium,
+                        color: Appcolors.promptColor),
+                  ),
+                 ],),
+               )
               ],
             ),
           )
