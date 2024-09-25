@@ -103,7 +103,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
           BoxShadow(
               color: const Color.fromRGBO(0, 0, 0, 0.25),
               offset: Offset(0, -1.sp),
-              blurRadius: 4)
+              blurRadius: 4.sp)
         ]),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.h, vertical: 22.w),
@@ -112,7 +112,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
             padding: EdgeInsets.all(12.sp),
             gap: 3.sp,
             //type: BottomNavigationBarType.shifting,
-            activeColor: Appcolors.textColor,
+            activeColor: Appcolors.bottomNavActive,
             color: Appcolors.subtextColor,
             selectedIndex: currentindex,
             tabs: bottomNavBarList,
