@@ -310,9 +310,8 @@ class WishlistPage extends StatelessWidget {
                 height: 160.h,
                  child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 20.h,),
                   Text('Beats Studio Pro – Premium Wireless Noise Cancelling Headphones', softWrap: true, overflow: TextOverflow.ellipsis, maxLines: 6,),
                   SizedBox(height: 10.h,),
                   Text(
@@ -329,6 +328,20 @@ class WishlistPage extends StatelessWidget {
                         fontWeight: EshopFontweight.medium,
                         color: Appcolors.promptColor),
                   ),
+                  Container(
+                    height: 30.h,
+                    width: 150.w,
+                   decoration: BoxDecoration(
+                    border: Border.all(color: Appcolors.primaryColor)
+                   ),
+                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                     children: [
+                      Icon(Iconsax.add, size: 24,),
+                       Text('Add to Cart'),
+                     ],
+                   ),
+                  )
                  ],),
                )
               ],
