@@ -329,19 +329,32 @@ class WishlistPage extends StatelessWidget {
                         color: Appcolors.promptColor),
                   ),
                   const SizedBox(height: 10,),
-                  Container(
-                    height: 30.h,
-                    width: 120.w,
-                   decoration: BoxDecoration(
-                    border: Border.all(color: Appcolors.primaryColor)
-                   ),
-                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                     children: [
-                      Icon(Iconsax.add, size: 22.sp,),
-                       Text('Add to Cart', style: GoogleFonts.roboto(fontSize: EshopTypography.subtext, fontWeight: EshopFontweight.regular),),
-                     ],
-                   ),
+                  Row(
+                    children: [
+                      Container(
+                        height: 30.h,
+                        width: 120.w,
+                       decoration: BoxDecoration(
+                        border: Border.all(color: Appcolors.primaryColor)
+                       ),
+                       child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                         children: [
+                          Icon(Iconsax.add, size: 22.sp,),
+                           Text('Add to Cart', style: GoogleFonts.roboto(fontSize: EshopTypography.subtext, fontWeight: EshopFontweight.regular),),
+                         ],
+                       ),
+                      ),
+                       SizedBox(width: 10.w,),
+                       Container(
+                        height: 40.h,
+                        width: 40.w,
+                        decoration: BoxDecoration(
+                          border: Border.all(color: Appcolors.iconColor),
+                          borderRadius: BorderRadius.circular(50.r)
+                        ),
+                        child: Center(child: IconButton(onPressed: (){}, icon: Icon(Iconsax.heart5) ,color: Appcolors.promptColor,)))
+                    ],
                   )
                  ],),
                )
