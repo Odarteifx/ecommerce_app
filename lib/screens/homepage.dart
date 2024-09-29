@@ -131,7 +131,9 @@ class _EshopHomePageState extends State<EshopHomePage> {
             carouselController: _carouselController,
             imageList: imageList,
             iconList: iconList),
-        WishlistPage(searchcontroller: TextEditingController(),),
+        WishlistPage(
+          searchcontroller: TextEditingController(),
+        ),
         const Center(
           child: Text('Cart'),
         ),
@@ -242,8 +244,7 @@ class EshopAppBar extends StatelessWidget {
             //label: Text(''),
             alignment: Alignment(0.25.sp, -0.4.sp),
             child: IconButton(
-                onPressed: () {},
-                icon: const Icon(Iconsax.notification))),
+                onPressed: () {}, icon: const Icon(Iconsax.notification))),
         IconButton(onPressed: () {}, icon: const Icon(Iconsax.messages))
       ],
     );
@@ -265,8 +266,7 @@ class Searchbar extends StatelessWidget {
       controller: _searchcontroller,
       decoration: InputDecoration(
           prefixIcon: const Icon(Iconsax.search_normal_1),
-          border: const OutlineInputBorder(
-              borderSide: BorderSide.none),
+          border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: 'Search',
           hintStyle: GoogleFonts.roboto(
               fontSize: EshopTypography.onboadingbody,
@@ -295,7 +295,9 @@ class WishlistPage extends StatelessWidget {
                 fontSize: EshopTypography.heading2,
                 fontWeight: EshopFontweight.medium),
           ),
-          SizedBox(height: 20.h,),
+          SizedBox(
+            height: 20.h,
+          ),
           Container(
             height: 160.h,
             decoration: BoxDecoration(
@@ -304,60 +306,89 @@ class WishlistPage extends StatelessWidget {
             ),
             child: Row(
               children: [
-               Image.asset(EshopAssets.product1),
-               Container(
-                width: 180.h,
-                height: 160.h,
-                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                  Text('Beats Studio Pro – Premium Wireless Noise Cancelling Headphones', softWrap: true, overflow: TextOverflow.ellipsis, maxLines: 2,),
-                  SizedBox(height: 5.h,),
-                  Text(
-                    '\$59.99',
-                    style: GoogleFonts.roboto(
-                        fontWeight: EshopFontweight.medium,
-                        fontSize: EshopTypography.homepagecategories,
-                        decoration: TextDecoration.lineThrough),
-                  ),
-                  Text(
-                    '\$39.50',
-                    style: GoogleFonts.roboto(
-                        fontSize: EshopTypography.subtext,
-                        fontWeight: EshopFontweight.medium,
-                        color: Appcolors.promptColor),
-                  ),
-                  const SizedBox(height: 10,),
-                  Row(
+                Image.asset(EshopAssets.product1),
+                Container(
+                  width: 180.h,
+                  height: 160.h,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Container(
-                        height: 30.h,
-                        width: 120.w,
-                       decoration: BoxDecoration(
-                        border: Border.all(color: Appcolors.primaryColor)
-                       ),
-                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                         children: [
-                          Icon(Iconsax.add, size: 22.sp,),
-                           Text('Add to Cart', style: GoogleFonts.roboto(fontSize: EshopTypography.subtext, fontWeight: EshopFontweight.regular),),
-                         ],
-                       ),
+                      Text(
+                        'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
                       ),
-                       SizedBox(width: 10.w,),
-                       Container(
-                        height: 40.h,
-                        width: 40.w,
-                        decoration: BoxDecoration(
-                          border: Border.all(color: Appcolors.iconColor),
-                          borderRadius: BorderRadius.circular(50.r)
-                        ),
-                        child: Center(child: IconButton(onPressed: (){}, icon: Icon(Iconsax.heart5) ,color: Appcolors.promptColor,)))
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Text(
+                        '\$59.99',
+                        style: GoogleFonts.roboto(
+                            fontWeight: EshopFontweight.medium,
+                            fontSize: EshopTypography.homepagecategories,
+                            decoration: TextDecoration.lineThrough),
+                      ),
+                      Text(
+                        '\$39.50',
+                        style: GoogleFonts.roboto(
+                            fontSize: EshopTypography.subtext,
+                            fontWeight: EshopFontweight.medium,
+                            color: Appcolors.promptColor),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Row(
+                        children: [
+                          InkWell(
+                            onTap: (){},
+                            child: Container(
+                              height: 35.h,
+                              width: 120.w,
+                              decoration: BoxDecoration(
+                                border: Border.all(color: Appcolors.iconColor),
+                                borderRadius: BorderRadius.circular(5.r),
+                              ),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Icon(
+                                    Iconsax.add,
+                                    size: 22.sp,
+                                  ),
+                                  Text(
+                                    'Add to Cart',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: EshopTypography.subtext,
+                                        fontWeight: EshopFontweight.regular),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Container(
+                              height: 40.h,
+                              width: 40.w,
+                              decoration: BoxDecoration(
+                                  border:
+                                      Border.all(color: Appcolors.iconColor),
+                                  borderRadius: BorderRadius.circular(50.r)),
+                              child: Center(
+                                  child: IconButton(
+                                onPressed: () {},
+                                icon: Icon(Iconsax.heart5),
+                                color: Appcolors.promptColor,
+                              )))
+                        ],
+                      )
                     ],
-                  )
-                 ],),
-               )
+                  ),
+                )
               ],
             ),
           )
@@ -366,7 +397,6 @@ class WishlistPage extends StatelessWidget {
     ));
   }
 }
-
 
 //Profile page
 class ProfilePage extends StatelessWidget {
