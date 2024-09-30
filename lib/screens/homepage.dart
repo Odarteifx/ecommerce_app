@@ -134,9 +134,20 @@ class _EshopHomePageState extends State<EshopHomePage> {
         WishlistPage(
           searchcontroller: TextEditingController(),
         ),
-        const Center(
-          child: Text('Cart'),
-        ),
+        SafeArea(child: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.h),
+           child: Column(
+            children: [
+              SizedBox(height: 15.h,),
+             Text(
+            'My Cart',
+            style: GoogleFonts.roboto(
+                fontSize: EshopTypography.heading2,
+                fontWeight: EshopFontweight.medium),
+          ), 
+            ],
+          ),
+        )),
         const ProfilePage(),
       ][currentindex],
     );
