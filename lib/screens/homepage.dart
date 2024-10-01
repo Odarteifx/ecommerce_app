@@ -137,6 +137,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
         SafeArea(child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.h),
            child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               SizedBox(height: 15.h,),
              Text(
@@ -145,6 +146,16 @@ class _EshopHomePageState extends State<EshopHomePage> {
                 fontSize: EshopTypography.heading2,
                 fontWeight: EshopFontweight.medium),
           ), 
+          SizedBox(height: 20.h,),
+          Column(
+            children: [
+              Container(height: 60.h,
+              decoration: BoxDecoration(
+                color: Appcolors.iconColor
+              ) ,
+              )
+            ],
+          )
             ],
           ),
         )),
