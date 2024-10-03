@@ -403,7 +403,7 @@ class WishlistPage extends StatelessWidget {
                               child: Center(
                                   child: IconButton(
                                 onPressed: () {},
-                                icon: Icon(Iconsax.heart5),
+                                icon: const Icon(Iconsax.heart5),
                                 color: Appcolors.promptColor,
                               )))
                         ],

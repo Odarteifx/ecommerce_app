@@ -2,6 +2,7 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/fakedata.dart';
 import 'package:ecommerce_app/providers/eshop_providers.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -568,11 +569,25 @@ class CategoriesSection extends StatelessWidget {
 }
 
 // Item
-class ItemTile extends StatelessWidget {
-  const ItemTile({super.key});
+class ItemTile extends StatefulWidget {
+  final int indexx;
+  const ItemTile(int index, {super.key, required this.indexx});
 
   @override
-  Widget build(BuildContext context) {
+  State<ItemTile> createState() => _ItemTileState();
+}
+
+class _ItemTileState extends State<ItemTile> {
+  late bool wishlist;
+
+  @override
+  void initState() {
+    super.initState();
+   wishlist = Fakedata.techProducts[widget.indexx].isWishlist; 
+  }
+  @override
+  Widget build(BuildContext context,) {
+
     return Container(
       height: 245.h,
       width: 165.w,
@@ -587,7 +602,7 @@ class ItemTile extends StatelessWidget {
                 color: Appcolors.widgetcolor,
                 borderRadius: BorderRadius.circular(10.sp)),
             child: Image.asset(
-              EshopAssets.product1,
+              Fakedata.techProducts[widget.indexx].productAsset,
               width: 150.w,
             ),
           ),
@@ -597,35 +612,57 @@ class ItemTile extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
+               Fakedata.techProducts[widget.indexx].productDiscount != null?
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    '\$59.99',
-                    style: GoogleFonts.roboto(
-                        fontWeight: EshopFontweight.medium,
-                        fontSize: EshopTypography.homepagecategories,
-                        decoration: TextDecoration.lineThrough),
-                  ),
+                          '\$${Fakedata.techProducts[widget.indexx].productDiscount}',
+                          style: GoogleFonts.roboto(
+                              fontWeight: EshopFontweight.medium,
+                              fontSize: EshopTypography.homepagecategories,
+                              decoration: TextDecoration.lineThrough),
+                        ),
                   Text(
-                    '\$39.50',
+                    '\$${Fakedata.techProducts[widget.indexx].productPrice}',
                     style: GoogleFonts.roboto(
                         fontSize: EshopTypography.subtext,
                         fontWeight: EshopFontweight.medium,
-                        color: Appcolors.promptColor),
+                        color: Fakedata.techProducts[widget.indexx]
+                                    .productDiscount ==
+                                null
+                            ? Appcolors.textColor
+                            : Appcolors.promptColor),
                   ),
                 ],
-              ),
+              ) : Text(
+                    '\$${Fakedata.techProducts[widget.indexx].productPrice}',
+                    style: GoogleFonts.roboto(
+                        fontSize: EshopTypography.onboadingbody,
+                        fontWeight: EshopFontweight.medium,
+                        color:  Appcolors.textColor
+                        ),
+                  ) ,
               IconButton(
-                  onPressed: () {},
-                  icon: const Icon(
-                    Iconsax.heart5,
-                    color: Appcolors.promptColor,
-                  ))
+                  onPressed: () {
+                    setState(() {
+                      wishlist = !wishlist;
+                    });
+                  },
+                  icon: wishlist
+                      ?
+                      const Icon(
+                          Iconsax.heart5,
+                          color: Appcolors.promptColor,
+                        ) : const Icon(
+                          Iconsax.heart,
+                          color: Appcolors.iconColor,
+                        )
+                      )
             ],
           ),
           Text(
-            'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
+            Fakedata.techProducts[widget.indexx].productName,
             softWrap: true,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
@@ -649,7 +686,7 @@ class PGridLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GridView.builder(
-      itemCount: 4,
+      itemCount: Fakedata.techProducts.length,
       shrinkWrap: true,
       padding: EdgeInsets.symmetric(horizontal: 20.h),
       physics: const NeverScrollableScrollPhysics(),
@@ -658,7 +695,7 @@ class PGridLayout extends StatelessWidget {
           mainAxisSpacing: 20.h,
           crossAxisSpacing: 20.sp,
           mainAxisExtent: 250.sp),
-      itemBuilder: (context, index) => const ItemTile(),
+      itemBuilder: (context, index) => ItemTile(index, indexx: index,),
     );
   }
 }
