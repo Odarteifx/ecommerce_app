@@ -10,7 +10,7 @@ final categoriesControllerProvider = StateNotifierProvider<CategoriesController,
 
 final getsProductsProvider = StreamProvider((ref){
   final categoriesController = ref.watch(categoriesControllerProvider.notifier);
-  categoriesController.getCategories();
+  return categoriesController.getCategories();
 });
 
 class CategoriesController extends StateNotifier<bool> {
