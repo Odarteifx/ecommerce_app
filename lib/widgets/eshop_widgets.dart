@@ -2,8 +2,10 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/controllers/categories_controller.dart';
 import 'package:ecommerce_app/fakedata.dart';
 import 'package:ecommerce_app/providers/eshop_providers.dart';
+import 'package:ecommerce_app/services/categories_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -501,72 +503,91 @@ class BannerSlider extends StatelessWidget {
   }
 }
 
-//Categories tile
-class Categoriestile extends StatelessWidget {
-  final String iconUrl;
-  final String iconName;
-
-  const Categoriestile({
-    super.key,
-    required this.iconUrl,
-    required this.iconName,
-  });
-
+//categories with firebase
+class categoriesWidget extends ConsumerWidget {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      height: 60.h,
-      width: 150.w,
-      decoration: BoxDecoration(
-          color: Appcolors.widgetcolor,
-          borderRadius: BorderRadius.all(Radius.circular(10.sp))),
-      child: GestureDetector(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image(
-              image: AssetImage(iconUrl),
-              height: 30.h,
-            ),
-            SizedBox(
-              width: 8.w,
-            ),
-            Text(
-              iconName,
-              style: GoogleFonts.roboto(
-                  fontSize: EshopTypography.homepagecategories),
-            )
-          ],
-        ),
-      ),
+      width: double.infinity,
+      child: ref.watch(getsProductsProvider).when(data: (data) => ListView.builder(
+        itemBuilder: (context, index) {
+        
+      },),
+       error: error, loading: loading)
     );
   }
+  
 }
 
-// Categories section
-class CategoriesSection extends StatelessWidget {
-  const CategoriesSection({
-    super.key,
-    required this.iconList,
-  });
 
-  final List iconList;
+// //Categories tile
+// class Categoriestile extends StatelessWidget {
+//   final String iconUrl;
+//   final String iconName;
 
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
-          children: iconList.map((iconData) {
-        return Padding(
-          padding: EdgeInsets.symmetric(horizontal: 8.w),
-          child: Categoriestile(
-              iconUrl: iconData['image_path'], iconName: iconData['iconName']),
-        );
-      }).toList()),
-    );
-  }
-}
+//   const Categoriestile({
+//     super.key,
+//     required this.iconUrl,
+//     required this.iconName,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return Container(
+//       height: 60.h,
+//       width: 150.w,
+//       decoration: BoxDecoration(
+//           color: Appcolors.widgetcolor,
+//           borderRadius: BorderRadius.all(Radius.circular(10.sp))),
+//       child: GestureDetector(
+//         child: Row(
+//           mainAxisAlignment: MainAxisAlignment.center,
+//           children: [
+//             Image(
+//               image: AssetImage(iconUrl),
+//               height: 30.h,
+//             ),
+//             SizedBox(
+//               width: 8.w,
+//             ),
+//             Text(
+//               iconName,
+//               style: GoogleFonts.roboto(
+//                   fontSize: EshopTypography.homepagecategories),
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }
+
+
+
+// // Categories section
+// class CategoriesSection extends StatelessWidget {
+//   const CategoriesSection({
+//     super.key,
+//     required this.iconList,
+//   });
+
+//   final List iconList;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return SingleChildScrollView(
+//       scrollDirection: Axis.horizontal,
+//       child: Row(
+//           children: iconList.map((iconData) {
+//         return Padding(
+//           padding: EdgeInsets.symmetric(horizontal: 8.w),
+//           child: Categoriestile(
+//               iconUrl: iconData['image_path'], iconName: iconData['iconName']),
+//         );
+//       }).toList()),
+//     );
+//   }
+// }
 
 // Item
 class ItemTile extends StatefulWidget {

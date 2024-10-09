@@ -1,8 +1,11 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
+import 'package:ecommerce_app/controllers/categories_controller.dart';
+import 'package:ecommerce_app/services/categories_services.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
@@ -64,7 +67,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
     {'id': 2, 'image_path': EshopAssets.banner2},
     {'id': 3, 'image_path': EshopAssets.banner2},
   ];
-
+  
   List iconList = [
     {
       'id': 1,
@@ -167,7 +170,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
 
 //HomePage(searchcontroller: _searchcontroller, carouselController: _carouselController, imageList: imageList, iconList: iconList))
 class HomePage extends StatelessWidget {
-  const HomePage({
+   const HomePage({
     super.key,
     required TextEditingController searchcontroller,
     required CarouselSliderController carouselController,
@@ -205,7 +208,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 15.h,
                   ),
-                  CategoriesSection(iconList: iconList),
+                  //CategoriesSection(iconList: iconList),
                   SizedBox(
                     height: 20.h,
                   ),
