@@ -1,17 +1,21 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
+
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerce_app/constants/colors.dart';
-import 'package:ecommerce_app/controllers/categories_controller.dart';
-import 'package:ecommerce_app/fakedata.dart';
-import 'package:ecommerce_app/providers/eshop_providers.dart';
-import 'package:ecommerce_app/services/categories_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+
+import 'package:ecommerce_app/constants/colors.dart';
+import 'package:ecommerce_app/controllers/categories_controller.dart';
+import 'package:ecommerce_app/fakedata.dart';
+import 'package:ecommerce_app/providers/eshop_providers.dart';
+import 'package:ecommerce_app/services/categories_services.dart';
+
 import '../constants/eshop_assets.dart';
 import '../constants/eshop_typography.dart';
 
@@ -510,13 +514,65 @@ class categoriesWidget extends ConsumerWidget {
     return Container(
       width: double.infinity,
       child: ref.watch(getsProductsProvider).when(data: (data) => ListView.builder(
+        itemCount: data.length,
+        scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-        
+       return GestureDetector(
+        onTap: () {
+          
+        },
+         child: Container(
+               height: 60.h,
+               width: 150.w,
+               decoration: BoxDecoration(
+            color: Appcolors.widgetcolor,
+            borderRadius: BorderRadius.all(Radius.circular(10.sp))),
+               child: GestureDetector(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image(
+                image: AssetImage(data[index].image.toString()),
+                height: 30.h,
+              ),
+              SizedBox(
+                width: 8.w,
+              ),
+              Text(
+                data[index].name.toString(),
+                style: GoogleFonts.roboto(
+                    fontSize: EshopTypography.homepagecategories),
+              )
+            ],
+          ),
+               ),
+             ),
+       ); 
       },),
-       error: error, loading: loading)
+       error: (error, StackTrace) => ErrorText(error: error.toString(),), loading: ()=>Loader())
     );
   }
   
+}
+
+class Loader extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+   return const CircularProgressIndicator();
+  }
+  
+}
+
+class ErrorText extends StatelessWidget {
+  String error;
+   ErrorText({
+    super.key,
+    required this.error,
+  });
+  @override
+  Widget build(BuildContext context) {
+   return Center(child: Text(error),);
+  }
 }
 
 
