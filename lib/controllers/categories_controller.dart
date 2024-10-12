@@ -15,6 +15,7 @@ final getsProductsProvider = StreamProvider((ref){
 
 class CategoriesController extends StateNotifier<bool> {
   final CategoriesServices _categoryService;
+  // ignore: unused_field
   final Ref _ref;
 
   CategoriesController(
