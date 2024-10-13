@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_app/models/product_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -652,6 +653,10 @@ class ErrorText extends StatelessWidget {
 //     );
 //   }
 // }
+
+
+
+
 
 // Item
 class ItemTile extends StatefulWidget {

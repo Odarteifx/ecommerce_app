@@ -1,5 +1,5 @@
 import 'package:ecommerce_app/constants/eshop_assets.dart';
-import 'package:ecommerce_app/data_models.dart';
+import 'package:ecommerce_app/models/product_models.dart';
 
 class Fakedata {
  static List<ProductModel> techProducts = [
