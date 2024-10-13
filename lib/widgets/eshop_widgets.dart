@@ -509,44 +509,54 @@ class BannerSlider extends StatelessWidget {
 
 //categories with firebase
 class categoriesWidget extends ConsumerWidget {
+  const categoriesWidget({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      width: double.infinity,
+    return SizedBox(
+      height: 60.h,
       child: ref.watch(getsProductsProvider).when(data: (data) => ListView.builder(
         itemCount: data.length,
         scrollDirection: Axis.horizontal,
+        
         itemBuilder: (context, index) {
-       return GestureDetector(
-        onTap: () {
-          
-        },
-         child: Container(
-               height: 60.h,
-               width: 150.w,
-               decoration: BoxDecoration(
-            color: Appcolors.widgetcolor,
-            borderRadius: BorderRadius.all(Radius.circular(10.sp))),
-               child: GestureDetector(
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image(
-                image: AssetImage(data[index].image.toString()),
-                height: 30.h,
-              ),
-              SizedBox(
-                width: 8.w,
-              ),
-              Text(
-                data[index].name.toString(),
-                style: GoogleFonts.roboto(
-                    fontSize: EshopTypography.homepagecategories),
-              )
-            ],
-          ),
+       return Padding(
+         padding: EdgeInsets.symmetric(horizontal: 8.w),
+         child: GestureDetector(
+          onTap: () {
+            //Input action
+            print(data[index]);
+          },
+           child: Container(
+                 height: 60.h,
+                 width: 150.w,
+                 decoration: BoxDecoration(
+              color: Appcolors.widgetcolor,
+              borderRadius: BorderRadius.all(Radius.circular(10.sp))),
+                 child: GestureDetector(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image(
+                  image: NetworkImage(data[index].image.toString()),
+                  height: 30.h,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.error);
+                  },
+                ),
+                SizedBox(
+                  width: 8.w,
+                ),
+                Text(
+                  data[index].name.toString(),
+                  style: GoogleFonts.roboto(
+                      fontSize: EshopTypography.homepagecategories),
+                )
+              ],
+            ),
+                 ),
                ),
-             ),
+         ),
        ); 
       },),
        error: (error, StackTrace) => ErrorText(error: error.toString(),), loading: ()=>Loader())
@@ -637,9 +647,7 @@ class ErrorText extends StatelessWidget {
 //           children: iconList.map((iconData) {
 //         return Padding(
 //           padding: EdgeInsets.symmetric(horizontal: 8.w),
-//           child: Categoriestile(
-//               iconUrl: iconData['image_path'], iconName: iconData['iconName']),
-//         );
+//           child: categoriesWidget());
 //       }).toList()),
 //     );
 //   }
