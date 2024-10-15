@@ -516,55 +516,60 @@ class categoriesWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
-      height: 60.h,
-      child: ref.watch(getsCategoriesProvider).when(data: (data) => ListView.builder(
-        itemCount: data.length,
-        scrollDirection: Axis.horizontal,
-        
-        itemBuilder: (context, index) {
-       return Padding(
-         padding: EdgeInsets.symmetric(horizontal: 8.w),
-         child: GestureDetector(
-          onTap: () {
-            //Input action
-            print(data[index]);
-          },
-           child: Container(
-                 height: 60.h,
-                 width: 150.w,
-                 decoration: BoxDecoration(
-              color: Appcolors.widgetcolor,
-              borderRadius: BorderRadius.all(Radius.circular(10.sp))),
-                 child: GestureDetector(
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image(
-                  image: NetworkImage(data[index].image.toString()),
-                  height: 30.h,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error);
+        height: 60.h,
+        child: ref.watch(getsCategoriesProvider).when(
+            data: (data) => ListView.builder(
+                  itemCount: data.length,
+                  scrollDirection: Axis.horizontal,
+                  itemBuilder: (context, index) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 8.w),
+                      child: GestureDetector(
+                        onTap: () {
+                          //Input action
+                          print(data[index]);
+                        },
+                        child: Container(
+                          height: 60.h,
+                          width: 150.w,
+                          decoration: BoxDecoration(
+                              color: Appcolors.widgetcolor,
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(10.sp))),
+                          child: GestureDetector(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Image(
+                                  image: NetworkImage(
+                                      data[index].image.toString()),
+                                  height: 30.h,
+                                  errorBuilder: (context, error, stackTrace) {
+                                    return Icon(Icons.error);
+                                  },
+                                ),
+                                SizedBox(
+                                  width: 8.w,
+                                ),
+                                Text(
+                                  data[index].name.toString(),
+                                  style: GoogleFonts.roboto(
+                                      fontSize:
+                                          EshopTypography.homepagecategories),
+                                )
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    );
                   },
                 ),
-                SizedBox(
-                  width: 8.w,
+            error: (error, StackTrace) => ErrorText(
+                  error: error.toString(),
                 ),
-                Text(
-                  data[index].name.toString(),
-                  style: GoogleFonts.roboto(
-                      fontSize: EshopTypography.homepagecategories),
-                )
-              ],
-            ),
-                 ),
-               ),
-         ),
-       ); 
-      },),
-       error: (error, StackTrace) => ErrorText(error: error.toString(),), loading: ()=>Loader())
-    );
+            loading: () => Loader()));
   }
-  
 }
 
 class Loader extends StatelessWidget {
@@ -572,130 +577,132 @@ class Loader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   return const CircularProgressIndicator();
+    return const CircularProgressIndicator();
   }
-  
 }
 
 class ErrorText extends StatelessWidget {
   final String error;
-   const ErrorText({
+  const ErrorText({
     super.key,
     required this.error,
   });
   @override
   Widget build(BuildContext context) {
-   return Center(child: Text(error),);
+    return Center(
+      child: Text(error),
+    );
   }
 }
 
-class ProductWidget extends ConsumerWidget{
+class ProductWidget extends ConsumerWidget {
+  const ProductWidget({super.key});
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ref.watch(getsProductsProvider);
-    return product.when(data: (data){
-      return GridView.builder(
-      itemCount: data.length,
-      shrinkWrap: true,
-      padding: EdgeInsets.symmetric(horizontal: 20.h),
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20.h,
-          crossAxisSpacing: 20.sp,
-          mainAxisExtent: 250.sp),
-      itemBuilder: (context, index) {
-        return Container(
-      height: 245.h,
-      width: 165.w,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 165.sp,
-            width: 165.w,
-            decoration: BoxDecoration(
-                color: Appcolors.widgetcolor,
-                borderRadius: BorderRadius.circular(10.sp)),
-            child: Image.network(
-              data[index].image,
-              width: 150.w,
-            ),
-          ),
-          SizedBox(
-            height: 5.h,
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-               data[index].oldPrice != '0'?
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                          '\$${data[index].oldPrice}',
-                          style: GoogleFonts.roboto(
-                              fontWeight: EshopFontweight.medium,
-                              fontSize: EshopTypography.homepagecategories,
-                              decoration: TextDecoration.lineThrough),
+    return product.when(
+        data: (data) {
+        
+          return GridView.builder(
+              itemCount: data.length,
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 20.h),
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20.h,
+                  crossAxisSpacing: 20.sp,
+                  mainAxisExtent: 250.sp),
+              itemBuilder: (context, index) {
+                return Container(
+                  height: 245.h,
+                  width: 165.w,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        height: 165.sp,
+                        width: 165.w,
+                        decoration: BoxDecoration(
+                            color: Appcolors.widgetcolor,
+                            borderRadius: BorderRadius.circular(10.sp)),
+                        child: Image.network(
+                          data[index].image.toString(),
+                          width: 150.w,
                         ),
-                  Text(
-                    '\$${data[index].price}',
-                    style: GoogleFonts.roboto(
-                        fontSize: EshopTypography.subtext,
-                        fontWeight: EshopFontweight.medium,
-                        color: data[index].oldPrice ==
-                                '0'
-                            ? Appcolors.textColor
-                            : Appcolors.promptColor),
-                  ),
-                ],
-              ) : Text(
-                    '\$${data[index].price}',
-                    style: GoogleFonts.roboto(
-                        fontSize: EshopTypography.onboadingbody,
-                        fontWeight: EshopFontweight.medium,
-                        color:  Appcolors.textColor
-                        ),
-                  ) ,
-              IconButton(
-                  onPressed: () {
-                    // setState(() {
-                    //   wishlist = !wishlist;
-                    // });
-                  },
-                  icon: 
-                      const Icon(
-                          Iconsax.heart5,
-                          color: Appcolors.promptColor,
-                        ) 
-                        // : const Icon(
-                        //   Iconsax.heart,
-                        //   color: Appcolors.iconColor,
-                        // )
+                      ),
+                      SizedBox(
+                        height: 5.h,
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          if (data[index].oldPrice != null)
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  '\$${data[index].oldPrice?.toStringAsFixed(2)}',
+                                  style: GoogleFonts.roboto(
+                                      fontWeight: EshopFontweight.medium,
+                                      fontSize:
+                                          EshopTypography.homepagecategories,
+                                      decoration: TextDecoration.lineThrough),
+                                ),
+                                Text(
+                                  '\$${data[index].price}',
+                                  style: GoogleFonts.roboto(
+                                      fontSize: EshopTypography.subtext,
+                                      fontWeight: EshopFontweight.medium,
+                                      color: Appcolors.promptColor),
+                                ),
+                              ],
+                            )
+                          else
+                            Text(
+                              '\$${data[index].price.toStringAsFixed(2)}',
+                              style: GoogleFonts.roboto(
+                                  fontSize: EshopTypography.onboadingbody,
+                                  fontWeight: EshopFontweight.medium,
+                                  color: Appcolors.textColor),
+                            ),
+                          IconButton(
+                              onPressed: () {
+                                // setState(() {
+                                //   wishlist = !wishlist;
+                                // });
+                              },
+                              icon: const Icon(
+                                Iconsax.heart5,
+                                color: Appcolors.promptColor,
+                              )
+                              // : const Icon(
+                              //   Iconsax.heart,
+                              //   color: Appcolors.iconColor,
+                              // )
+                              )
+                        ],
+                      ),
+                      Text(
+                        '${data[index].name} - ${data[index].description}',
+                        softWrap: true,
+                        overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        style: GoogleFonts.roboto(
+                            color: Appcolors.subtextColor,
+                            fontSize: EshopTypography.homepagecategories,
+                            fontWeight: EshopFontweight.regular),
                       )
-            ],
-          ),
-          Text(
-            '${data[index].name} - ${data[index].description}',
-            softWrap: true,
-            overflow: TextOverflow.ellipsis,
-            maxLines: 2,
-            style: GoogleFonts.roboto(
-                color: Appcolors.subtextColor,
-                fontSize: EshopTypography.homepagecategories,
-                fontWeight: EshopFontweight.regular),
-          )
-        ],
-      ),
-    );
-      }
-    );
-
-    }, error: (error, StackTrace) => ErrorWidget(error.toString()), loading: ()=> Loader());
+                    ],
+                  ),
+                );
+              });
+        },
+        error: (error, StackTrace) => ErrorWidget(error.toString()),
+        loading: () => Loader());
   }
-  
 }
 
 // // Item
@@ -713,7 +720,7 @@ class ProductWidget extends ConsumerWidget{
 //   @override
 //   void initState() {
 //     super.initState();
-//    wishlist = Fakedata.techProducts[widget.indexx].isWishlist; 
+//    wishlist = Fakedata.techProducts[widget.indexx].isWishlist;
 //   }
 //   @override
 //   Widget build(BuildContext context,) {

@@ -2,16 +2,16 @@
 import 'dart:convert';
 
 class ProductModel {
-  String ProductId;
-  String name;
-  String image;
-  String price;
-  String oldPrice;
+  String? productId;
+  String? name;
+  String? image;
+  double price;
+  double? oldPrice;
   bool? isAvailable;
-  String description;
-  String categoryname;
+  String? description;
+  String? categoryname;
   ProductModel({
-    required this.ProductId,
+    required this.productId,
     required this.name,
     required this.image,
     required this.price,
@@ -22,17 +22,17 @@ class ProductModel {
   });
 
   ProductModel copyWith({
-    String? ProductId,
+    String? productId,
     String? name,
     String? image,
-    String? price,
-    String? oldPrice,
+    double? price,
+    double? oldPrice,
     bool? isAvailable,
     String? description,
     String? categoryname,
   }) {
     return ProductModel(
-      ProductId: ProductId ?? this.ProductId,
+      productId: productId ?? this.productId,
       name: name ?? this.name,
       image: image ?? this.image,
       price: price ?? this.price,
@@ -45,7 +45,7 @@ class ProductModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'ProductId': ProductId,
+      'ProductId': productId,
       'name': name,
       'image': image,
       'price': price,
@@ -58,11 +58,11 @@ class ProductModel {
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      ProductId: map['ProductId'] as String,
+      productId: map['ProductId'] as String,
       name: map['name'] as String,
       image: map['image'] as String,
-      price: map['price'] as String,
-      oldPrice: map['oldPrice'] as String,
+      price: map['price'] (map['price'] as num).toDouble(),
+      oldPrice: map['oldPrice'] != null ? map['oldPrice'] (map['oldPrice'] as num).toDouble() : null,  // Null check,
       isAvailable: map['isAvailable'] != null ? map['isAvailable'] as bool : null,
       description: map['description'] as String,
       categoryname: map['categoryname'] as String,
@@ -75,7 +75,7 @@ class ProductModel {
 
   @override
   String toString() {
-    return 'ProductModel(ProductId: $ProductId, name: $name, image: $image, price: $price, oldPrice: $oldPrice, isAvailable: $isAvailable, description: $description, categoryname: $categoryname)';
+    return 'ProductModel(ProductId: $productId, name: $name, image: $image, price: $price, oldPrice: $oldPrice, isAvailable: $isAvailable, description: $description, categoryname: $categoryname)';
   }
 
   @override
@@ -83,7 +83,7 @@ class ProductModel {
     if (identical(this, other)) return true;
   
     return 
-      other.ProductId == ProductId &&
+      other.productId == productId &&
       other.name == name &&
       other.image == image &&
       other.price == price &&
@@ -95,7 +95,7 @@ class ProductModel {
 
   @override
   int get hashCode {
-    return ProductId.hashCode ^
+    return productId.hashCode ^
       name.hashCode ^
       image.hashCode ^
       price.hashCode ^
