@@ -8,7 +8,7 @@ final categoriesControllerProvider = StateNotifierProvider<CategoriesController,
   return CategoriesController(categoryService: categoriesServices, ref: ref);
 });
 
-final getsProductsProvider = StreamProvider((ref){
+final getsCategoriesProvider = StreamProvider((ref){
   final categoriesController = ref.watch(categoriesControllerProvider.notifier);
   return categoriesController.getCategories();
 });

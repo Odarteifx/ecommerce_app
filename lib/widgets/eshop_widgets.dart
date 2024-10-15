@@ -3,6 +3,7 @@ import 'dart:math';
 
 import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_app/controllers/product_controller.dart';
 import 'package:ecommerce_app/models/product_models.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -516,7 +517,7 @@ class categoriesWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return SizedBox(
       height: 60.h,
-      child: ref.watch(getsProductsProvider).when(data: (data) => ListView.builder(
+      child: ref.watch(getsCategoriesProvider).when(data: (data) => ListView.builder(
         itemCount: data.length,
         scrollDirection: Axis.horizontal,
         
@@ -567,6 +568,8 @@ class categoriesWidget extends ConsumerWidget {
 }
 
 class Loader extends StatelessWidget {
+  const Loader({super.key});
+
   @override
   Widget build(BuildContext context) {
    return const CircularProgressIndicator();
@@ -575,8 +578,8 @@ class Loader extends StatelessWidget {
 }
 
 class ErrorText extends StatelessWidget {
-  String error;
-   ErrorText({
+  final String error;
+   const ErrorText({
     super.key,
     required this.error,
   });
@@ -586,99 +589,23 @@ class ErrorText extends StatelessWidget {
   }
 }
 
-
-// //Categories tile
-// class Categoriestile extends StatelessWidget {
-//   final String iconUrl;
-//   final String iconName;
-
-//   const Categoriestile({
-//     super.key,
-//     required this.iconUrl,
-//     required this.iconName,
-//   });
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       height: 60.h,
-//       width: 150.w,
-//       decoration: BoxDecoration(
-//           color: Appcolors.widgetcolor,
-//           borderRadius: BorderRadius.all(Radius.circular(10.sp))),
-//       child: GestureDetector(
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           children: [
-//             Image(
-//               image: AssetImage(iconUrl),
-//               height: 30.h,
-//             ),
-//             SizedBox(
-//               width: 8.w,
-//             ),
-//             Text(
-//               iconName,
-//               style: GoogleFonts.roboto(
-//                   fontSize: EshopTypography.homepagecategories),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-
-
-// // Categories section
-// class CategoriesSection extends StatelessWidget {
-//   const CategoriesSection({
-//     super.key,
-//     required this.iconList,
-//   });
-
-//   final List iconList;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SingleChildScrollView(
-//       scrollDirection: Axis.horizontal,
-//       child: Row(
-//           children: iconList.map((iconData) {
-//         return Padding(
-//           padding: EdgeInsets.symmetric(horizontal: 8.w),
-//           child: categoriesWidget());
-//       }).toList()),
-//     );
-//   }
-// }
-
-
-
-
-
-// Item
-class ItemTile extends StatefulWidget {
-  final int indexx;
-  const ItemTile(int index, {super.key, required this.indexx});
-
+class ProductWidget extends ConsumerWidget{
   @override
-  State<ItemTile> createState() => _ItemTileState();
-}
-
-class _ItemTileState extends State<ItemTile> {
-  late bool wishlist;
-
-  @override
-  void initState() {
-    super.initState();
-   wishlist = Fakedata.techProducts[widget.indexx].isWishlist; 
-  }
-  @override
-  Widget build(BuildContext context,) {
-
-    return Container(
+  Widget build(BuildContext context, WidgetRef ref) {
+    final product = ref.watch(getsProductsProvider);
+    return product.when(data: (data){
+      return GridView.builder(
+      itemCount: data.length,
+      shrinkWrap: true,
+      padding: EdgeInsets.symmetric(horizontal: 20.h),
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 20.h,
+          crossAxisSpacing: 20.sp,
+          mainAxisExtent: 250.sp),
+      itemBuilder: (context, index) {
+        return Container(
       height: 245.h,
       width: 165.w,
       child: Column(
@@ -691,8 +618,8 @@ class _ItemTileState extends State<ItemTile> {
             decoration: BoxDecoration(
                 color: Appcolors.widgetcolor,
                 borderRadius: BorderRadius.circular(10.sp)),
-            child: Image.asset(
-              Fakedata.techProducts[widget.indexx].productAsset,
+            child: Image.network(
+              data[index].image,
               width: 150.w,
             ),
           ),
@@ -702,31 +629,30 @@ class _ItemTileState extends State<ItemTile> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-               Fakedata.techProducts[widget.indexx].productDiscount != null?
+               data[index].oldPrice != '0'?
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                          '\$${Fakedata.techProducts[widget.indexx].productDiscount}',
+                          '\$${data[index].oldPrice}',
                           style: GoogleFonts.roboto(
                               fontWeight: EshopFontweight.medium,
                               fontSize: EshopTypography.homepagecategories,
                               decoration: TextDecoration.lineThrough),
                         ),
                   Text(
-                    '\$${Fakedata.techProducts[widget.indexx].productPrice}',
+                    '\$${data[index].price}',
                     style: GoogleFonts.roboto(
                         fontSize: EshopTypography.subtext,
                         fontWeight: EshopFontweight.medium,
-                        color: Fakedata.techProducts[widget.indexx]
-                                    .productDiscount ==
-                                null
+                        color: data[index].oldPrice ==
+                                '0'
                             ? Appcolors.textColor
                             : Appcolors.promptColor),
                   ),
                 ],
               ) : Text(
-                    '\$${Fakedata.techProducts[widget.indexx].productPrice}',
+                    '\$${data[index].price}',
                     style: GoogleFonts.roboto(
                         fontSize: EshopTypography.onboadingbody,
                         fontWeight: EshopFontweight.medium,
@@ -735,24 +661,24 @@ class _ItemTileState extends State<ItemTile> {
                   ) ,
               IconButton(
                   onPressed: () {
-                    setState(() {
-                      wishlist = !wishlist;
-                    });
+                    // setState(() {
+                    //   wishlist = !wishlist;
+                    // });
                   },
-                  icon: wishlist
-                      ?
+                  icon: 
                       const Icon(
                           Iconsax.heart5,
                           color: Appcolors.promptColor,
-                        ) : const Icon(
-                          Iconsax.heart,
-                          color: Appcolors.iconColor,
-                        )
+                        ) 
+                        // : const Icon(
+                        //   Iconsax.heart,
+                        //   color: Appcolors.iconColor,
+                        // )
                       )
             ],
           ),
           Text(
-            Fakedata.techProducts[widget.indexx].productName,
+            '${data[index].name} - ${data[index].description}',
             softWrap: true,
             overflow: TextOverflow.ellipsis,
             maxLines: 2,
@@ -764,31 +690,145 @@ class _ItemTileState extends State<ItemTile> {
         ],
       ),
     );
-  }
-}
-
-//Products layout
-class PGridLayout extends StatelessWidget {
-  const PGridLayout({
-    super.key,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return GridView.builder(
-      itemCount: Fakedata.techProducts.length,
-      shrinkWrap: true,
-      padding: EdgeInsets.symmetric(horizontal: 20.h),
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 20.h,
-          crossAxisSpacing: 20.sp,
-          mainAxisExtent: 250.sp),
-      itemBuilder: (context, index) => ItemTile(index, indexx: index,),
+      }
     );
+
+    }, error: (error, StackTrace) => ErrorWidget(error.toString()), loading: ()=> Loader());
   }
+  
 }
+
+// // Item
+// class ItemTile extends StatefulWidget {
+//   final int indexx;
+//   const ItemTile(int index, {super.key, required this.indexx});
+
+//   @override
+//   State<ItemTile> createState() => _ItemTileState();
+// }
+
+// class _ItemTileState extends State<ItemTile> {
+//   late bool wishlist;
+
+//   @override
+//   void initState() {
+//     super.initState();
+//    wishlist = Fakedata.techProducts[widget.indexx].isWishlist; 
+//   }
+//   @override
+//   Widget build(BuildContext context,) {
+
+//     return Container(
+//       height: 245.h,
+//       width: 165.w,
+//       child: Column(
+//         mainAxisAlignment: MainAxisAlignment.start,
+//         crossAxisAlignment: CrossAxisAlignment.start,
+//         children: [
+//           Container(
+//             height: 165.sp,
+//             width: 165.w,
+//             decoration: BoxDecoration(
+//                 color: Appcolors.widgetcolor,
+//                 borderRadius: BorderRadius.circular(10.sp)),
+//             child: Image.asset(
+//               Fakedata.techProducts[widget.indexx].productAsset,
+//               width: 150.w,
+//             ),
+//           ),
+//           SizedBox(
+//             height: 5.h,
+//           ),
+//           Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//                Fakedata.techProducts[widget.indexx].productDiscount != null?
+//               Column(
+//                 crossAxisAlignment: CrossAxisAlignment.start,
+//                 children: [
+//                   Text(
+//                           '\$${Fakedata.techProducts[widget.indexx].productDiscount}',
+//                           style: GoogleFonts.roboto(
+//                               fontWeight: EshopFontweight.medium,
+//                               fontSize: EshopTypography.homepagecategories,
+//                               decoration: TextDecoration.lineThrough),
+//                         ),
+//                   Text(
+//                     '\$${Fakedata.techProducts[widget.indexx].productPrice}',
+//                     style: GoogleFonts.roboto(
+//                         fontSize: EshopTypography.subtext,
+//                         fontWeight: EshopFontweight.medium,
+//                         color: Fakedata.techProducts[widget.indexx]
+//                                     .productDiscount ==
+//                                 null
+//                             ? Appcolors.textColor
+//                             : Appcolors.promptColor),
+//                   ),
+//                 ],
+//               ) : Text(
+//                     '\$${Fakedata.techProducts[widget.indexx].productPrice}',
+//                     style: GoogleFonts.roboto(
+//                         fontSize: EshopTypography.onboadingbody,
+//                         fontWeight: EshopFontweight.medium,
+//                         color:  Appcolors.textColor
+//                         ),
+//                   ) ,
+//               IconButton(
+//                   onPressed: () {
+//                     setState(() {
+//                       wishlist = !wishlist;
+//                     });
+//                   },
+//                   icon: wishlist
+//                       ?
+//                       const Icon(
+//                           Iconsax.heart5,
+//                           color: Appcolors.promptColor,
+//                         ) : const Icon(
+//                           Iconsax.heart,
+//                           color: Appcolors.iconColor,
+//                         )
+//                       )
+//             ],
+//           ),
+//           Text(
+//             Fakedata.techProducts[widget.indexx].productName,
+//             softWrap: true,
+//             overflow: TextOverflow.ellipsis,
+//             maxLines: 2,
+//             style: GoogleFonts.roboto(
+//                 color: Appcolors.subtextColor,
+//                 fontSize: EshopTypography.homepagecategories,
+//                 fontWeight: EshopFontweight.regular),
+//           )
+//         ],
+//       ),
+//     );
+//   }
+// }
+
+// //Products layout
+// class PGridLayout extends StatelessWidget {
+//   const PGridLayout({
+//     super.key,
+//   });
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GridView.builder(
+//       itemCount: Fakedata.techProducts.length,
+//       shrinkWrap: true,
+//       padding: EdgeInsets.symmetric(horizontal: 20.h),
+//       physics: const NeverScrollableScrollPhysics(),
+//       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//           crossAxisCount: 2,
+//           mainAxisSpacing: 20.h,
+//           crossAxisSpacing: 20.sp,
+//           mainAxisExtent: 250.sp),
+//       itemBuilder: (context, index) => ItemTile(index, indexx: index,),
+//     );
+//   }
+// }
 
 //Profile Widgets
 class ProfileWidget extends StatelessWidget {
