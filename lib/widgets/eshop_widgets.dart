@@ -601,6 +601,8 @@ class ProductWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ref.watch(getsProductsProvider);
+    print(product);
+
     return product.when(
         data: (data) {
         

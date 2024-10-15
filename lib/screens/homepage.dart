@@ -1,11 +1,8 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
-import 'package:ecommerce_app/controllers/categories_controller.dart';
-import 'package:ecommerce_app/services/categories_services.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
