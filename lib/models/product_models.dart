@@ -2,14 +2,14 @@
 import 'dart:convert';
 
 class ProductModel {
-  String? productId;
-  String? name;
-  String? image;
+  String productId;
+  String name;
+  String image;
   double price;
   double? oldPrice;
   bool? isAvailable;
-  String? description;
-  String? categoryname;
+  String description;
+  String categoryname;
   ProductModel({
     required this.productId,
     required this.name,
