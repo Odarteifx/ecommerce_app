@@ -601,11 +601,8 @@ class ProductWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ref.watch(getsProductsProvider);
-    print(product);
-
     return product.when(
         data: (data) {
-        
           return GridView.builder(
               itemCount: data.length,
               shrinkWrap: true,
@@ -624,15 +621,20 @@ class ProductWidget extends ConsumerWidget {
                     mainAxisAlignment: MainAxisAlignment.start,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: 165.sp,
-                        width: 165.w,
-                        decoration: BoxDecoration(
-                            color: Appcolors.widgetcolor,
-                            borderRadius: BorderRadius.circular(10.sp)),
-                        child: Image.network(
-                          data[index].image.toString(),
-                          width: 150.w,
+                      GestureDetector(
+                        onTap: () {
+                          print(data[index].productId);
+                        },
+                        child: Container(
+                          height: 165.sp,
+                          width: 165.w,
+                          decoration: BoxDecoration(
+                              color: Appcolors.widgetcolor,
+                              borderRadius: BorderRadius.circular(10.sp)),
+                          child: Image.network(
+                            data[index].image.toString(),
+                            width: 150.w,
+                          ),
                         ),
                       ),
                       SizedBox(

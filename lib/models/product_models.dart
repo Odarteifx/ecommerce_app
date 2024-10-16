@@ -58,13 +58,13 @@ class ProductModel {
 
   factory ProductModel.fromMap(Map<String, dynamic> map) {
     return ProductModel(
-      productId: map['ProductId'] as String,
+      productId: map['productId'] != null ? map['productId'] as String : '', 
       name: map['name'] as String,
       image: map['image'] as String,
-      price: map['price'] (map['price'] as num).toDouble(),
-      oldPrice: map['oldPrice'] != null ? map['oldPrice'] (map['oldPrice'] as num).toDouble() : null,  // Null check,
+      price: (map['price'] as num).toDouble(),
+      oldPrice: map['oldPrice'] != null ? (map['oldPrice'] as num).toDouble() : null, // Null check,
       isAvailable: map['isAvailable'] != null ? map['isAvailable'] as bool : null,
-      description: map['description'] as String,
+      description: map['description']?.toString() ?? '',
       categoryname: map['categoryname'] as String,
     );
   }
