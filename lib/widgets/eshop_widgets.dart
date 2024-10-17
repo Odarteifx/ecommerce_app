@@ -614,18 +614,18 @@ class ProductWidget extends ConsumerWidget {
                   crossAxisSpacing: 20.sp,
                   mainAxisExtent: 250.sp),
               itemBuilder: (context, index) {
-                return Container(
-                  height: 245.h,
-                  width: 165.w,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          print(data[index].productId);
-                        },
-                        child: Container(
+                return GestureDetector(
+                  onTap: () {
+                          print(data[index].productId); 
+                  },
+                  child: Container(
+                    height: 245.h,
+                    width: 165.w,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
                           height: 165.sp,
                           width: 165.w,
                           decoration: BoxDecoration(
@@ -636,70 +636,70 @@ class ProductWidget extends ConsumerWidget {
                             width: 150.w,
                           ),
                         ),
-                      ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          if (data[index].oldPrice != null)
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  '\$${data[index].oldPrice?.toStringAsFixed(2)}',
-                                  style: GoogleFonts.roboto(
-                                      fontWeight: EshopFontweight.medium,
-                                      fontSize:
-                                          EshopTypography.homepagecategories,
-                                      decoration: TextDecoration.lineThrough),
-                                ),
-                                Text(
-                                  '\$${data[index].price}',
-                                  style: GoogleFonts.roboto(
-                                      fontSize: EshopTypography.subtext,
-                                      fontWeight: EshopFontweight.medium,
-                                      color: Appcolors.promptColor),
-                                ),
-                              ],
-                            )
-                          else
-                            Text(
-                              '\$${data[index].price.toStringAsFixed(2)}',
-                              style: GoogleFonts.roboto(
-                                  fontSize: EshopTypography.onboadingbody,
-                                  fontWeight: EshopFontweight.medium,
-                                  color: Appcolors.textColor),
-                            ),
-                          IconButton(
-                              onPressed: () {
-                                // setState(() {
-                                //   wishlist = !wishlist;
-                                // });
-                              },
-                              icon: const Icon(
-                                Iconsax.heart5,
-                                color: Appcolors.promptColor,
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            if (data[index].oldPrice != null)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    '\$${data[index].oldPrice?.toStringAsFixed(2)}',
+                                    style: GoogleFonts.roboto(
+                                        fontWeight: EshopFontweight.medium,
+                                        fontSize:
+                                            EshopTypography.homepagecategories,
+                                        decoration: TextDecoration.lineThrough),
+                                  ),
+                                  Text(
+                                    '\$${data[index].price}',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: EshopTypography.subtext,
+                                        fontWeight: EshopFontweight.medium,
+                                        color: Appcolors.promptColor),
+                                  ),
+                                ],
                               )
-                              // : const Icon(
-                              //   Iconsax.heart,
-                              //   color: Appcolors.iconColor,
-                              // )
-                              )
-                        ],
-                      ),
-                      Text(
-                        '${data[index].name} - ${data[index].description}',
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
-                        style: GoogleFonts.roboto(
-                            color: Appcolors.subtextColor,
-                            fontSize: EshopTypography.homepagecategories,
-                            fontWeight: EshopFontweight.regular),
-                      )
-                    ],
+                            else
+                              Text(
+                                '\$${data[index].price.toStringAsFixed(2)}',
+                                style: GoogleFonts.roboto(
+                                    fontSize: EshopTypography.onboadingbody,
+                                    fontWeight: EshopFontweight.medium,
+                                    color: Appcolors.textColor),
+                              ),
+                            IconButton(
+                                onPressed: () {
+                                  // setState(() {
+                                  //   wishlist = !wishlist;
+                                  // });
+                                },
+                                icon: const Icon(
+                                  Iconsax.heart5,
+                                  color: Appcolors.promptColor,
+                                )
+                                // : const Icon(
+                                //   Iconsax.heart,
+                                //   color: Appcolors.iconColor,
+                                // )
+                                )
+                          ],
+                        ),
+                        Text(
+                          '${data[index].name} - ${data[index].description}',
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: GoogleFonts.roboto(
+                              color: Appcolors.subtextColor,
+                              fontSize: EshopTypography.homepagecategories,
+                              fontWeight: EshopFontweight.regular),
+                        )
+                      ],
+                    ),
                   ),
                 );
               });

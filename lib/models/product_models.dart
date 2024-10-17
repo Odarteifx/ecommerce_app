@@ -56,7 +56,7 @@ class ProductModel {
     };
   }
 
-  factory ProductModel.fromMap(Map<String, dynamic> map) {
+  factory ProductModel.fromMap(Map<String, dynamic> map,) {
     return ProductModel(
       productId: map['productId'] != null ? map['productId'] as String : '', 
       name: map['name'] as String,

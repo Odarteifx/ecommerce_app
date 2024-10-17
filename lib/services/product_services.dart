@@ -21,7 +21,6 @@ class ProductServices {
     return _products.snapshots().map((event) {
       List<ProductModel> productList = [];
       for (var doc in event.docs) {
-        print('Document data: ${doc.data()}');
         productList
             .add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
       }
