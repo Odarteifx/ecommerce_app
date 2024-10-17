@@ -22,7 +22,7 @@ class ProductDetailsPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(height: 30.h,),
+            //SizedBox(height: 30.h,),
             Stack(
               children: [
                 Container(
@@ -38,12 +38,14 @@ class ProductDetailsPage extends StatelessWidget {
                   ),
                 ),
                 Positioned(
+                  top: 50.sp,
                  left: 5.sp,
                   
                   child: IconButton(onPressed: (){
                     Navigator.pop(context);
                   }, icon: Icon(Icons.arrow_back_ios_new_sharp))),
                   Positioned(
+                    top: 50.sp,
                     right: 5.sp,
                     child: Row(
                       children: [
