@@ -20,6 +20,7 @@ import 'package:ecommerce_app/services/categories_services.dart';
 
 import '../constants/eshop_assets.dart';
 import '../constants/eshop_typography.dart';
+import '../screens/product_details_page.dart';
 
 //Onboarding and pageview Images
 class OnboardingAsset extends StatelessWidget {
@@ -616,7 +617,7 @@ class ProductWidget extends ConsumerWidget {
               itemBuilder: (context, index) {
                 return GestureDetector(
                   onTap: () {
-                          print(data[index].productId); 
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
                   },
                   child: Container(
                     height: 245.h,
