@@ -896,3 +896,32 @@ class ProfileWidget extends StatelessWidget {
     );
   }
 }
+
+class AddToCart extends StatelessWidget {
+  const AddToCart(
+      {super.key, required this.buttonText, required this.function});
+
+  final String buttonText;
+  final VoidCallback function;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 50.h,
+      width: double.infinity,
+      child: FilledButton(
+        style: FilledButton.styleFrom(
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5)),
+            backgroundColor: Appcolors.primaryColor),
+        onPressed: function,
+        child: Text(
+          buttonText,
+          style: GoogleFonts.roboto(
+              fontSize: EshopTypography.subtext,
+              fontWeight: EshopFontweight.medium),
+        ),
+      ),
+    );
+  }
+}
