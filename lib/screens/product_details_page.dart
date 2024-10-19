@@ -64,46 +64,54 @@ class ProductDetailsPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(height: 5.h,),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Text(product.categoryname),
+                  SizedBox(
+                    height: 5.h,
+                  ),
                   if (product.oldPrice != null)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Row(
-                                    children: [
-                                      Text(
-                                        '\$${product.oldPrice?.toStringAsFixed(2)}',
-                                        style: GoogleFonts.roboto(
-                                            fontWeight: EshopFontweight.medium,
-                                            fontSize:
-                                                EshopTypography.termsfont,
-                                            decoration: TextDecoration.lineThrough),
-                                      ),
-                                      SizedBox( width: 10.w,),
-                                       GestureDetector(
-                                        onTap: () {
-                                        
-                                        },
-                                        child: Icon(Icons.info_outline, size: 18,)),
-                                    ],
-                                  ),
-                                  Text(
-                                    '\$${product.price}',
-                                    style: GoogleFonts.roboto(
-                                        fontSize: EshopTypography.onboadingbody,
-                                        fontWeight: EshopFontweight.bold,
-                                        color: Appcolors.promptColor),
-                                  ),
-                                ],
-                              )
-                            else
-                              Text(
-                                '\$${product.price.toStringAsFixed(2)}',
-                                style: GoogleFonts.roboto(
-                                    fontSize: EshopTypography.onboadingbody,
-                                    fontWeight: EshopFontweight.bold,
-                                    color: Appcolors.textColor),
-                              ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          children: [
+                            Text(
+                              '\$${product.oldPrice?.toStringAsFixed(2)}',
+                              style: GoogleFonts.roboto(
+                                  fontWeight: EshopFontweight.medium,
+                                  fontSize: EshopTypography.termsfont,
+                                  decoration: TextDecoration.lineThrough),
+                            ),
+                            SizedBox(
+                              width: 10.w,
+                            ),
+                            GestureDetector(
+                                onTap: () {},
+                                child: Icon(
+                                  Icons.info_outline,
+                                  size: 18,
+                                )),
+                          ],
+                        ),
+                        Text(
+                          '\$${product.price}',
+                          style: GoogleFonts.roboto(
+                              fontSize: EshopTypography.onboadingbody,
+                              fontWeight: EshopFontweight.bold,
+                              color: Appcolors.promptColor),
+                        ),
+                      ],
+                    )
+                  else
+                    Text(
+                      '\$${product.price.toStringAsFixed(2)}',
+                      style: GoogleFonts.roboto(
+                          fontSize: EshopTypography.onboadingbody,
+                          fontWeight: EshopFontweight.bold,
+                          color: Appcolors.textColor),
+                    ),
                   Text(
                     product.name,
                     style: GoogleFonts.roboto(
@@ -113,12 +121,13 @@ class ProductDetailsPage extends StatelessWidget {
                   Text(
                     product.description,
                     style: GoogleFonts.roboto(
-                      fontSize: EshopTypography.subtext,
-                      fontWeight: EshopFontweight.light
-                    ),
+                        fontSize: EshopTypography.subtext,
+                        fontWeight: EshopFontweight.light),
                   ),
-                  SizedBox(height: 100.h,),
-                 AddToCart(buttonText: 'Add To Cart', function: (){})
+                  SizedBox(
+                    height: 80.h,
+                  ),
+                  AddToCart(buttonText: 'Add To Cart', function: () {})
                 ],
               ),
             )
