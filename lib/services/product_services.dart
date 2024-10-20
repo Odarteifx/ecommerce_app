@@ -28,6 +28,19 @@ class ProductServices {
     });
   }
 
+  Stream<List<ProductModel>> getProductsbyCategory(String categoryname) {
+    return _products
+        .where('categoryname', isEqualTo: categoryname)
+        .snapshots()
+        .map((event) {
+      List<ProductModel> products = [];
+      for (var doc in event.docs) {
+        products.add(ProductModel.fromJson(doc.data() as String));
+      }
+      return products;
+    });
+  }
+
   Stream<ProductModel> getProductId(String productId) {
     return _products.doc(productId).snapshots().map((event) {
       return ProductModel.fromMap(event.data() as Map<String, dynamic>);

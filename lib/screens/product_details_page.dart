@@ -67,7 +67,7 @@ class ProductDetailsPage extends StatelessWidget {
                   SizedBox(
                     height: 5.h,
                   ),
-                  Text(product.categoryname),
+                  Text(product.categoryname, ),
                   SizedBox(
                     height: 5.h,
                   ),
