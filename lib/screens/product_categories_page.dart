@@ -11,8 +11,8 @@ import 'package:iconsax/iconsax.dart';
 import '../constants/eshop_typography.dart';
 
 class ProductsbyCategoryPage extends ConsumerWidget {
-  String categoryname;
-  ProductsbyCategoryPage({required this.categoryname, super.key});
+  final String categoryname;
+  const ProductsbyCategoryPage({required this.categoryname, super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -21,7 +21,9 @@ class ProductsbyCategoryPage extends ConsumerWidget {
       appBar: AppBar(title: Text(categoryname),),
       body: products.when(
         data: (data) {
-          return GridView.builder(
+          return 
+          data.isNotEmpty?
+           GridView.builder(
               itemCount: data.length,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -120,7 +122,7 @@ class ProductsbyCategoryPage extends ConsumerWidget {
                     ),
                   ),
                 );
-              });
+              }): Center(child: Text('No Products Available', style: GoogleFonts.roboto(color: Appcolors.iconColor, fontSize: EshopTypography.homepagecategories),),);
         },
         error: (error, StackTrace) => ErrorWidget(error.toString()),
         loading: () => Loader())

@@ -64,7 +64,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
     {'id': 2, 'image_path': EshopAssets.banner2},
     {'id': 3, 'image_path': EshopAssets.banner2},
   ];
-  
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,35 +97,39 @@ class _EshopHomePageState extends State<EshopHomePage> {
       backgroundColor: Appcolors.backgroundColor,
       body: <Widget>[
         HomePage(
-            searchcontroller: _searchcontroller,
-            carouselController: _carouselController,
-            imageList: imageList,
-          ),
+          searchcontroller: _searchcontroller,
+          carouselController: _carouselController,
+          imageList: imageList,
+        ),
         WishlistPage(
           searchcontroller: TextEditingController(),
         ),
-        SafeArea(child: Padding(
+        SafeArea(
+            child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 20.h),
-           child: Column(
+          child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 15.h,),
-             Text(
-            'My Cart',
-            style: GoogleFonts.roboto(
-                fontSize: EshopTypography.heading2,
-                fontWeight: EshopFontweight.medium),
-          ), 
-          SizedBox(height: 20.h,),
-          Column(
-            children: [
-              Container(height: 60.h,
-              decoration: BoxDecoration(
-                color: Appcolors.iconColor
-              ) ,
+              SizedBox(
+                height: 15.h,
+              ),
+              Text(
+                'My Cart',
+                style: GoogleFonts.roboto(
+                    fontSize: EshopTypography.heading2,
+                    fontWeight: EshopFontweight.medium),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Column(
+                children: [
+                  Container(
+                    height: 60.h,
+                    decoration: BoxDecoration(color: Appcolors.iconColor),
+                  )
+                ],
               )
-            ],
-          )
             ],
           ),
         )),
@@ -137,7 +141,7 @@ class _EshopHomePageState extends State<EshopHomePage> {
 
 //HomePage(searchcontroller: _searchcontroller, carouselController: _carouselController, imageList: imageList, iconList: iconList))
 class HomePage extends StatelessWidget {
-   const HomePage({
+  const HomePage({
     super.key,
     required TextEditingController searchcontroller,
     required CarouselSliderController carouselController,
@@ -148,7 +152,6 @@ class HomePage extends StatelessWidget {
   final TextEditingController _searchcontroller;
   final CarouselSliderController _carouselController;
   final List imageList;
- 
 
   @override
   Widget build(BuildContext context) {
@@ -174,7 +177,6 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 15.h,
                   ),
-                  //CategoriesSection(iconList: iconList),
                   categoriesWidget(),
                   SizedBox(
                     height: 20.h,
@@ -189,9 +191,7 @@ class HomePage extends StatelessWidget {
                                 fontSize: EshopTypography.subtext,
                                 fontWeight: EshopFontweight.semibold)),
                         GestureDetector(
-                          onTap: () {
-                            
-                          },
+                          onTap: () {},
                           child: Text(
                             'See more',
                             style: GoogleFonts.roboto(
@@ -206,7 +206,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 14.h,
                   ),
-                 ProductWidget(),
+                  ProductWidget(),
                 ],
               ),
             ),
@@ -337,7 +337,7 @@ class WishlistPage extends StatelessWidget {
                       Row(
                         children: [
                           InkWell(
-                            onTap: (){},
+                            onTap: () {},
                             child: Container(
                               height: 35.h,
                               width: 120.w,

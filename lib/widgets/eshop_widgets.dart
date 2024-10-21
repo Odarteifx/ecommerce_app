@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/controllers/product_controller.dart';
 import 'package:ecommerce_app/models/product_models.dart';
+import 'package:ecommerce_app/screens/product_categories_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -527,8 +528,7 @@ class categoriesWidget extends ConsumerWidget {
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
                       child: GestureDetector(
                         onTap: () {
-                          //Input action
-                          print(data[index]);
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsbyCategoryPage(categoryname: data[index].name.toString()),));
                         },
                         child: Container(
                           height: 60.h,

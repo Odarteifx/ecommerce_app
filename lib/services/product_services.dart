@@ -35,7 +35,7 @@ class ProductServices {
         .map((event) {
       List<ProductModel> products = [];
       for (var doc in event.docs) {
-        products.add(ProductModel.fromJson(doc.data() as String));
+        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
       }
       return products;
     });
