@@ -14,6 +14,9 @@ class ProductDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
     return Scaffold(
+      bottomNavigationBar: BottomAppBar(
+          color: Appcolors.backgroundColor,
+          child: AddToCart(buttonText: 'Add To Cart', function: () {})),
       backgroundColor: Appcolors.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
@@ -62,7 +65,9 @@ class ProductDetailsPage extends StatelessWidget {
                   SizedBox(
                     height: 5.h,
                   ),
-                  Text(product.categoryname, ),
+                  Text(
+                    product.categoryname,
+                  ),
                   SizedBox(
                     height: 5.h,
                   ),
@@ -122,7 +127,7 @@ class ProductDetailsPage extends StatelessWidget {
                   SizedBox(
                     height: 80.h,
                   ),
-                  AddToCart(buttonText: 'Add To Cart', function: () {})
+                  // AddToCart(buttonText: 'Add To Cart', function: () {})
                 ],
               ),
             )
