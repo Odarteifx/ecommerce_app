@@ -14,12 +14,7 @@ class ProductDetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
     return Scaffold(
-      // appBar: AppBar(
-      //   backgroundColor: Appcolors.widgetcolor,
-      //   actions: [
-      //     IconButton(onPressed: (){}, icon: Icon(Iconsax.shopping_cart))
-      //   ],
-      // ),
+      backgroundColor: Appcolors.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
