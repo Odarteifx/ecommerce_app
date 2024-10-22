@@ -39,6 +39,20 @@ class ProductServices {
       }
       return products;
     });
+    
+  }
+
+  Stream<List<ProductModel>> getRelatedProducts(String categoryname) {
+    return _products
+        .where('categoryname', isEqualTo: categoryname)
+        .snapshots()
+        .map((event) {
+      List<ProductModel> products = [];
+      for (var doc in event.docs) {
+        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
+      }
+      return products;
+    });
   }
 
   Stream<ProductModel> getProductId(String productId) {
