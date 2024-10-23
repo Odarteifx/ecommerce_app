@@ -149,7 +149,7 @@ class ProductDetailsPage extends StatelessWidget {
                      SizedBox(
                     height: 14.h,
                   ),
-                  RelatedProductsWidget(categoryname: product.categoryname)
+                  RelatedProductsWidget(categoryname: product.categoryname, prodctname: product.name, )
                   // AddToCart(buttonText: 'Add To Cart', function: () {})
                 ],
               ),

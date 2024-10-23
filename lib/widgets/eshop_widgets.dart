@@ -794,8 +794,10 @@ class AddToCartButton extends StatelessWidget {
 
 //Related Products Widget
 class RelatedProductsWidget extends ConsumerWidget {
+  final String prodctname;
    final String categoryname;
    const RelatedProductsWidget({super.key, 
+    required this.prodctname,
     required this.categoryname,
   });
 
@@ -803,9 +805,10 @@ class RelatedProductsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final relatedProducts = ref.watch(getRelatedProductsProvider(categoryname));
     return relatedProducts.when(data: (data){
+      final filteredData = data.where((product) => product.name != prodctname).toList();
       return Container( 
         child: GridView.builder(
-                  itemCount: data.length,
+                  itemCount: filteredData.length,
                   shrinkWrap: true,
                   padding: EdgeInsets.symmetric(horizontal: 0.h),
                   physics: const NeverScrollableScrollPhysics(),
@@ -817,6 +820,7 @@ class RelatedProductsWidget extends ConsumerWidget {
                   itemBuilder: (context, index) {
                     return GestureDetector(
                       onTap: () {
+                        print(filteredData.toList());
                         Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
                       },
                       child: Container(
@@ -833,7 +837,7 @@ class RelatedProductsWidget extends ConsumerWidget {
                                   color: Appcolors.widgetcolor,
                                   borderRadius: BorderRadius.circular(10.sp)),
                               child: Image.network(
-                                data[index].image.toString(),
+                                filteredData[index].image.toString(),
                                 width: 150.w,
                               ),
                             ),
@@ -843,12 +847,12 @@ class RelatedProductsWidget extends ConsumerWidget {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                if (data[index].oldPrice != null)
+                                if (filteredData[index].oldPrice != null)
                                   Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text(
-                                        '\$${data[index].oldPrice?.toStringAsFixed(2)}',
+                                        '\$${filteredData[index].oldPrice?.toStringAsFixed(2)}',
                                         style: GoogleFonts.roboto(
                                             fontWeight: EshopFontweight.medium,
                                             fontSize:
@@ -856,7 +860,7 @@ class RelatedProductsWidget extends ConsumerWidget {
                                             decoration: TextDecoration.lineThrough),
                                       ),
                                       Text(
-                                        '\$${data[index].price}',
+                                        '\$${filteredData[index].price}',
                                         style: GoogleFonts.roboto(
                                             fontSize: EshopTypography.subtext,
                                             fontWeight: EshopFontweight.medium,
@@ -866,7 +870,7 @@ class RelatedProductsWidget extends ConsumerWidget {
                                   )
                                 else
                                   Text(
-                                    '\$${data[index].price.toStringAsFixed(2)}',
+                                    '\$${filteredData[index].price.toStringAsFixed(2)}',
                                     style: GoogleFonts.roboto(
                                         fontSize: EshopTypography.onboadingbody,
                                         fontWeight: EshopFontweight.medium,
@@ -890,7 +894,7 @@ class RelatedProductsWidget extends ConsumerWidget {
                               ],
                             ),
                             Text(
-                              '${data[index].name} - ${data[index].description}',
+                              '${filteredData[index].name} - ${filteredData[index].description}',
                               softWrap: true,
                               overflow: TextOverflow.ellipsis,
                               maxLines: 2,
