@@ -1,11 +1,7 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
 
-import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
-import 'package:ecommerce_app/controllers/product_controller.dart';
-import 'package:ecommerce_app/models/product_models.dart';
-import 'package:ecommerce_app/screens/product_categories_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,9 +11,9 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/controllers/categories_controller.dart';
-import 'package:ecommerce_app/fakedata.dart';
+import 'package:ecommerce_app/controllers/product_controller.dart';
 import 'package:ecommerce_app/providers/eshop_providers.dart';
-import 'package:ecommerce_app/services/categories_services.dart';
+import 'package:ecommerce_app/screens/product_categories_page.dart';
 
 import '../constants/eshop_assets.dart';
 import '../constants/eshop_typography.dart';
@@ -766,8 +762,8 @@ class ProfileWidget extends StatelessWidget {
   }
 }
 
-class AddToCart extends StatelessWidget {
-  const AddToCart(
+class AddToCartButton extends StatelessWidget {
+  const AddToCartButton(
       {super.key, required this.buttonText, required this.function});
 
   final String buttonText;
@@ -792,5 +788,123 @@ class AddToCart extends StatelessWidget {
         ),
       ),
     );
+  }
+}
+
+
+//Related Products Widget
+class RelatedProductsWidget extends ConsumerWidget {
+   final String categoryname;
+   const RelatedProductsWidget({super.key, 
+    required this.categoryname,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final relatedProducts = ref.watch(getRelatedProductsProvider(categoryname));
+    return relatedProducts.when(data: (data){
+      return Container( 
+        child: GridView.builder(
+                  itemCount: data.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(horizontal: 0.h),
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20.h,
+                      crossAxisSpacing: 20.sp,
+                      mainAxisExtent: 250.sp),
+                  itemBuilder: (context, index) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
+                      },
+                      child: Container(
+                        height: 245.h,
+                        width: 165.w,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Container(
+                              height: 165.sp,
+                              width: 165.w,
+                              decoration: BoxDecoration(
+                                  color: Appcolors.widgetcolor,
+                                  borderRadius: BorderRadius.circular(10.sp)),
+                              child: Image.network(
+                                data[index].image.toString(),
+                                width: 150.w,
+                              ),
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                if (data[index].oldPrice != null)
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '\$${data[index].oldPrice?.toStringAsFixed(2)}',
+                                        style: GoogleFonts.roboto(
+                                            fontWeight: EshopFontweight.medium,
+                                            fontSize:
+                                                EshopTypography.homepagecategories,
+                                            decoration: TextDecoration.lineThrough),
+                                      ),
+                                      Text(
+                                        '\$${data[index].price}',
+                                        style: GoogleFonts.roboto(
+                                            fontSize: EshopTypography.subtext,
+                                            fontWeight: EshopFontweight.medium,
+                                            color: Appcolors.promptColor),
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  Text(
+                                    '\$${data[index].price.toStringAsFixed(2)}',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: EshopTypography.onboadingbody,
+                                        fontWeight: EshopFontweight.medium,
+                                        color: Appcolors.textColor),
+                                  ),
+                                IconButton(
+                                    onPressed: () {
+                                      // setState(() {
+                                      //   wishlist = !wishlist;
+                                      // });
+                                    },
+                                    icon: const Icon(
+                                      Iconsax.heart5,
+                                      color: Appcolors.promptColor,
+                                    )
+                                    // : const Icon(
+                                    //   Iconsax.heart,
+                                    //   color: Appcolors.iconColor,
+                                    // )
+                                    )
+                              ],
+                            ),
+                            Text(
+                              '${data[index].name} - ${data[index].description}',
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: GoogleFonts.roboto(
+                                  color: Appcolors.subtextColor,
+                                  fontSize: EshopTypography.homepagecategories,
+                                  fontWeight: EshopFontweight.regular),
+                            )
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+           );
+    }, error: (error, StackTrace)=> ErrorText(error: error.toString()), loading: ()=>Loader());
   }
 }

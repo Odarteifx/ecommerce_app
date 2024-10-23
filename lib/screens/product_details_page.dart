@@ -16,7 +16,7 @@ class ProductDetailsPage extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Appcolors.backgroundColor,
-          child: AddToCart(buttonText: 'Add To Cart', function: () {})),
+          child: AddToCartButton(buttonText: 'Add To Cart', function: () {})),
       backgroundColor: Appcolors.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
@@ -125,8 +125,31 @@ class ProductDetailsPage extends StatelessWidget {
                         fontWeight: EshopFontweight.light),
                   ),
                   SizedBox(
-                    height: 80.h,
+                    height: 30.h,
                   ),
+                  Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text('Similar Products',
+                            style: GoogleFonts.roboto(
+                                fontSize: EshopTypography.subtext,
+                                fontWeight: EshopFontweight.semibold)),
+                        GestureDetector(
+                          onTap: () {},
+                          child: Text(
+                            'See more',
+                            style: GoogleFonts.roboto(
+                                fontSize: EshopTypography.subtext,
+                                color: Appcolors.subtextColor,
+                                fontWeight: EshopFontweight.regular),
+                          ),
+                        )
+                      ],
+                    ),
+                     SizedBox(
+                    height: 14.h,
+                  ),
+                  RelatedProductsWidget(categoryname: product.categoryname)
                   // AddToCart(buttonText: 'Add To Cart', function: () {})
                 ],
               ),
