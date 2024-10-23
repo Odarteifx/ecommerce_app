@@ -475,6 +475,10 @@ class BannerSlider extends StatelessWidget {
                 onPageChanged: (index, reason) {
                   bannerIndexNotifier.value = index;
                 },
+                autoPlay: true,
+                autoPlayInterval: Duration(seconds: 5),
+                autoPlayAnimationDuration: Duration(seconds: 1),
+                autoPlayCurve: Curves.fastOutSlowIn
               )),
         ),
         Positioned(
@@ -821,7 +825,7 @@ class RelatedProductsWidget extends ConsumerWidget {
                     return GestureDetector(
                       onTap: () {
                         print(filteredData.toList());
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: filteredData[index]),));
                       },
                       child: Container(
                         height: 245.h,
