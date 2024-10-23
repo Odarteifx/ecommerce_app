@@ -1,5 +1,6 @@
 import 'package:ecommerce_app/models/product_models.dart';
 import 'package:ecommerce_app/services/product_services.dart';
+import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final productControlProvider = StateNotifierProvider<ProductController, bool>((ref){
@@ -17,6 +18,10 @@ final getRelatedProductsProvider = StreamProvider.family((ref, String categoryna
 
 final getsProductsProvider = StreamProvider((ref){
   return ref.watch(productControlProvider.notifier).getProducts();
+});
+
+final searchProductsProvider = StreamProvider.family((ref, String search){
+  return ref.watch(productControlProvider.notifier).searchProducts(search);
 });
 
 class ProductController extends StateNotifier<bool> {
@@ -42,5 +47,9 @@ class ProductController extends StateNotifier<bool> {
 
         Stream<List<ProductModel>> getRelatedProducts(String categoryname){
           return _productService.getRelatedProducts(categoryname);
+        }
+
+        Stream<List<ProductModel>> searchProducts(String search){
+          return _productService.searchProducts(search);
         }
 }
