@@ -3,6 +3,7 @@ import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
@@ -246,7 +247,7 @@ class EshopAppBar extends StatelessWidget {
 }
 
 //Search bar
-class Searchbar extends StatelessWidget {
+class Searchbar extends ConsumerWidget {
   const Searchbar({
     super.key,
     required TextEditingController searchcontroller,
@@ -255,11 +256,16 @@ class Searchbar extends StatelessWidget {
   final TextEditingController _searchcontroller;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
+      onTap: () {
+        showSearch(context: context, delegate: searchProducts(ref));
+      },
       controller: _searchcontroller,
       decoration: InputDecoration(
-          prefixIcon: const Icon(Iconsax.search_normal_1),
+          prefixIcon: GestureDetector(onTap: () {
+            showSearch(context: context, delegate: searchProducts(ref));
+          } ,child: const Icon(Iconsax.search_normal_1)),
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: 'Search',
           hintStyle: GoogleFonts.roboto(
