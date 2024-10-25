@@ -1,6 +1,5 @@
 import 'package:ecommerce_app/models/product_models.dart';
 import 'package:ecommerce_app/services/product_services.dart';
-import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final productControlProvider = StateNotifierProvider<ProductController, bool>((ref){

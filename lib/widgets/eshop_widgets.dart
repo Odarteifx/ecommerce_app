@@ -919,15 +919,18 @@ class RelatedProductsWidget extends ConsumerWidget {
 
 
 //Search Widget
-class searchProducts extends SearchDelegate {
+class SearchProducts extends SearchDelegate {
   final WidgetRef ref;
-  searchProducts(this.ref);
+  SearchProducts(this.ref);
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [
-      IconButton(onPressed: (){
-        query = '';
-      }, icon: Icon(Iconsax.search_normal_1))
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: IconButton(onPressed: (){
+          query = '';
+        }, icon: Icon(Iconsax.search_normal_1)),
+      )
     ];
   }
   

@@ -259,12 +259,12 @@ class Searchbar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return TextField(
       onTap: () {
-        showSearch(context: context, delegate: searchProducts(ref));
+        showSearch(context: context, delegate: SearchProducts(ref));
       },
       controller: _searchcontroller,
       decoration: InputDecoration(
           prefixIcon: GestureDetector(onTap: () {
-            showSearch(context: context, delegate: searchProducts(ref));
+            showSearch(context: context, delegate: SearchProducts(ref));
           } ,child: const Icon(Iconsax.search_normal_1)),
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: 'Search',
