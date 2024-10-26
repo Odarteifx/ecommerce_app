@@ -307,7 +307,7 @@ class WishlistPage extends StatelessWidget {
             child: Row(
               children: [
                 Image.asset(EshopAssets.product1),
-                Container(
+                SizedBox(
                   width: 180.h,
                   height: 160.h,
                   child: Column(
@@ -315,7 +315,7 @@ class WishlistPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
+                        'Beats Studio Pro – Premium Wireless Noise Cancelling Headphonesxx',
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,
