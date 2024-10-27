@@ -73,8 +73,8 @@ class _EshopHomePageState extends State<EshopHomePage> {
         decoration: BoxDecoration(color: Appcolors.backgroundColor, boxShadow: [
           BoxShadow(
               color: const Color.fromRGBO(0, 0, 0, 0.25),
-              offset: Offset(0, -1.sp),
-              blurRadius: 4.sp)
+              offset: Offset(0, -0.5.sp),
+              blurRadius: 1.sp)
         ]),
         child: Padding(
           padding: EdgeInsets.symmetric(horizontal: 25.h, vertical: 22.w),
@@ -315,7 +315,7 @@ class WishlistPage extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Beats Studio Pro – Premium Wireless Noise Cancelling Headphonesxx',
+                        'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
                         softWrap: true,
                         overflow: TextOverflow.ellipsis,
                         maxLines: 2,

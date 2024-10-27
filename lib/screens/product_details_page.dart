@@ -16,14 +16,20 @@ class ProductDetailsPage extends StatelessWidget {
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Appcolors.backgroundColor,
-          child: AddToCartButton(buttonText: 'Add To Cart', function: () {})),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+            ProductActionButton(buttonText: 'Add To Cart', function: () {}, color: Appcolors.iconColor,),
+            ProductActionButton(buttonText: 'Buy Now', function: () {}, color: Appcolors.bottomNavActive,)
+            ]
+            )
+            ),
       backgroundColor: Appcolors.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            //SizedBox(height: 30.h,),
             Stack(
               children: [
                 Container(

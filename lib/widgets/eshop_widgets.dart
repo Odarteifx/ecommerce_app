@@ -766,28 +766,29 @@ class ProfileWidget extends StatelessWidget {
   }
 }
 
-class AddToCartButton extends StatelessWidget {
-  const AddToCartButton(
-      {super.key, required this.buttonText, required this.function});
+class ProductActionButton extends StatelessWidget {
+  const ProductActionButton(
+      {super.key, required this.buttonText, required this.function, required this.color});
 
   final String buttonText;
   final VoidCallback function;
+  final Color color;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50.h,
-      width: double.infinity,
+      width: 160.w,
       child: FilledButton(
         style: FilledButton.styleFrom(
             shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(5)),
-            backgroundColor: Appcolors.primaryColor),
+            backgroundColor: color),
         onPressed: function,
         child: Text(
           buttonText,
           style: GoogleFonts.roboto(
-              fontSize: EshopTypography.subtext,
+              fontSize: EshopTypography.onboadingbody,
               fontWeight: EshopFontweight.medium),
         ),
       ),
