@@ -6,6 +6,10 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final cartProvider = StreamProvider<List<CartItem>>((ref){
   final firebaseCartServices = ref.watch(cartServiceProvider);
-  final userId = FirebaseAuth.instance.currentUser!.uid;
-  return firebaseCartServices.getCartItems();
+  final user = FirebaseAuth.instance.currentUser;
+    if (user == null) {
+    return Stream.value([]); // Return an empty list if the user is not logged in
+  }
+  final userId = user.uid;
+  return firebaseCartServices.getCartItems(userId);
 });

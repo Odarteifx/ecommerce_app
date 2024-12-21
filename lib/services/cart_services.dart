@@ -3,9 +3,9 @@ import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final cartServiceProvider = Provider(
+final cartServiceProvider = Provider<CartServices>(
   (ref){
-    return CartServices;
+    return CartServices();
   }
 );
 
