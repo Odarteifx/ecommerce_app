@@ -1,29 +1,50 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
+import 'package:ecommerce_app/controllers/cart_controller.dart';
+import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/product_models.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 
-class ProductDetailsPage extends StatelessWidget {
+class ProductDetailsPage extends ConsumerWidget {
   const ProductDetailsPage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Appcolors.backgroundColor,
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-            ProductActionButton(buttonText: 'Add To Cart', function: () {}, color: Appcolors.iconColor,),
-            ProductActionButton(buttonText: 'Buy Now', function: () {}, color: Appcolors.bottomNavActive,)
-            ]
-            )
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+            ProductActionButton(
+              buttonText: 'Add To Cart',
+              function: () {
+                final cartItem = CartItem(
+                  quantity: 1,
+                  id: UniqueKey().toString(),
+                  productId: product.productId,
+                  productName: product.name,
+                  oldPrice: product.oldPrice,
+                  price: product.price,
+                );
+                ref.read(cartControllerProvider.notifier).addToCart(cartItem);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(content: Text('${product.name} Added to Cart')),
+                );
+              },
+              color: Appcolors.iconColor,
             ),
+            ProductActionButton(
+              buttonText: 'Buy Now',
+              function: () {},
+              color: Appcolors.bottomNavActive,
+            )
+          ])),
       backgroundColor: Appcolors.backgroundColor,
       body: SingleChildScrollView(
         child: Column(
@@ -134,28 +155,31 @@ class ProductDetailsPage extends StatelessWidget {
                     height: 30.h,
                   ),
                   Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text('Similar Products',
-                            style: GoogleFonts.roboto(
-                                fontSize: EshopTypography.subtext,
-                                fontWeight: EshopFontweight.semibold)),
-                        GestureDetector(
-                          onTap: () {},
-                          child: Text(
-                            'See more',
-                            style: GoogleFonts.roboto(
-                                fontSize: EshopTypography.subtext,
-                                color: Appcolors.subtextColor,
-                                fontWeight: EshopFontweight.regular),
-                          ),
-                        )
-                      ],
-                    ),
-                     SizedBox(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text('Similar Products',
+                          style: GoogleFonts.roboto(
+                              fontSize: EshopTypography.subtext,
+                              fontWeight: EshopFontweight.semibold)),
+                      GestureDetector(
+                        onTap: () {},
+                        child: Text(
+                          'See more',
+                          style: GoogleFonts.roboto(
+                              fontSize: EshopTypography.subtext,
+                              color: Appcolors.subtextColor,
+                              fontWeight: EshopFontweight.regular),
+                        ),
+                      )
+                    ],
+                  ),
+                  SizedBox(
                     height: 14.h,
                   ),
-                  RelatedProductsWidget(categoryname: product.categoryname, prodctname: product.name, )
+                  RelatedProductsWidget(
+                    categoryname: product.categoryname,
+                    prodctname: product.name,
+                  )
                   // AddToCart(buttonText: 'Add To Cart', function: () {})
                 ],
               ),

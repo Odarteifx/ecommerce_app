@@ -1,5 +1,7 @@
 import 'dart:convert';
 
+import 'package:ecommerce_app/models/product_models.dart';
+
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 class CartItem {
   final String id;
@@ -33,7 +35,7 @@ class CartItem {
       productName: productName ?? this.productName,
       quantity: quantity ?? this.quantity,
       oldPrice: oldPrice ?? this.oldPrice,
-      price: price ?? this.price,
+      price: price ?? this.price, 
     );
   }
 

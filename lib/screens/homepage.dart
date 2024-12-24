@@ -1,6 +1,8 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
+import 'package:ecommerce_app/controllers/cart_controller.dart';
+import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -105,38 +107,64 @@ class _EshopHomePageState extends State<EshopHomePage> {
         WishlistPage(
           searchcontroller: TextEditingController(),
         ),
-        SafeArea(
-            child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 15.h,
-              ),
-              Text(
-                'My Cart',
-                style: GoogleFonts.roboto(
-                    fontSize: EshopTypography.heading2,
-                    fontWeight: EshopFontweight.medium),
-              ),
-              SizedBox(
-                height: 20.h,
-              ),
-              Column(
-                children: [
-                  Container(
-                    height: 60.h,
-                    decoration: BoxDecoration(color: Appcolors.iconColor),
-                  )
-                ],
-              )
-            ],
-          ),
-        )),
+        MyCartPage(),
         const ProfilePage(),
       ][currentindex],
     );
+  }
+}
+
+class MyCartPage extends ConsumerWidget {
+  const MyCartPage({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartItems = ref.watch(cartProvider);
+    return SafeArea(
+        child: Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20.h),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            height: 15.h,
+          ),
+          Text(
+            'My Cart',
+            style: GoogleFonts.roboto(
+                fontSize: EshopTypography.heading2,
+                fontWeight: EshopFontweight.medium),
+          ),
+          SizedBox(
+            height: 20.h,
+          ),
+          Column(
+            children: [
+              cartItems.when(
+                data: (items){
+                if (items.isEmpty) {
+                  return Center(child: Text('No items in the Cart'));
+                }
+                return ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                  final CartItem item = items[index];
+                  return ListTile(
+                    title: Text(item.productName),
+                    subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
+                    trailing: Text('Quantity: ${item.quantity}'),
+                  );
+                },);
+              }, 
+              error: (error, StackTrace) => Center(child: Text('Error: $error'),),
+               loading: () => Center(child: CircularProgressIndicator()))
+            ],
+          )
+        ],
+      ),
+    ));
   }
 }
 
