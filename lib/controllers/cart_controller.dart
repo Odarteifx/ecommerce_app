@@ -16,8 +16,10 @@ final cartProvider = StreamProvider<List<CartItem>>((ref){
 class CartController extends StateNotifier<List<CartItem>>{
   CartController() :super([]);
 
-  void addToCart(CartItem item){
-    state = [...state, item];
+  void addToCart(CartItem item) async {
+   final firebaseCartServices = CartServices();
+   await firebaseCartServices.addToCart(item);
+   state = [...state, item];
   }
 }
 

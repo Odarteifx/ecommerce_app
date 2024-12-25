@@ -180,7 +180,6 @@ class ProductDetailsPage extends ConsumerWidget {
                     categoryname: product.categoryname,
                     prodctname: product.name,
                   )
-                  // AddToCart(buttonText: 'Add To Cart', function: () {})
                 ],
               ),
             )
