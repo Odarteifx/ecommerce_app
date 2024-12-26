@@ -31,6 +31,7 @@ class ProductDetailsPage extends ConsumerWidget {
                   productName: product.name,
                   oldPrice: product.oldPrice,
                   price: product.price,
+                  image: product.image,
                 );
                 ref.read(cartControllerProvider.notifier).addToCart(cartItem);
                 ScaffoldMessenger.of(context).showSnackBar(

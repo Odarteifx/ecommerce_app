@@ -6,6 +6,7 @@ import 'package:ecommerce_app/models/product_models.dart';
 class CartItem {
   final String id;
   final String productId;
+  final String image;
   final String productName;
   final int? quantity;
   final double? oldPrice;
@@ -13,17 +14,17 @@ class CartItem {
   CartItem({
     required this.id,
     required this.productId,
+    required this.image,
     required this.productName,
     required this.quantity,
     required this.oldPrice,
     required this.price,
   });
 
-  
-
   CartItem copyWith({
     String? id,
     String? productId,
+    String? image,
     String? productName,
     int? quantity,
     double? oldPrice,
@@ -31,11 +32,12 @@ class CartItem {
   }) {
     return CartItem(
       id: id ?? this.id,
-      productId: productId ?? this.productId,
+      image: image ?? this.image,
       productName: productName ?? this.productName,
       quantity: quantity ?? this.quantity,
       oldPrice: oldPrice ?? this.oldPrice,
-      price: price ?? this.price, 
+      price: price ?? this.price,
+      productId: productId ?? this.productId,
     );
   }
 
@@ -54,16 +56,19 @@ class CartItem {
     return CartItem(
       id: map['id'] as String,
       productId: map['productId'] as String,
+      image: map['image'] as String,
       productName: map['productName'] as String,
       quantity: map['quantity'] as int,
-      oldPrice: map['oldPrice'] != null ? (map['oldPrice'] as num).toDouble() : null,
+      oldPrice:
+          map['oldPrice'] != null ? (map['oldPrice'] as num).toDouble() : null,
       price: map['price'] as double,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory CartItem.fromJson(String source) => CartItem.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory CartItem.fromJson(String source) =>
+      CartItem.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -73,23 +78,22 @@ class CartItem {
   @override
   bool operator ==(covariant CartItem other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.id == id &&
-      other.productId == productId &&
-      other.productName == productName &&
-      other.quantity == quantity &&
-      other.oldPrice == oldPrice &&
-      other.price == price;
+
+    return other.id == id &&
+        other.productId == productId &&
+        other.productName == productName &&
+        other.quantity == quantity &&
+        other.oldPrice == oldPrice &&
+        other.price == price;
   }
 
   @override
   int get hashCode {
     return id.hashCode ^
-      productId.hashCode ^
-      productName.hashCode ^
-      quantity.hashCode ^
-      oldPrice.hashCode ^
-      price.hashCode;
+        productId.hashCode ^
+        productName.hashCode ^
+        quantity.hashCode ^
+        oldPrice.hashCode ^
+        price.hashCode;
   }
 }

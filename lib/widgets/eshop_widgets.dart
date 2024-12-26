@@ -2,6 +2,7 @@
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -17,6 +18,7 @@ import 'package:ecommerce_app/screens/product_categories_page.dart';
 
 import '../constants/eshop_assets.dart';
 import '../constants/eshop_typography.dart';
+import '../controllers/cart_controller.dart';
 import '../screens/product_details_page.dart';
 
 //Onboarding and pageview Images
@@ -1160,3 +1162,30 @@ class SearchProducts extends SearchDelegate {
         loading: () => Loader());
   }
 } 
+
+class CartDisplay extends ConsumerWidget {
+  const CartDisplay({super.key});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final cartItems = ref.watch(cartProvider);
+    return cartItems.when(
+                data: (items){
+                if (items.isEmpty) {
+                  return Center(child: Text('No items in the Cart'));
+                }
+                return ListView.builder(
+                  itemCount: items.length,
+                  itemBuilder: (context, index) {
+                  final CartItem item = items[index];
+                  return ListTile(
+                    title: Text(item.productName),
+                    subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
+                    trailing: Text('Quantity: ${item.quantity}'),
+                  );
+                },);
+              }, 
+              error: (error, StackTrace) => Center(child: Text('Error: $error'),),
+               loading: () => Center(child: CircularProgressIndicator()));
+  }
+}

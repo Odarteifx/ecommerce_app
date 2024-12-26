@@ -56,14 +56,19 @@ class ProductModel {
     };
   }
 
-  factory ProductModel.fromMap(Map<String, dynamic> map,) {
+  factory ProductModel.fromMap(
+    Map<String, dynamic> map,
+  ) {
     return ProductModel(
-      productId: map['productId'] != null ? map['productId'] as String : '', 
-      name: map['name'] as String,
-      image: map['image'] as String,
-      price: (map['price'] as num).toDouble(),
-      oldPrice: map['oldPrice'] != null ? (map['oldPrice'] as num).toDouble() : null, // Null check,
-      isAvailable: map['isAvailable'] != null ? map['isAvailable'] as bool : null,
+      productId: map['productId'] != null ? map['productId'] as String : '',
+      name: map['name'] != null ? map['name'] as String : '',
+      image: map['name'] != null ? map['image'] as String : '',
+      price: map['price'] != null ? (map['price'] as num).toDouble() : 0.0,
+      oldPrice: map['oldPrice'] != null
+          ? (map['oldPrice'] as num).toDouble()
+          : null, // Null check,
+      isAvailable:
+          map['isAvailable'] != null ? map['isAvailable'] as bool : null,
       description: map['description']?.toString() ?? '',
       categoryname: map['categoryname'] as String,
     );
@@ -71,7 +76,8 @@ class ProductModel {
 
   String toJson() => json.encode(toMap());
 
-  factory ProductModel.fromJson(String source) => ProductModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory ProductModel.fromJson(String source) =>
+      ProductModel.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
@@ -81,27 +87,26 @@ class ProductModel {
   @override
   bool operator ==(covariant ProductModel other) {
     if (identical(this, other)) return true;
-  
-    return 
-      other.productId == productId &&
-      other.name == name &&
-      other.image == image &&
-      other.price == price &&
-      other.oldPrice == oldPrice &&
-      other.isAvailable == isAvailable &&
-      other.description == description &&
-      other.categoryname == categoryname;
+
+    return other.productId == productId &&
+        other.name == name &&
+        other.image == image &&
+        other.price == price &&
+        other.oldPrice == oldPrice &&
+        other.isAvailable == isAvailable &&
+        other.description == description &&
+        other.categoryname == categoryname;
   }
 
   @override
   int get hashCode {
     return productId.hashCode ^
-      name.hashCode ^
-      image.hashCode ^
-      price.hashCode ^
-      oldPrice.hashCode ^
-      isAvailable.hashCode ^
-      description.hashCode ^
-      categoryname.hashCode;
+        name.hashCode ^
+        image.hashCode ^
+        price.hashCode ^
+        oldPrice.hashCode ^
+        isAvailable.hashCode ^
+        description.hashCode ^
+        categoryname.hashCode;
   }
 }
