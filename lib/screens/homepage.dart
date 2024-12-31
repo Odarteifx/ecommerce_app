@@ -141,37 +141,37 @@ class MyCartPage extends ConsumerWidget {
           SizedBox(
             height: 20.h,
           ),
-            Container(
-              height: 500.h,
-              child: cartItems.when(
-                      data: (items){
-                      if (items.isEmpty) {
-                        return Center(child: Text('No items in the Cart'));
-                      }
-                      return ListView.builder(
-                        itemCount: items.length,
-                        itemBuilder: (context, index) {
-                        final CartItem item = items[index];
-                        return ListTile(
-                          leading: Container(
-                            height: 50.h,
-                            width: 50.w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(10.r),
-                              // image: DecorationImage(
-                              //   image: AssetImage(),
-                              //   fit: BoxFit.cover
-                              // )
-                            ),
-                          ),
-                          title: Text(item.productName),
-                          subtitle: Text('Quantity: ${item.quantity}', style: GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody, fontWeight: EshopFontweight.light),),
-                          trailing: Text('\$${item.price.toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody, fontWeight: EshopFontweight.medium),),
+            Expanded(
+              child: Container(
+                child: cartItems.when(
+                      data: (items) {
+                        if (items.isEmpty) {
+              return Center(child: Text('No items in the cart'));
+                        }
+                        return ListView.builder(
+              itemCount: items.length,
+              itemBuilder: (context, index) {
+                final CartItem item = items[index];
+                return ListTile(
+                  leading: Container(
+                    height: 50,
+                    width: 50,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.amberAccent
+                    ),
+                  ),
+                  title: Text(item.productName),
+                  subtitle: Text('Quantity: ${item.quantity}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w300)),
+                  trailing: Text('\$${item.price.toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500)),
+                );
+              },
                         );
-                      },);
-                    }, 
-                    error: (error, StackTrace) => Center(child: Text('Error: $error'),),
-                     loading: () => Center(child: CircularProgressIndicator())),
+                      },
+                      loading: () => Center(child: CircularProgressIndicator()),
+                      error: (error, stackTrace) => Center(child: Text('Error: $error')),
+                    ),
+              ),
             ),
           ],
         )

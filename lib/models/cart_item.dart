@@ -1,50 +1,49 @@
 import 'dart:convert';
 
-import 'package:ecommerce_app/models/product_models.dart';
-
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 class CartItem {
-  final String id;
-  final String productId;
-  final String image;
+//  final String id;
+final String productId;
+ //final String image;
   final String productName;
-  final int? quantity;
+  final int quantity;
   final double? oldPrice;
   final double price;
+
   CartItem({
-    required this.id,
+    //  required this.id,
     required this.productId,
-    required this.image,
+   // required this.image,
     required this.productName,
     required this.quantity,
-    required this.oldPrice,
+    this.oldPrice,
     required this.price,
   });
 
   CartItem copyWith({
-    String? id,
+    // String? id,
     String? productId,
-    String? image,
+    //String? image,
     String? productName,
     int? quantity,
     double? oldPrice,
     double? price,
   }) {
     return CartItem(
-      id: id ?? this.id,
-      image: image ?? this.image,
+      //  id: id ?? this.id,
+       productId: productId ?? this.productId,
+     // image: image ?? this.image,
       productName: productName ?? this.productName,
       quantity: quantity ?? this.quantity,
       oldPrice: oldPrice ?? this.oldPrice,
       price: price ?? this.price,
-      productId: productId ?? this.productId,
     );
   }
 
   Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'id': id,
-      'productId': productId,
+    return {
+      //  'id': id,
+       'productId': productId,
+      // 'image': image,
       'productName': productName,
       'quantity': quantity,
       'oldPrice': oldPrice,
@@ -54,33 +53,33 @@ class CartItem {
 
   factory CartItem.fromMap(Map<String, dynamic> map) {
     return CartItem(
-      id: map['id'] as String,
+      // id: map['id'] as String,
       productId: map['productId'] as String,
-      image: map['image'] as String,
+      // image: map['image'] as String,
       productName: map['productName'] as String,
-      quantity: map['quantity'] as int,
-      oldPrice:
-          map['oldPrice'] != null ? (map['oldPrice'] as num).toDouble() : null,
+      quantity: map['quantity'] != null ? map['quantity'] as int : 1,
+      oldPrice: map['oldPrice'] != null ? (map['oldPrice'] as num).toDouble() : null,
       price: map['price'] as double,
     );
   }
 
   String toJson() => json.encode(toMap());
 
-  factory CartItem.fromJson(String source) =>
-      CartItem.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory CartItem.fromJson(String source) => CartItem.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {
-    return 'CartItem(id: $id, productId: $productId, productName: $productName, quantity: $quantity, oldPrice: $oldPrice, price: $price)';
+    return 'CartItem( productId: $productId, productName: $productName, quantity: $quantity, oldPrice: $oldPrice, price: $price)';
   }
 
   @override
   bool operator ==(covariant CartItem other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
+    return 
+    // other.id == id &&
         other.productId == productId &&
+        // other.image == image &&
         other.productName == productName &&
         other.quantity == quantity &&
         other.oldPrice == oldPrice &&
@@ -89,8 +88,10 @@ class CartItem {
 
   @override
   int get hashCode {
-    return id.hashCode ^
+    return
+    //  id.hashCode ^
         productId.hashCode ^
+        // image.hashCode ^
         productName.hashCode ^
         quantity.hashCode ^
         oldPrice.hashCode ^

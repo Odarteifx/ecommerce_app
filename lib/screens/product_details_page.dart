@@ -26,12 +26,13 @@ class ProductDetailsPage extends ConsumerWidget {
               function: () {
                 final cartItem = CartItem(
                   quantity: 1,
-                  id: UniqueKey().toString(),
-                  productId: product.productId,
+                //  id: UniqueKey().toString(),
+                 productId: product.productId,
+                 //image: product.image.toString(),
                   productName: product.name,
                   oldPrice: product.oldPrice,
                   price: product.price,
-                  image: product.image,
+                 
                 );
                 ref.read(cartControllerProvider.notifier).addToCart(cartItem);
                 ScaffoldMessenger.of(context).showSnackBar(
