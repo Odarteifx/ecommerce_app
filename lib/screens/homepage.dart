@@ -121,7 +121,7 @@ class MyCartPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  final cartItems = ref.watch(cartProvider);
+  // final cartItems = ref.watch(cartProvider);
     return SafeArea(
         
         child: Padding(
@@ -143,34 +143,34 @@ class MyCartPage extends ConsumerWidget {
           ),
             Expanded(
               child: Container(
-                child: cartItems.when(
-                      data: (items) {
-                        if (items.isEmpty) {
-              return Center(child: Text('No items in the cart'));
-                        }
-                        return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final CartItem item = items[index];
-                return ListTile(
-                  leading: Container(
-                    height: 50,
-                    width: 50,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      color: Colors.amberAccent
-                    ),
-                  ),
-                  title: Text(item.productName),
-                  subtitle: Text('Quantity: ${item.quantity}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w300)),
-                  trailing: Text('\$${item.price.toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500)),
-                );
-              },
-                        );
-                      },
-                      loading: () => Center(child: CircularProgressIndicator()),
-                      error: (error, stackTrace) => Center(child: Text('Error: $error')),
-                    ),
+              //   child: cartItems.when(
+              //         data: (items) {
+              //           if (items.isEmpty) {
+              // return Center(child: Text('No items in the cart'));
+              //           }
+              //           return ListView.builder(
+              // itemCount: items.length,
+              // itemBuilder: (context, index) {
+              //   final CartItem item = items[index];
+              //   return ListTile(
+              //     leading: Container(
+              //       height: 50,
+              //       width: 50,
+              //       decoration: BoxDecoration(
+              //         borderRadius: BorderRadius.circular(10),
+              //         color: Colors.amberAccent
+              //       ),
+              //     ),
+              //     // title: Text(item.productName),
+              //     // subtitle: Text('Quantity: ${item.quantity}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w300)),
+              //     // trailing: Text('\$${item.price.toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500)),
+              //   );
+              // },
+              //           );
+              //         },
+              //         loading: () => Center(child: CircularProgressIndicator()),
+              //         error: (error, stackTrace) => Center(child: Text('Error: $error')),
+              //       ),
               ),
             ),
           ],
