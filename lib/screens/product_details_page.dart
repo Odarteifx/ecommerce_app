@@ -24,17 +24,17 @@ class ProductDetailsPage extends ConsumerWidget {
             ProductActionButton(
               buttonText: 'Add To Cart',
               function: () {
+                print('${product.name}, ${product.image}, ${product.productId},}');
                 final cartItem = CartItem(
                   quantity: 1,
-                //  id: UniqueKey().toString(),
-                 productId: product.productId,
-                 //image: product.image.toString(),
+                  id: UniqueKey().toString(),
+                  productId: product.productId,
+                  image: product.image,
                   productName: product.name,
                   oldPrice: product.oldPrice,
                   price: product.price,
-                 
                 );
-                // ref.read(cartControllerProvider.notifier).addToCart(cartItem);
+                ref.read(cartControllerProvider.notifier).addToCart(cartItem);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(content: Text('${product.name} Added to Cart')),
                 );
@@ -60,7 +60,7 @@ class ProductDetailsPage extends ConsumerWidget {
                   decoration: BoxDecoration(color: Appcolors.widgetcolor),
                   child: Center(
                     child: Image.network(
-                      product.image,
+                      product.image.toString(),
                       fit: BoxFit.cover,
                     ),
                   ),

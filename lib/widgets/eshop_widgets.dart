@@ -1180,7 +1180,7 @@ class CartDisplay extends ConsumerWidget {
                   final CartItem item = items[index];
                   return ListTile(
                     title: Text(item.productName),
-                    subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
+                    subtitle: Text('\$${item.price.toStringAsFixed(2).toString()}'),
                     trailing: Text('Quantity: ${item.quantity}'),
                   );
                 },);
