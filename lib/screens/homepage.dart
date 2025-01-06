@@ -1,3 +1,5 @@
+import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
+
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
@@ -132,12 +134,24 @@ class MyCartPage extends ConsumerWidget {
             SizedBox(
             height: 15.h,
           ),
-            Text(
-            'My Cart',
-            style: GoogleFonts.roboto(
-                fontSize: EshopTypography.heading2,
-                fontWeight: EshopFontweight.medium),
-          ),
+            Row(
+              children: [
+                Text(
+                'My Cart (${cartItems.asData!.value.length})',
+                style: GoogleFonts.roboto(
+                    fontSize: EshopTypography.heading2,
+                    fontWeight: EshopFontweight.medium),
+                          ),
+                const Expanded(child: SizedBox()),
+                IconButton(
+                  onPressed: () {
+                    print('Delete all items');
+                    ref.read(cartControllerProvider.notifier).clearCart();
+                  },
+                  icon: const Icon(Iconsax.trash, color: Appcolors.textColor,),
+                )
+              ],
+            ),
           SizedBox(
             height: 20.h,
           ),
@@ -154,11 +168,11 @@ class MyCartPage extends ConsumerWidget {
                 final CartItem item = items[index];
                 return ListTile(
                   onTap: () {
-                    print('${item.image}, ${item.productName}');
+                    print('${item.image}, ${item.productName}, ${item.id}');
                   },
                   leading: Container(
-                    height: 50,
-                    width: 50,
+                    height: 50.h,
+                    width: 50.w,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(10),
                       image: DecorationImage(
@@ -170,8 +184,8 @@ class MyCartPage extends ConsumerWidget {
                     ),
                   ),
                   title: Text(item.productName),
-                  subtitle: Text('Quantity: ${item.quantity}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w300)),
-                  trailing: Text('\$${item.price.toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: 14, fontWeight: FontWeight.w500)),
+                  subtitle: Text('Quantity: ${item.quantity}', style: GoogleFonts.roboto(fontSize: 14.sp, fontWeight: FontWeight.w300)),
+                  trailing: Text('\$${item.price.toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: 14.sp, fontWeight: FontWeight.w500)),
                 );
               },
                         );
@@ -181,6 +195,7 @@ class MyCartPage extends ConsumerWidget {
                     ),
               ),
             ),
+          Container(height: 50.h,)
           ],
         )
         
@@ -232,7 +247,7 @@ class HomePage extends StatelessWidget {
                     height: 20.h,
                   ),
                   Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(horizontal: 20.h),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
@@ -268,7 +283,7 @@ class HomePage extends StatelessWidget {
 }
 
 //AppBar
-class EshopAppBar extends StatelessWidget {
+class EshopAppBar extends ConsumerWidget {
   const EshopAppBar({
     super.key,
     required TextEditingController searchcontroller,
@@ -277,7 +292,8 @@ class EshopAppBar extends StatelessWidget {
   final TextEditingController _searchcontroller;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+   final cartItems = ref.watch(cartProvider); 
     return Row(
       children: [
         Flexible(
@@ -285,10 +301,10 @@ class EshopAppBar extends StatelessWidget {
                 width: 260.w,
                 child: Searchbar(searchcontroller: _searchcontroller))),
         Badge(
-            //label: Text(''),
+            label: Text('${cartItems.asData!.value.length}'),
             alignment: Alignment(0.25.sp, -0.4.sp),
             child: IconButton(
-                onPressed: () {}, icon: const Icon(Iconsax.notification))),
+                onPressed: () {}, icon: const Icon(Iconsax.notification), )),
         IconButton(onPressed: () {}, icon: const Icon(Iconsax.messages))
       ],
     );
