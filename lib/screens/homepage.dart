@@ -1,5 +1,3 @@
-import 'dart:nativewrappers/_internal/vm/lib/ffi_allocation_patch.dart';
-
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
@@ -123,84 +121,95 @@ class MyCartPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-  final cartItems = ref.watch(cartProvider);
+    final cartItems = ref.watch(cartProvider);
     return SafeArea(
-        
         child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.h),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-            height: 15.h,
-          ),
-            Row(
+            padding: EdgeInsets.symmetric(horizontal: 20.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                'My Cart (${cartItems.asData!.value.length})',
-                style: GoogleFonts.roboto(
-                    fontSize: EshopTypography.heading2,
-                    fontWeight: EshopFontweight.medium),
-                          ),
-                const Expanded(child: SizedBox()),
-                IconButton(
-                  onPressed: () {
-                    print('Delete all items');
-                    ref.read(cartControllerProvider.notifier).clearCart();
-                  },
-                  icon: const Icon(Iconsax.trash, color: Appcolors.textColor,),
-                )
-              ],
-            ),
-          SizedBox(
-            height: 20.h,
-          ),
-            Expanded(
-              child: Container(
-                child: cartItems.when(
+                SizedBox(
+                  height: 15.h,
+                ),
+                Row(
+                  children: [
+                    Text(
+                      'My Cart (${cartItems.asData!.value.length})',
+                      style: GoogleFonts.roboto(
+                          fontSize: EshopTypography.heading2,
+                          fontWeight: EshopFontweight.medium),
+                    ),
+                    const Expanded(child: SizedBox()),
+                    IconButton(
+                      onPressed: () {
+                        print('Delete all items');
+                        ref.read(cartControllerProvider.notifier).clearCart();
+                      },
+                      icon: const Icon(
+                        Iconsax.trash,
+                        color: Appcolors.textColor,
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(
+                  height: 20.h,
+                ),
+                Expanded(
+                  child: Container(
+                    child: cartItems.when(
                       data: (items) {
                         if (items.isEmpty) {
-              return Center(child: Text('No items in the cart'));
+                          return Center(child: Text('No items in the cart'));
                         }
                         return ListView.builder(
-              itemCount: items.length,
-              itemBuilder: (context, index) {
-                final CartItem item = items[index];
-                return ListTile(
-                  onTap: () {
-                    print('${item.image}, ${item.productName}, ${item.id}');
-                  },
-                  leading: Container(
-                    height: 50.h,
-                    width: 50.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(10),
-                      image: DecorationImage(
-                        image: item.image != null
-                            ? NetworkImage(item.image!)
-                            : const AssetImage(EshopAssets.product1) as ImageProvider, 
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  title: Text(item.productName),
-                  subtitle: Text('Quantity: ${item.quantity}', style: GoogleFonts.roboto(fontSize: 14.sp, fontWeight: FontWeight.w300)),
-                  trailing: Text('\$${item.price.toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: 14.sp, fontWeight: FontWeight.w500)),
-                );
-              },
+                          itemCount: items.length,
+                          itemBuilder: (context, index) {
+                            final CartItem item = items[index];
+                            return ListTile(
+                              onTap: () {
+                                print(
+                                    '${item.image}, ${item.productName}, ${item.id}');
+                              },
+                              leading: Container(
+                                height: 50.h,
+                                width: 50.w,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  image: DecorationImage(
+                                    image: item.image != null
+                                        ? NetworkImage(item.image!)
+                                        : const AssetImage(EshopAssets.product1)
+                                            as ImageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                              title: Text(item.productName),
+                              subtitle: Text('Quantity: ${item.quantity}',
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w300)),
+                              trailing: Text(
+                                  '\$${item.price.toStringAsFixed(2)}',
+                                  style: GoogleFonts.roboto(
+                                      fontSize: 14.sp,
+                                      fontWeight: FontWeight.w500)),
+                            );
+                          },
                         );
                       },
                       loading: () => Center(child: CircularProgressIndicator()),
-                      error: (error, stackTrace) => Center(child: Text('Error: $error')),
+                      error: (error, stackTrace) =>
+                          Center(child: Text('Error: $error')),
                     ),
-              ),
-            ),
-          Container(height: 50.h,)
-          ],
-        )
-        
-    )
-    );
+                  ),
+                ),
+                Container(
+                  height: 50.h,
+                )
+              ],
+            )));
   }
 }
 
@@ -293,7 +302,7 @@ class EshopAppBar extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-   final cartItems = ref.watch(cartProvider); 
+    final cartItems = ref.watch(cartProvider);
     return Row(
       children: [
         Flexible(
@@ -301,11 +310,13 @@ class EshopAppBar extends ConsumerWidget {
                 width: 260.w,
                 child: Searchbar(searchcontroller: _searchcontroller))),
         Badge(
-            label: Text('${cartItems.asData!.value.length}'),
+            // label: Text('${cartItems.asData!.value.length}'),
             alignment: Alignment(0.25.sp, -0.4.sp),
             child: IconButton(
-                onPressed: () {}, icon: const Icon(Iconsax.notification), )),
-        IconButton(onPressed: () {}, icon: const Icon(Iconsax.messages))
+              onPressed: () {},
+              icon: const Icon(Iconsax.notification),
+            )),
+        IconButton(onPressed: () {}, icon: Badge(child: const Icon(Iconsax.shopping_bag)))
       ],
     );
   }
@@ -328,9 +339,11 @@ class Searchbar extends ConsumerWidget {
       },
       controller: _searchcontroller,
       decoration: InputDecoration(
-          prefixIcon: GestureDetector(onTap: () {
-            showSearch(context: context, delegate: SearchProducts(ref));
-          } ,child: const Icon(Iconsax.search_normal_1)),
+          prefixIcon: GestureDetector(
+              onTap: () {
+                showSearch(context: context, delegate: SearchProducts(ref));
+              },
+              child: const Icon(Iconsax.search_normal_1)),
           border: const OutlineInputBorder(borderSide: BorderSide.none),
           hintText: 'Search',
           hintStyle: GoogleFonts.roboto(
