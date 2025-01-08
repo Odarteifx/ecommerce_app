@@ -4,6 +4,7 @@ import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -316,7 +317,9 @@ class EshopAppBar extends ConsumerWidget {
               onPressed: () {},
               icon: const Icon(Iconsax.notification),
             )),
-        IconButton(onPressed: () {}, icon: Badge(child: const Icon(Iconsax.shopping_bag)))
+        IconButton(onPressed: () {}, icon: Badge(
+          label: Text('${cartItems.asData?.value.length}'),
+          child: const Icon(Iconsax.bag_2)))
       ],
     );
   }
@@ -477,11 +480,12 @@ class WishlistPage extends StatelessWidget {
 }
 
 //Profile page
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final user = FirebaseAuth.instance.currentUser;
     return SafeArea(
         child: Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -503,7 +507,7 @@ class ProfilePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundImage: const AssetImage(EshopAssets.person),
+                backgroundImage: user?.photoURL != null ? NetworkImage(user!.photoURL!) : const AssetImage(EshopAssets.person) as ImageProvider,
                 radius: 25.r,
               ),
               SizedBox(
@@ -513,7 +517,7 @@ class ProfilePage extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'William Lamptey',
+                    user?.displayName ?? 'New User ',
                     style: GoogleFonts.roboto(
                         fontSize: EshopTypography.onboadingbody,
                         fontWeight: EshopFontweight.medium),
@@ -521,7 +525,7 @@ class ProfilePage extends StatelessWidget {
                   SizedBox(
                     height: 2.h,
                   ),
-                  Text('williamlamptey12@yahoo.com',
+                  Text(user?.email ?? '',
                       style: GoogleFonts.roboto(
                           fontSize: EshopTypography.subtext,
                           color: Appcolors.subtextColor,

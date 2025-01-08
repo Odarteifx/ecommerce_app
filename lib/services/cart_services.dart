@@ -63,18 +63,15 @@ class CartServices {
     }
   }
 
-  Future<void> clearCart() async {
-    final user = auth.currentUser;
-    if (user != null) {
-      final cartItems = await _firestore
-          .collection('users')
-          .doc(user.uid)
-          .collection('cart')
-          .get();
+  Future<void> clearCart(String userId) async {
+    final cartItems = await _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('cart')
+        .get();
 
-      for (var item in cartItems.docs) {
-        await item.reference.delete();
-      }
+    for (var doc in cartItems.docs) {
+      await doc.reference.delete();
     }
   }
 }

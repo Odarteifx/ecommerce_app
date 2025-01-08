@@ -79,7 +79,7 @@ class ProductDetailsPage extends ConsumerWidget {
                     child: Row(
                       children: [
                         IconButton(onPressed: () {}, icon: Icon(Iconsax.heart)),
-                        IconButton(onPressed: () {}, icon: Icon(Iconsax.bag_2)),
+                        IconButton(onPressed: () {}, icon: Badge(label: Text('') ,child: Icon(Iconsax.bag_2))),
                       ],
                     ))
               ],

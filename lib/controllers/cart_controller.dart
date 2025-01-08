@@ -24,8 +24,9 @@ class CartController extends StateNotifier<List<CartItem>> {
       final existingItemIndex = state.indexWhere((cartItem) => cartItem.productName == item.productName);
 
       if (existingItemIndex >= 0) {
+        // If the item already exists in the cart, increase the quantity
         final existingItem = state[existingItemIndex];
-        final updatedItem = existingItem.copyWith(quantity: existingItem.quantity + 1);
+        final updatedItem = existingItem.copyWith(quantity: existingItem.quantity + item.quantity);
 
         state = [
           ...state.sublist(0, existingItemIndex),
@@ -34,24 +35,20 @@ class CartController extends StateNotifier<List<CartItem>> {
         ];
         await firebaseCartServices.updateCartItem(user.uid, updatedItem);
       } else {
-        
+        // If the item does not exist in the cart, add it
+        state = [...state, item];
+        await firebaseCartServices.addToCart(item);
       }
-    } else {
-      
     }
-    await firebaseCartServices.addToCart(item);
-    state = [...state, item];
   }
 
-  void clearCart() {
-    final firebaseCartServices = CartServices();
+  void clearCart() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
-      state.forEach((cartItem) async {
-        await firebaseCartServices.removeFromCart(cartItem.productName);
-      });
+      final firebaseCartServices = CartServices();
+      await firebaseCartServices.clearCart(user.uid);
+      state = [];
     }
-    state = [];
   }
 }
 
