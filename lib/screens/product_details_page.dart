@@ -1,8 +1,10 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/controllers/cart_controller.dart';
+import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/product_models.dart';
+import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -16,6 +18,12 @@ class ProductDetailsPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
+    final wishlistItems = ref.watch(wishlistProvider);
+
+    bool isInWishlist = wishlistItems.maybeWhen(
+      data: (items) => items.any((item) => item.id == item.id),
+      orElse: () => false,
+    );
     return Scaffold(
       bottomNavigationBar: BottomAppBar(
           color: Appcolors.backgroundColor,
@@ -24,7 +32,8 @@ class ProductDetailsPage extends ConsumerWidget {
             ProductActionButton(
               buttonText: 'Add To Cart',
               function: () {
-                print('${product.name}, ${product.image}, ${product.productId},}');
+                print(
+                    '${product.name}, ${product.image}, ${product.productId},}');
                 final cartItem = CartItem(
                   quantity: 1,
                   id: UniqueKey().toString(),
@@ -78,8 +87,34 @@ class ProductDetailsPage extends ConsumerWidget {
                     right: 5.sp,
                     child: Row(
                       children: [
-                        IconButton(onPressed: () {}, icon: Icon(Iconsax.heart)),
-                        IconButton(onPressed: () {}, icon: Badge(label: Text('') ,child: Icon(Iconsax.bag_2))),
+                        IconButton(
+                            onPressed: () {
+                              print('${wishlistItems}');
+                              if (isInWishlist) {
+                                final wishlistItem = wishlistItems.value!
+                                    .firstWhere((item) => item.productName == item.productName);
+                                ref
+                                    .read(wishlistControllerProvider.notifier)
+                                    .removeFromWishlist(wishlistItem.id);
+                              } else {
+                                final wishlistItem = WishlistItem(
+                                    id: UniqueKey().toString(),
+                                    image: product.image,
+                                    productName: product.name,
+                                    price: product.price,
+                                    oldPrice: product.oldPrice);
+                                ref.read(wishlistControllerProvider.notifier).addToWishlist(wishlistItem);
+                              }
+                            },
+                            icon: Icon(
+                                isInWishlist ? Iconsax.heart5 : Iconsax.heart,
+                                color: isInWishlist
+                                    ? Appcolors.promptColor
+                                    : null)),
+                        IconButton(
+                            onPressed: () {},
+                            icon: Badge(
+                                label: Text(''), child: Icon(Iconsax.bag_2))),
                       ],
                     ))
               ],

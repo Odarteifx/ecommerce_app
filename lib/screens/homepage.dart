@@ -2,7 +2,9 @@ import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/controllers/cart_controller.dart';
+import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
+import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -161,7 +163,12 @@ class MyCartPage extends ConsumerWidget {
                     child: cartItems.when(
                       data: (items) {
                         if (items.isEmpty) {
-                          return Center(child: Text('No items in the cart'));
+                          return Center(
+                              child: Text(
+                            'No items in the cart',
+                            style: TextStyle(
+                                fontSize: EshopTypography.onboadingbody),
+                          ));
                         }
                         return ListView.builder(
                           itemCount: items.length,
@@ -176,7 +183,7 @@ class MyCartPage extends ConsumerWidget {
                                 height: 50.h,
                                 width: 50.w,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
+                                  borderRadius: BorderRadius.circular(10.sp),
                                   image: DecorationImage(
                                     image: item.image != null
                                         ? NetworkImage(item.image!)
@@ -317,9 +324,11 @@ class EshopAppBar extends ConsumerWidget {
               onPressed: () {},
               icon: const Icon(Iconsax.notification),
             )),
-        IconButton(onPressed: () {}, icon: Badge(
-          label: Text('${cartItems.asData?.value.length}'),
-          child: const Icon(Iconsax.bag_2)))
+        IconButton(
+            onPressed: () {},
+            icon: Badge(
+                label: Text('${cartItems.asData?.value.length}'),
+                child: const Icon(Iconsax.bag_2)))
       ],
     );
   }
@@ -357,12 +366,13 @@ class Searchbar extends ConsumerWidget {
 }
 
 //Wishlist
-class WishlistPage extends StatelessWidget {
+class WishlistPage extends ConsumerWidget {
   final TextEditingController searchcontroller;
   const WishlistPage({super.key, required this.searchcontroller});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final wishlistItems = ref.watch(wishlistProvider);
     return SafeArea(
         child: Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -379,98 +389,128 @@ class WishlistPage extends StatelessWidget {
           SizedBox(
             height: 20.h,
           ),
-          Container(
-            height: 160.h,
-            decoration: BoxDecoration(
-              color: Appcolors.widgetcolor,
-              borderRadius: BorderRadius.circular(15.sp),
-            ),
-            child: Row(
-              children: [
-                Image.asset(EshopAssets.product1),
-                SizedBox(
-                  width: 180.h,
-                  height: 160.h,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        maxLines: 2,
+          wishlistItems.when(
+              data: (items) {
+                if (items.isEmpty) {
+                  return Center(
+                      child: Text(
+                    'No items in the cart',
+                    style: TextStyle(fontSize: EshopTypography.onboadingbody),
+                  ));
+                }
+                return Expanded(
+                  child: ListView.builder(itemBuilder: (context, index){
+                    final WishlistItem item = items[index];
+                    return ListTile(
+                      leading: Container(
+                        height: 50.h,
+                        width: 50.h,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10.sp),
+                          image: DecorationImage(image: NetworkImage(item.image),  fit: BoxFit.cover,),
+                        ),
                       ),
-                      SizedBox(
-                        height: 5.h,
-                      ),
-                      Text(
-                        '\$59.99',
-                        style: GoogleFonts.roboto(
-                            fontWeight: EshopFontweight.medium,
-                            fontSize: EshopTypography.homepagecategories,
-                            decoration: TextDecoration.lineThrough),
-                      ),
-                      Text(
-                        '\$39.50',
-                        style: GoogleFonts.roboto(
-                            fontSize: EshopTypography.subtext,
-                            fontWeight: EshopFontweight.medium,
-                            color: Appcolors.promptColor),
-                      ),
-                      const SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        children: [
-                          InkWell(
-                            onTap: () {},
-                            child: Container(
-                              height: 35.h,
-                              width: 120.w,
-                              decoration: BoxDecoration(
-                                border: Border.all(color: Appcolors.iconColor),
-                                borderRadius: BorderRadius.circular(5.r),
-                              ),
-                              child: Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Icon(
-                                    Iconsax.add,
-                                    size: 22.sp,
-                                  ),
-                                  Text(
-                                    'Add to Cart',
-                                    style: GoogleFonts.roboto(
-                                        fontSize: EshopTypography.subtext,
-                                        fontWeight: EshopFontweight.regular),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                          SizedBox(
-                            width: 10.w,
-                          ),
-                          Container(
-                              height: 40.h,
-                              width: 40.w,
-                              decoration: BoxDecoration(
-                                  border:
-                                      Border.all(color: Appcolors.iconColor),
-                                  borderRadius: BorderRadius.circular(50.r)),
-                              child: Center(
-                                  child: IconButton(
-                                onPressed: () {},
-                                icon: const Icon(Iconsax.heart5),
-                                color: Appcolors.promptColor,
-                              )))
-                        ],
-                      )
-                    ],
-                  ),
-                )
-              ],
+                      title: Text(item.productName),
+                      subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
+                    );
+                  }),
+                );
+              },
+              error: (error, stackTrace) => Center(child: Text('Error: $error'),),
+              loading: () => Center(child: CircularProgressIndicator(),
+
+          // Container(
+          //   height: 160.h,
+          //   decoration: BoxDecoration(
+          //     color: Appcolors.widgetcolor,
+          //     borderRadius: BorderRadius.circular(15.sp),
+          //   ),
+          //   child: Row(
+          //     children: [
+          //       Image.asset(EshopAssets.product1),
+          //       SizedBox(
+          //         width: 180.h,
+          //         height: 160.h,
+          //         child: Column(
+          //           crossAxisAlignment: CrossAxisAlignment.start,
+          //           mainAxisAlignment: MainAxisAlignment.center,
+          //           children: [
+          //             Text(
+          //               'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
+          //               softWrap: true,
+          //               overflow: TextOverflow.ellipsis,
+          //               maxLines: 2,
+          //             ),
+          //             SizedBox(
+          //               height: 5.h,
+          //             ),
+          //             Text(
+          //               '\$59.99',
+          //               style: GoogleFonts.roboto(
+          //                   fontWeight: EshopFontweight.medium,
+          //                   fontSize: EshopTypography.homepagecategories,
+          //                   decoration: TextDecoration.lineThrough),
+          //             ),
+          //             Text(
+          //               '\$39.50',
+          //               style: GoogleFonts.roboto(
+          //                   fontSize: EshopTypography.subtext,
+          //                   fontWeight: EshopFontweight.medium,
+          //                   color: Appcolors.promptColor),
+          //             ),
+          //             const SizedBox(
+          //               height: 10,
+          //             ),
+          //             Row(
+          //               children: [
+          //                 InkWell(
+          //                   onTap: () {},
+          //                   child: Container(
+          //                     height: 35.h,
+          //                     width: 120.w,
+          //                     decoration: BoxDecoration(
+          //                       border: Border.all(color: Appcolors.iconColor),
+          //                       borderRadius: BorderRadius.circular(5.r),
+          //                     ),
+          //                     child: Row(
+          //                       mainAxisAlignment: MainAxisAlignment.center,
+          //                       children: [
+          //                         Icon(
+          //                           Iconsax.add,
+          //                           size: 22.sp,
+          //                         ),
+          //                         Text(
+          //                           'Add to Cart',
+          //                           style: GoogleFonts.roboto(
+          //                               fontSize: EshopTypography.subtext,
+          //                               fontWeight: EshopFontweight.regular),
+          //                         ),
+          //                       ],
+          //                     ),
+          //                   ),
+          //                 ),
+          //                 SizedBox(
+          //                   width: 10.w,
+          //                 ),
+          //                 Container(
+          //                     height: 40.h,
+          //                     width: 40.w,
+          //                     decoration: BoxDecoration(
+          //                         border:
+          //                             Border.all(color: Appcolors.iconColor),
+          //                         borderRadius: BorderRadius.circular(50.r)),
+          //                     child: Center(
+          //                         child: IconButton(
+          //                       onPressed: () {},
+          //                       icon: const Icon(Iconsax.heart5),
+          //                       color: Appcolors.promptColor,
+          //                     )))
+          //               ],
+          //             )
+          //           ],
+          //         ),
+          //       )
+          //     ],
             ),
           )
         ],
@@ -507,7 +547,9 @@ class ProfilePage extends ConsumerWidget {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               CircleAvatar(
-                backgroundImage: user?.photoURL != null ? NetworkImage(user!.photoURL!) : const AssetImage(EshopAssets.person) as ImageProvider,
+                backgroundImage: user?.photoURL != null
+                    ? NetworkImage(user!.photoURL!)
+                    : const AssetImage(EshopAssets.person) as ImageProvider,
                 radius: 25.r,
               ),
               SizedBox(

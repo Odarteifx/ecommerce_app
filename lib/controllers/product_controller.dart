@@ -1,3 +1,4 @@
+// ignore_for_file: unused_field
 import 'package:ecommerce_app/models/product_models.dart';
 import 'package:ecommerce_app/services/product_services.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';

@@ -1,5 +1,4 @@
 // ignore_for_file: unused_local_variable, unnecessary_null_comparison
-
 import 'package:ecommerce_app/Auth/eshop_database.dart';
 import 'package:ecommerce_app/screens/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
