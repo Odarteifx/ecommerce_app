@@ -416,7 +416,7 @@ class WishlistPage extends ConsumerWidget {
                           ),
                         ),
                         title: Text(item.productName),
-                        subtitle: item.oldPrice != null  
+                        subtitle: item.oldPrice != 0  
                             ? Row(
                                 children: [
                                   Text(
@@ -442,6 +442,7 @@ class WishlistPage extends ConsumerWidget {
                          
                         trailing: IconButton(
                             onPressed: () {
+                              print('${item.id}');
                               ref
                                   .read(wishlistControllerProvider.notifier)
                                   .removeFromWishlist(item.id);
