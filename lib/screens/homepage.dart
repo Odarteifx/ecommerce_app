@@ -390,127 +390,166 @@ class WishlistPage extends ConsumerWidget {
             height: 20.h,
           ),
           wishlistItems.when(
-              data: (items) {
-                if (items.isEmpty) {
-                  return Center(
-                      child: Text(
-                    'No items in the cart',
-                    style: TextStyle(fontSize: EshopTypography.onboadingbody),
-                  ));
-                }
-                return Expanded(
-                  child: ListView.builder(itemBuilder: (context, index){
-                    final WishlistItem item = items[index];
-                    return ListTile(
-                      leading: Container(
-                        height: 50.h,
-                        width: 50.h,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10.sp),
-                          image: DecorationImage(image: NetworkImage(item.image),  fit: BoxFit.cover,),
+            data: (items) {
+              if (items.isEmpty) {
+                return Center(
+                    child: Text(
+                  'No items in the cart',
+                  style: TextStyle(fontSize: EshopTypography.onboadingbody),
+                ));
+              }
+              return Expanded(
+                child: ListView.builder(
+                    itemCount: items.length,
+                    itemBuilder: (context, index) {
+                      final WishlistItem item = items[index];
+                      return ListTile(
+                        leading: Container(
+                          height: 50.h,
+                          width: 50.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10.sp),
+                            image: DecorationImage(
+                              image: NetworkImage(item.image),
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
-                      ),
-                      title: Text(item.productName),
-                      subtitle: Text('\$${item.price.toStringAsFixed(2)}'),
-                    );
-                  }),
-                );
-              },
-              error: (error, stackTrace) => Center(child: Text('Error: $error'),),
-              loading: () => Center(child: CircularProgressIndicator(),
+                        title: Text(item.productName),
+                        subtitle: item.oldPrice != null  
+                            ? Row(
+                                children: [
+                                  Text(
+                                    '\$${item.oldPrice?.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                      decoration: TextDecoration.lineThrough,
+                                      decorationColor: Appcolors.promptColor,
+                                      color: Appcolors.promptColor,
+                                      fontWeight: EshopFontweight.semibold,
+                                    ),
+                                  ),
+                                  SizedBox(width: 5.w),
+                                  Text('\$${item.price.toStringAsFixed(2)}',
+                                  style: TextStyle(
+                                  fontWeight: EshopFontweight.bold),)
+                                ],
+                              )
+                            : Text('\$${item.price.toStringAsFixed(2)}',
+                                style: TextStyle(
+                                  fontWeight: EshopFontweight.bold
+                                )),
+                        
+                         
+                        trailing: IconButton(
+                            onPressed: () {
+                              ref
+                                  .read(wishlistControllerProvider.notifier)
+                                  .removeFromWishlist(item.id);
+                            },
+                            icon: const Icon(Iconsax.heart5,
+                                color: Appcolors.promptColor)),
+                      );
+                    }),
+              );
+            },
+            error: (error, stackTrace) => Center(
+              child: Text('Error: $error'),
+            ),
+            loading: () => Center(
+              child: CircularProgressIndicator(),
 
-          // Container(
-          //   height: 160.h,
-          //   decoration: BoxDecoration(
-          //     color: Appcolors.widgetcolor,
-          //     borderRadius: BorderRadius.circular(15.sp),
-          //   ),
-          //   child: Row(
-          //     children: [
-          //       Image.asset(EshopAssets.product1),
-          //       SizedBox(
-          //         width: 180.h,
-          //         height: 160.h,
-          //         child: Column(
-          //           crossAxisAlignment: CrossAxisAlignment.start,
-          //           mainAxisAlignment: MainAxisAlignment.center,
-          //           children: [
-          //             Text(
-          //               'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
-          //               softWrap: true,
-          //               overflow: TextOverflow.ellipsis,
-          //               maxLines: 2,
-          //             ),
-          //             SizedBox(
-          //               height: 5.h,
-          //             ),
-          //             Text(
-          //               '\$59.99',
-          //               style: GoogleFonts.roboto(
-          //                   fontWeight: EshopFontweight.medium,
-          //                   fontSize: EshopTypography.homepagecategories,
-          //                   decoration: TextDecoration.lineThrough),
-          //             ),
-          //             Text(
-          //               '\$39.50',
-          //               style: GoogleFonts.roboto(
-          //                   fontSize: EshopTypography.subtext,
-          //                   fontWeight: EshopFontweight.medium,
-          //                   color: Appcolors.promptColor),
-          //             ),
-          //             const SizedBox(
-          //               height: 10,
-          //             ),
-          //             Row(
-          //               children: [
-          //                 InkWell(
-          //                   onTap: () {},
-          //                   child: Container(
-          //                     height: 35.h,
-          //                     width: 120.w,
-          //                     decoration: BoxDecoration(
-          //                       border: Border.all(color: Appcolors.iconColor),
-          //                       borderRadius: BorderRadius.circular(5.r),
-          //                     ),
-          //                     child: Row(
-          //                       mainAxisAlignment: MainAxisAlignment.center,
-          //                       children: [
-          //                         Icon(
-          //                           Iconsax.add,
-          //                           size: 22.sp,
-          //                         ),
-          //                         Text(
-          //                           'Add to Cart',
-          //                           style: GoogleFonts.roboto(
-          //                               fontSize: EshopTypography.subtext,
-          //                               fontWeight: EshopFontweight.regular),
-          //                         ),
-          //                       ],
-          //                     ),
-          //                   ),
-          //                 ),
-          //                 SizedBox(
-          //                   width: 10.w,
-          //                 ),
-          //                 Container(
-          //                     height: 40.h,
-          //                     width: 40.w,
-          //                     decoration: BoxDecoration(
-          //                         border:
-          //                             Border.all(color: Appcolors.iconColor),
-          //                         borderRadius: BorderRadius.circular(50.r)),
-          //                     child: Center(
-          //                         child: IconButton(
-          //                       onPressed: () {},
-          //                       icon: const Icon(Iconsax.heart5),
-          //                       color: Appcolors.promptColor,
-          //                     )))
-          //               ],
-          //             )
-          //           ],
-          //         ),
-          //       )
-          //     ],
+              // Container(
+              //   height: 160.h,
+              //   decoration: BoxDecoration(
+              //     color: Appcolors.widgetcolor,
+              //     borderRadius: BorderRadius.circular(15.sp),
+              //   ),
+              //   child: Row(
+              //     children: [
+              //       Image.asset(EshopAssets.product1),
+              //       SizedBox(
+              //         width: 180.h,
+              //         height: 160.h,
+              //         child: Column(
+              //           crossAxisAlignment: CrossAxisAlignment.start,
+              //           mainAxisAlignment: MainAxisAlignment.center,
+              //           children: [
+              //             Text(
+              //               'Beats Studio Pro – Premium Wireless Noise Cancelling Headphones',
+              //               softWrap: true,
+              //               overflow: TextOverflow.ellipsis,
+              //               maxLines: 2,
+              //             ),
+              //             SizedBox(
+              //               height: 5.h,
+              //             ),
+              //             Text(
+              //               '\$59.99',
+              //               style: GoogleFonts.roboto(
+              //                   fontWeight: EshopFontweight.medium,
+              //                   fontSize: EshopTypography.homepagecategories,
+              //                   decoration: TextDecoration.lineThrough),
+              //             ),
+              //             Text(
+              //               '\$39.50',
+              //               style: GoogleFonts.roboto(
+              //                   fontSize: EshopTypography.subtext,
+              //                   fontWeight: EshopFontweight.medium,
+              //                   color: Appcolors.promptColor),
+              //             ),
+              //             const SizedBox(
+              //               height: 10,
+              //             ),
+              //             Row(
+              //               children: [
+              //                 InkWell(
+              //                   onTap: () {},
+              //                   child: Container(
+              //                     height: 35.h,
+              //                     width: 120.w,
+              //                     decoration: BoxDecoration(
+              //                       border: Border.all(color: Appcolors.iconColor),
+              //                       borderRadius: BorderRadius.circular(5.r),
+              //                     ),
+              //                     child: Row(
+              //                       mainAxisAlignment: MainAxisAlignment.center,
+              //                       children: [
+              //                         Icon(
+              //                           Iconsax.add,
+              //                           size: 22.sp,
+              //                         ),
+              //                         Text(
+              //                           'Add to Cart',
+              //                           style: GoogleFonts.roboto(
+              //                               fontSize: EshopTypography.subtext,
+              //                               fontWeight: EshopFontweight.regular),
+              //                         ),
+              //                       ],
+              //                     ),
+              //                   ),
+              //                 ),
+              //                 SizedBox(
+              //                   width: 10.w,
+              //                 ),
+              //                 Container(
+              //                     height: 40.h,
+              //                     width: 40.w,
+              //                     decoration: BoxDecoration(
+              //                         border:
+              //                             Border.all(color: Appcolors.iconColor),
+              //                         borderRadius: BorderRadius.circular(50.r)),
+              //                     child: Center(
+              //                         child: IconButton(
+              //                       onPressed: () {},
+              //                       icon: const Icon(Iconsax.heart5),
+              //                       color: Appcolors.promptColor,
+              //                     )))
+              //               ],
+              //             )
+              //           ],
+              //         ),
+              //       )
+              //     ],
             ),
           )
         ],
