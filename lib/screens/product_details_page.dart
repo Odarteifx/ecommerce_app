@@ -149,13 +149,13 @@ class ProductDetailsPage extends ConsumerWidget {
                                   decoration: TextDecoration.lineThrough),
                             ),
                             SizedBox(
-                              width: 10.w,
+                              width: 3.w,
                             ),
                             GestureDetector(
                                 onTap: () {},
                                 child: Icon(
                                   Icons.info_outline,
-                                  size: 18,
+                                  size: 15.sp,
                                 )),
                           ],
                         ),
