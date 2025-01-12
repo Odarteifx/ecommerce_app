@@ -11,7 +11,7 @@ class WishlistItem {
     required this.image,
     required this.productName,
     required this.price,
-    required this.oldPrice,
+    this.oldPrice,
   });
   
 
@@ -47,7 +47,9 @@ class WishlistItem {
       image: map['image'] as String,
       productName: map['productName'] as String,
       price: map['price'] as double,
-      oldPrice: map['oldPrice'] as double,
+      oldPrice: map['oldPrice'] != null
+          ? (map['oldPrice'] as num).toDouble()
+          : null,
     );
   }
 
