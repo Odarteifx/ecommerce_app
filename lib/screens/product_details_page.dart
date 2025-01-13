@@ -21,7 +21,7 @@ class ProductDetailsPage extends ConsumerWidget {
     final wishlistItems = ref.watch(wishlistProvider);
 
     bool isInWishlist = wishlistItems.maybeWhen(
-      data: (items) => items.any((item) => item.productId == item.productId),
+      data: (items) => items.any((item) => item.productId == product.productId),
       orElse: () => false,
     );
     return Scaffold(
@@ -91,7 +91,7 @@ class ProductDetailsPage extends ConsumerWidget {
                               print('${wishlistItems}');
                               if (isInWishlist) {
                                 final wishlistItem = wishlistItems.value!
-                                    .firstWhere((item) => item.productId == item.productId);
+                                    .firstWhere((item) => item.productId == product.productId);
                                 ref
                                     .read(wishlistControllerProvider.notifier)
                                     .removeFromWishlist(wishlistItem.productId);

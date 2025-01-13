@@ -29,7 +29,7 @@ class WishlistServices {
           .collection('users')
           .doc(user.uid)
           .collection('wishlist')
-          .doc(item.productId) // Use productId as the document ID
+          .doc(item.productId) 
           .set(item.toMap());
     }
   }
@@ -41,7 +41,7 @@ class WishlistServices {
           .collection('users')
           .doc(user.uid)
           .collection('wishlist')
-          .doc(productId) // Use productId as the document ID
+          .doc(productId)
           .delete();
     }
   }

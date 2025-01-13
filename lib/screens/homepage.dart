@@ -392,11 +392,13 @@ class WishlistPage extends ConsumerWidget {
           wishlistItems.when(
             data: (items) {
               if (items.isEmpty) {
-                return Center(
-                    child: Text(
-                  'No items in the cart',
-                  style: TextStyle(fontSize: EshopTypography.onboadingbody),
-                ));
+                return Expanded(
+                  child: Center(
+                      child: Text(
+                    'No items added to wishlist',
+                    style: TextStyle(fontSize: EshopTypography.onboadingbody),
+                  )),
+                );
               }
               return Expanded(
                 child: ListView.builder(
