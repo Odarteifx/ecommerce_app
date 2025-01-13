@@ -21,7 +21,7 @@ class CartController extends StateNotifier<List<CartItem>> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      final existingItemIndex = state.indexWhere((cartItem) => cartItem.productName == item.productName);
+      final existingItemIndex = state.indexWhere((cartItem) => cartItem.productId == item.productId);
 
       if (existingItemIndex >= 0) {
         // If the item already exists in the cart, increase the quantity

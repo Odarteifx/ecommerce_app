@@ -18,7 +18,7 @@ class WishlistServices {
         .collection('wishlist')
         .snapshots()
         .map((snapshot) => snapshot.docs
-            .map((doc) => WishlistItem.fromMap(doc.data()))
+            .map((doc) => WishlistItem.fromMap(doc.data(), doc.id))
             .toList());
   }
 
@@ -29,18 +29,19 @@ class WishlistServices {
           .collection('users')
           .doc(user.uid)
           .collection('wishlist')
-          .add(item.toMap());
+          .doc(item.productId) // Use productId as the document ID
+          .set(item.toMap());
     }
   }
 
-  Future<void> removeFromWishlist(String itemId) async {
+  Future<void> removeFromWishlist(String productId) async {
     final user = auth.currentUser;
     if (user != null) {
       await _firestore
           .collection('users')
           .doc(user.uid)
           .collection('wishlist')
-          .doc(itemId)
+          .doc(productId) // Use productId as the document ID
           .delete();
     }
   }

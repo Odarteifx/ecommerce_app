@@ -1,7 +1,6 @@
 import 'dart:convert';
 
 class CartItem {
-  final String? id;
   final String? productId;
   final String? image;
   final String productName;
@@ -10,7 +9,6 @@ class CartItem {
   final double price;
 
   CartItem({
-    required this.id,
     required this.productId,
     required this.image,
     required this.productName,
@@ -20,7 +18,6 @@ class CartItem {
   });
 
   CartItem copyWith({
-    String? id,
     String? productId,
     String? image,
     String? productName,
@@ -29,7 +26,6 @@ class CartItem {
     double? price,
   }) {
     return CartItem(
-      id: id ?? this.id,
       productId: productId ?? this.productId,
       image: image ?? this.image,
       productName: productName ?? this.productName,
@@ -41,7 +37,6 @@ class CartItem {
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
       'productId': productId,
       'image': image,
       'productName': productName,
@@ -53,7 +48,6 @@ class CartItem {
 
   factory CartItem.fromMap(Map<String, dynamic> map) {
     return CartItem(
-      id: map['id'] ?? '',
       productId: map['productId'] ?? '',
       image: map['image'] ?? '',
       productName: map['productName'] ?? '',
@@ -69,15 +63,14 @@ class CartItem {
 
   @override
   String toString() {
-    return 'CartItem(id: $id, productId: $productId, image: $image, productName: $productName, quantity: $quantity, oldPrice: $oldPrice, price: $price)';
+    return 'CartItem(productId: $productId, image: $image, productName: $productName, quantity: $quantity, oldPrice: $oldPrice, price: $price)';
   }
 
   @override
   bool operator ==(covariant CartItem other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
-        other.productId == productId &&
+    return other.productId == productId &&
         other.image == image &&
         other.productName == productName &&
         other.quantity == quantity &&
@@ -87,8 +80,7 @@ class CartItem {
 
   @override
   int get hashCode {
-    return id.hashCode ^
-        productId.hashCode ^
+    return productId.hashCode ^
         image.hashCode ^
         productName.hashCode ^
         quantity.hashCode ^

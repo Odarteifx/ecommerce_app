@@ -21,7 +21,7 @@ class ProductDetailsPage extends ConsumerWidget {
     final wishlistItems = ref.watch(wishlistProvider);
 
     bool isInWishlist = wishlistItems.maybeWhen(
-      data: (items) => items.any((item) => item.id == item.id),
+      data: (items) => items.any((item) => item.productId == item.productId),
       orElse: () => false,
     );
     return Scaffold(
@@ -36,7 +36,6 @@ class ProductDetailsPage extends ConsumerWidget {
                     '${product.name}, ${product.image}, ${product.productId},}');
                 final cartItem = CartItem(
                   quantity: 1,
-                  id: UniqueKey().toString(),
                   productId: product.productId,
                   image: product.image,
                   productName: product.name,
@@ -92,13 +91,13 @@ class ProductDetailsPage extends ConsumerWidget {
                               print('${wishlistItems}');
                               if (isInWishlist) {
                                 final wishlistItem = wishlistItems.value!
-                                    .firstWhere((item) => item.productName == item.productName);
+                                    .firstWhere((item) => item.productId == item.productId);
                                 ref
                                     .read(wishlistControllerProvider.notifier)
-                                    .removeFromWishlist(wishlistItem.id);
+                                    .removeFromWishlist(wishlistItem.productId);
                               } else {
                                 final wishlistItem = WishlistItem(
-                                    id: UniqueKey().toString(),
+                                    productId: product.productId,
                                     image: product.image,
                                     productName: product.name,
                                     price: product.price,
@@ -106,11 +105,8 @@ class ProductDetailsPage extends ConsumerWidget {
                                 ref.read(wishlistControllerProvider.notifier).addToWishlist(wishlistItem);
                               }
                             },
-                            icon: Icon(
-                                isInWishlist ? Iconsax.heart5 : Iconsax.heart,
-                                color: isInWishlist
-                                    ? Appcolors.promptColor
-                                    : null)),
+                            icon: Icon( isInWishlist ? Iconsax.heart5 : Iconsax.heart,
+                                color: isInWishlist? Appcolors.promptColor  : Appcolors.textColor)),
                         IconButton(
                             onPressed: () {},
                             icon: Badge(

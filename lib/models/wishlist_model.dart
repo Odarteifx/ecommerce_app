@@ -1,13 +1,13 @@
 import 'dart:convert';
 
 class WishlistItem {
-  String id;
+  String productId;
   String image;
   String productName;
   double price;
   double? oldPrice;
   WishlistItem({
-    required this.id,
+    required this.productId,
     required this.image,
     required this.productName,
     required this.price,
@@ -16,14 +16,14 @@ class WishlistItem {
   
 
   WishlistItem copyWith({
-    String? id,
+    String? productId,
     String? image,
     String? productName,
     double? price,
     double? oldPrice,
   }) {
     return WishlistItem(
-      id: id ?? this.id,
+      productId: productId ?? this.productId,
       image: image ?? this.image,
       productName: productName ?? this.productName,
       price: price ?? this.price,
@@ -33,7 +33,7 @@ class WishlistItem {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': id,
+      'productId': productId,
       'image': image,
       'productName': productName,
       'price': price,
@@ -41,9 +41,9 @@ class WishlistItem {
     };
   }
 
-  factory WishlistItem.fromMap(Map<String, dynamic> map) {
+  factory WishlistItem.fromMap(Map<String, dynamic> map, String id) {
     return WishlistItem(
-      id: map['id'] as String,
+      productId: id,
       image: map['image'] as String,
       productName: map['productName'] as String,
       price: map['price'] as double,
@@ -55,11 +55,11 @@ class WishlistItem {
 
   String toJson() => json.encode(toMap());
 
-  factory WishlistItem.fromJson(String source) => WishlistItem.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory WishlistItem.fromJson(String source) => WishlistItem.fromMap(json.decode(source) as Map<String, dynamic>, '');
 
   @override
   String toString() {
-    return 'WishlistItem(id: $id, image: $image, productName: $productName, price: $price, oldPrice: $oldPrice)';
+    return 'WishlistItem(productId: $productId, image: $image, productName: $productName, price: $price, oldPrice: $oldPrice)';
   }
 
   @override
@@ -67,7 +67,7 @@ class WishlistItem {
     if (identical(this, other)) return true;
   
     return 
-      other.id == id &&
+      other.productId == productId &&
       other.image == image &&
       other.productName == productName &&
       other.price == price &&
@@ -76,7 +76,7 @@ class WishlistItem {
 
   @override
   int get hashCode {
-    return id.hashCode ^
+    return productId.hashCode ^
       image.hashCode ^
       productName.hashCode ^
       price.hashCode ^

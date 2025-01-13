@@ -22,7 +22,7 @@ class ProductServices {
       List<ProductModel> productList = [];
       for (var doc in event.docs) {
         productList
-            .add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
+            .add(ProductModel.fromMap(doc.data() as Map<String, dynamic>, doc.id));
       }
       return productList;
     });
@@ -35,7 +35,7 @@ class ProductServices {
         .map((event) {
       List<ProductModel> products = [];
       for (var doc in event.docs) {
-        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
+        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>, doc.id));
       }
       return products;
     });
@@ -49,15 +49,15 @@ class ProductServices {
         .map((event) {
       List<ProductModel> products = [];
       for (var doc in event.docs) {
-        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
+        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>, doc.id));
       }
       return products;
     });
   }
 
-  Stream<ProductModel> getProductId(String productId) {
+   Stream<ProductModel> getProductId(String productId) {
     return _products.doc(productId).snapshots().map((event) {
-      return ProductModel.fromMap(event.data() as Map<String, dynamic>);
+      return ProductModel.fromMap(event.data() as Map<String, dynamic>, event.id);
     });
   }
 
@@ -65,7 +65,7 @@ class ProductServices {
     return _products.orderBy('name').startAt([search]).endAt(['$search\uff8ff']).limit(10).snapshots().map((event){
       List <ProductModel>products = [];
       for (var doc in event.docs) {
-        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>));
+        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>, doc.id));
       }
       return products;
     });

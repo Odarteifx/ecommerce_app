@@ -177,7 +177,7 @@ class MyCartPage extends ConsumerWidget {
                             return ListTile(
                               onTap: () {
                                 print(
-                                    '${item.image}, ${item.productName}, ${item.id}');
+                                    '${item.image}, ${item.productName}, ${item.productId}');
                               },
                               leading: Container(
                                 height: 50.h,
@@ -442,10 +442,10 @@ class WishlistPage extends ConsumerWidget {
                          
                         trailing: IconButton(
                             onPressed: () {
-                              print('${item.id}');
+                              print('${item.productId}');
                               ref
                                   .read(wishlistControllerProvider.notifier)
-                                  .removeFromWishlist(item.id);
+                                  .removeFromWishlist(item.productId);
                             },
                             icon: Icon( Iconsax.heart5,
                                 color: Appcolors.promptColor)),

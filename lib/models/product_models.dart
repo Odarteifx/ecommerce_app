@@ -56,11 +56,9 @@ class ProductModel {
     };
   }
 
-  factory ProductModel.fromMap(
-    Map<String, dynamic> map,
-  ) {
+  factory ProductModel.fromMap(Map<String, dynamic> map, String id) {
     return ProductModel(
-      productId: map['productId'] != null ? map['productId'] as String : '',
+      productId: id,
       name: map['name'] != null ? map['name'] as String : '',
       image: map['name'] != null ? map['image'] as String : '',
       price: map['price'] != null ? (map['price'] as num).toDouble() : 0.0,
@@ -77,7 +75,7 @@ class ProductModel {
   String toJson() => json.encode(toMap());
 
   factory ProductModel.fromJson(String source) =>
-      ProductModel.fromMap(json.decode(source) as Map<String, dynamic>);
+      ProductModel.fromMap(json.decode(source) as Map<String, dynamic>, '');
 
   @override
   String toString() {

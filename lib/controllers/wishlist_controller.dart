@@ -32,7 +32,7 @@ class WishlistController extends StateNotifier<List<WishlistItem>> {
     final user = FirebaseAuth.instance.currentUser;
 
     if (user != null) {
-      state = state.where((item) => item.id != itemId).toList();
+      state = state.where((item) => item.productId != itemId).toList();
       await wishlistServices.removeFromWishlist(itemId);
     }
   }
