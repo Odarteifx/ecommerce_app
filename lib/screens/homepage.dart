@@ -259,7 +259,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 15.h,
                   ),
-                  categoriesWidget(),
+                  CategoriesWidget(),
                   SizedBox(
                     height: 20.h,
                   ),

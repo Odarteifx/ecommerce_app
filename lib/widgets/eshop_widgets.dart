@@ -2,7 +2,9 @@
 import 'dart:math';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
+import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -514,8 +516,8 @@ class BannerSlider extends StatelessWidget {
 }
 
 //categories with firebase
-class categoriesWidget extends ConsumerWidget {
-  const categoriesWidget({super.key});
+class CategoriesWidget extends ConsumerWidget {
+  const CategoriesWidget({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -604,113 +606,237 @@ class ProductWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ref.watch(getsProductsProvider);
-    return product.when(
-        data: (data) {
-          return GridView.builder(
-              itemCount: data.length,
-              shrinkWrap: true,
-              padding: EdgeInsets.symmetric(horizontal: 20.h),
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20.h,
-                  crossAxisSpacing: 20.sp,
-                  mainAxisExtent: 250.sp),
-              itemBuilder: (context, index) {
-                return GestureDetector(
-                  onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
-                  },
-                  child: Container(
-                    height: 245.h,
-                    width: 165.w,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          height: 165.sp,
-                          width: 165.w,
-                          decoration: BoxDecoration(
-                              color: Appcolors.widgetcolor,
-                              borderRadius: BorderRadius.circular(10.sp)),
-                          child: Image.network(
-                            data[index].image.toString(),
-                            width: 150.w,
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5.h,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    final wishlistItems = ref.watch(wishlistProvider);
+    bool isInWishlist(int index) => wishlistItems.maybeWhen(
+      data: (items) => items.any((item) => item.productId == product.asData!.value[index].productId),
+      orElse: () => false,
+    );
+        return product.when(
+            data: (data) {
+              return GridView.builder(
+                  itemCount: data.length,
+                  shrinkWrap: true,
+                  padding: EdgeInsets.symmetric(horizontal: 20.h),
+                  physics: const NeverScrollableScrollPhysics(),
+                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 20.h,
+                      crossAxisSpacing: 20.sp,
+                      mainAxisExtent: 250.sp),
+                  itemBuilder: (context, index) {
+                    bool isInWishlistFlag = isInWishlist(index);
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
+                      },
+                      child: Container(
+                        height: 245.h,
+                        width: 165.w,
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (data[index].oldPrice != null)
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    '\$${data[index].oldPrice?.toStringAsFixed(2)}',
-                                    style: GoogleFonts.roboto(
-                                        fontWeight: EshopFontweight.medium,
-                                        fontSize:
-                                            EshopTypography.homepagecategories,
-                                        decoration: TextDecoration.lineThrough),
-                                  ),
-                                  Text(
-                                    '\$${data[index].price}',
-                                    style: GoogleFonts.roboto(
-                                        fontSize: EshopTypography.subtext,
-                                        fontWeight: EshopFontweight.medium,
-                                        color: Appcolors.promptColor),
-                                  ),
-                                ],
-                              )
-                            else
-                              Text(
-                                '\$${data[index].price.toStringAsFixed(2)}',
-                                style: GoogleFonts.roboto(
-                                    fontSize: EshopTypography.onboadingbody,
-                                    fontWeight: EshopFontweight.medium,
-                                    color: Appcolors.textColor),
+                            Container(
+                              height: 165.sp,
+                              width: 165.w,
+                              decoration: BoxDecoration(
+                                  color: Appcolors.widgetcolor,
+                                  borderRadius: BorderRadius.circular(10.sp)),
+                              child: Image.network(
+                                data[index].image.toString(),
+                                width: 150.w,
                               ),
-                            IconButton(
+                            ),
+                            SizedBox(
+                              height: 5.h,
+                            ),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                if (data[index].oldPrice != null)
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Text(
+                                        '\$${data[index].oldPrice?.toStringAsFixed(2)}',
+                                        style: GoogleFonts.roboto(
+                                            fontWeight: EshopFontweight.medium,
+                                            fontSize:
+                                                EshopTypography.homepagecategories,
+                                            decoration: TextDecoration.lineThrough),
+                                      ),
+                                      Text(
+                                        '\$${data[index].price}',
+                                        style: GoogleFonts.roboto(
+                                            fontSize: EshopTypography.subtext,
+                                            fontWeight: EshopFontweight.medium,
+                                            color: Appcolors.promptColor),
+                                      ),
+                                    ],
+                                  )
+                                else
+                                  Text(
+                                    '\$${data[index].price.toStringAsFixed(2)}',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: EshopTypography.onboadingbody,
+                                        fontWeight: EshopFontweight.medium,
+                                        color: Appcolors.textColor),
+                                  ),
+                                IconButton(
                                 onPressed: () {
-                                  // setState(() {
-                                  //   wishlist = !wishlist;
-                                  // });
+                                  print('${wishlistItems}');
+                                  if (isInWishlistFlag) {
+                                    final wishlistItem = wishlistItems.value!
+                                        .firstWhere((item) => item.productId == data[index].productId);
+                                    ref
+                                        .read(wishlistControllerProvider.notifier)
+                                        .removeFromWishlist(wishlistItem.productId);
+                                  } else {
+                                    final wishlistItem = WishlistItem(
+                                        productId: data[index].productId,
+                                        image: data[index].image,
+                                        productName: data[index].name,
+                                        price: data[index].price,
+                                        oldPrice: data[index].oldPrice);
+                                    ref.read(wishlistControllerProvider.notifier).addToWishlist(wishlistItem);
+                                  }
                                 },
-                                icon: const Icon(
-                                  Iconsax.heart5,
-                                  color: Appcolors.promptColor,
-                                )
-                                // : const Icon(
-                                //   Iconsax.heart,
-                                //   color: Appcolors.iconColor,
-                                // )
-                                )
+                                icon: Icon( isInWishlistFlag ? Iconsax.heart5 : Iconsax.heart,
+                                    color: isInWishlistFlag? Appcolors.promptColor  : Appcolors.textColor)),
+                              ],
+                            ),
+                            Text(
+                              '${data[index].name} - ${data[index].description}',
+                              softWrap: true,
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 2,
+                              style: GoogleFonts.roboto(
+                                  color: Appcolors.subtextColor,
+                                  fontSize: EshopTypography.homepagecategories,
+                                  fontWeight: EshopFontweight.regular),
+                            )
                           ],
                         ),
-                        Text(
-                          '${data[index].name} - ${data[index].description}',
-                          softWrap: true,
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 2,
-                          style: GoogleFonts.roboto(
-                              color: Appcolors.subtextColor,
-                              fontSize: EshopTypography.homepagecategories,
-                              fontWeight: EshopFontweight.regular),
-                        )
-                      ],
-                    ),
-                  ),
-                );
-              });
-        },
-        error: (error, StackTrace) => ErrorWidget(error.toString()),
-        loading: () => Loader());
-  }
-}
+                      ),
+                    );
+                  });
+            },
+            error: (error, StackTrace) => ErrorWidget('Error: $error'),
+            loading: () => Loader());
+      }
+    }
+//         data: (data) {
+//           return GridView.builder(
+//               itemCount: data.length,
+//               shrinkWrap: true,
+//               padding: EdgeInsets.symmetric(horizontal: 20.h),
+//               physics: const NeverScrollableScrollPhysics(),
+//               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+//                   crossAxisCount: 2,
+//                   mainAxisSpacing: 20.h,
+//                   crossAxisSpacing: 20.sp,
+//                   mainAxisExtent: 250.sp),
+//               itemBuilder: (context, index) {
+//                 return GestureDetector(
+//                   onTap: () {
+//                     Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
+//                   },
+//                   child: Container(
+//                     height: 245.h,
+//                     width: 165.w,
+//                     child: Column(
+//                       mainAxisAlignment: MainAxisAlignment.start,
+//                       crossAxisAlignment: CrossAxisAlignment.start,
+//                       children: [
+//                         Container(
+//                           height: 165.sp,
+//                           width: 165.w,
+//                           decoration: BoxDecoration(
+//                               color: Appcolors.widgetcolor,
+//                               borderRadius: BorderRadius.circular(10.sp)),
+//                           child: Image.network(
+//                             data[index].image.toString(),
+//                             width: 150.w,
+//                           ),
+//                         ),
+//                         SizedBox(
+//                           height: 5.h,
+//                         ),
+//                         Row(
+//                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//                           children: [
+//                             if (data[index].oldPrice != null)
+//                               Column(
+//                                 crossAxisAlignment: CrossAxisAlignment.start,
+//                                 children: [
+//                                   Text(
+//                                     '\$${data[index].oldPrice?.toStringAsFixed(2)}',
+//                                     style: GoogleFonts.roboto(
+//                                         fontWeight: EshopFontweight.medium,
+//                                         fontSize:
+//                                             EshopTypography.homepagecategories,
+//                                         decoration: TextDecoration.lineThrough),
+//                                   ),
+//                                   Text(
+//                                     '\$${data[index].price}',
+//                                     style: GoogleFonts.roboto(
+//                                         fontSize: EshopTypography.subtext,
+//                                         fontWeight: EshopFontweight.medium,
+//                                         color: Appcolors.promptColor),
+//                                   ),
+//                                 ],
+//                               )
+//                             else
+//                               Text(
+//                                 '\$${data[index].price.toStringAsFixed(2)}',
+//                                 style: GoogleFonts.roboto(
+//                                     fontSize: EshopTypography.onboadingbody,
+//                                     fontWeight: EshopFontweight.medium,
+//                                     color: Appcolors.textColor),
+//                               ),
+//                             IconButton(
+//                             onPressed: () {
+//                               print('${wishlistItems}');
+//                               if (isInWishlist) {
+//                                 final wishlistItem = wishlistItems.value!
+//                                     .firstWhere((item) => item.productId == data[index].productId);
+//                                 ref
+//                                     .read(wishlistControllerProvider.notifier)
+//                                     .removeFromWishlist(wishlistItem.productId);
+//                               } else {
+//                                 final wishlistItem = WishlistItem(
+//                                     productId: data[index].productId,
+//                                     image: data[index].image,
+//                                     productName: data[index].name,
+//                                     price: data[index].price,
+//                                     oldPrice: data[index].oldPrice);
+//                                 ref.read(wishlistControllerProvider.notifier).addToWishlist(wishlistItem);
+//                               }
+//                             },
+//                             icon: Icon( isInWishlist ? Iconsax.heart5 : Iconsax.heart,
+//                                 color: isInWishlist? Appcolors.promptColor  : Appcolors.textColor)),
+//                           ],
+//                         ),
+//                         Text(
+//                           '${data[index].name} - ${data[index].description}',
+//                           softWrap: true,
+//                           overflow: TextOverflow.ellipsis,
+//                           maxLines: 2,
+//                           style: GoogleFonts.roboto(
+//                               color: Appcolors.subtextColor,
+//                               fontSize: EshopTypography.homepagecategories,
+//                               fontWeight: EshopFontweight.regular),
+//                         )
+//                       ],
+//                     ),
+//                   ),
+//                 );
+//               });
+//         },
+//         error: (error, StackTrace) => ErrorWidget(error.toString()),
+//         loading: () => Loader());
+//   }
+// }
 
 
 //Profile Widgets
