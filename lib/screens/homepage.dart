@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
@@ -216,6 +217,21 @@ class MyCartPage extends ConsumerWidget {
                 ),
                 Container(
                   height: 50.h,
+                  child: Row(
+                    children: [
+                      Text('Total', style: GoogleFonts.roboto(
+                        fontSize: 18.sp,
+                        fontWeight: FontWeight.w600
+                      ),),
+                      Expanded(child: SizedBox()),
+                      Text('\$0.00'),
+                      FilledButton(
+                        onPressed: (){}, child: Text('Checkout'),
+                        
+                        )
+                     
+                    ],
+                  ),
                 )
               ],
             )));
