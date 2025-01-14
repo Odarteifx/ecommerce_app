@@ -5,6 +5,7 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
+import 'package:ecommerce_app/screens/product_details_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -406,6 +407,12 @@ class WishlistPage extends ConsumerWidget {
                     itemBuilder: (context, index) {
                       final WishlistItem item = items[index];
                       return ListTile(
+                        onTap: () {
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: items[index]),),
+                          // );
+                        },
                         leading: Container(
                           height: 50.h,
                           width: 50.h,

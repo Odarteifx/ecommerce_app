@@ -475,15 +475,14 @@ class BannerSlider extends StatelessWidget {
                 );
               }).toList(),
               options: CarouselOptions(
-                viewportFraction: 1,
-                onPageChanged: (index, reason) {
-                  bannerIndexNotifier.value = index;
-                },
-                autoPlay: true,
-                autoPlayInterval: Duration(seconds: 5),
-                autoPlayAnimationDuration: Duration(seconds: 1),
-                autoPlayCurve: Curves.fastOutSlowIn
-              )),
+                  viewportFraction: 1,
+                  onPageChanged: (index, reason) {
+                    bannerIndexNotifier.value = index;
+                  },
+                  autoPlay: true,
+                  autoPlayInterval: Duration(seconds: 5),
+                  autoPlayAnimationDuration: Duration(seconds: 1),
+                  autoPlayCurve: Curves.fastOutSlowIn)),
         ),
         Positioned(
             left: 160.sp,
@@ -532,7 +531,12 @@ class CategoriesWidget extends ConsumerWidget {
                       padding: EdgeInsets.symmetric(horizontal: 8.w),
                       child: GestureDetector(
                         onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductsbyCategoryPage(categoryname: data[index].name.toString()),));
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => ProductsbyCategoryPage(
+                                    categoryname: data[index].name.toString()),
+                              ));
                         },
                         child: Container(
                           height: 60.h,
@@ -608,89 +612,99 @@ class ProductWidget extends ConsumerWidget {
     final product = ref.watch(getsProductsProvider);
     final wishlistItems = ref.watch(wishlistProvider);
     bool isInWishlist(int index) => wishlistItems.maybeWhen(
-      data: (items) => items.any((item) => item.productId == product.asData!.value[index].productId),
-      orElse: () => false,
-    );
-        return product.when(
-            data: (data) {
-              return GridView.builder(
-                  itemCount: data.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(horizontal: 20.h),
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 20.h,
-                      crossAxisSpacing: 20.sp,
-                      mainAxisExtent: 250.sp),
-                  itemBuilder: (context, index) {
-                    bool isInWishlistFlag = isInWishlist(index);
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
-                      },
-                      child: Container(
-                        height: 245.h,
-                        width: 165.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+          data: (items) => items.any((item) =>
+              item.productId == product.asData!.value[index].productId),
+          orElse: () => false,
+        );
+    return product.when(
+        data: (data) {
+          return GridView.builder(
+              itemCount: data.length,
+              shrinkWrap: true,
+              padding: EdgeInsets.symmetric(horizontal: 20.h),
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  mainAxisSpacing: 20.h,
+                  crossAxisSpacing: 20.sp,
+                  mainAxisExtent: 250.sp),
+              itemBuilder: (context, index) {
+                bool isInWishlistFlag = isInWishlist(index);
+                return GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailsPage(),
+                          settings: RouteSettings(arguments: data[index]),
+                        ));
+                  },
+                  child: Container(
+                    height: 245.h,
+                    width: 165.w,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                          height: 165.sp,
+                          width: 165.w,
+                          decoration: BoxDecoration(
+                              color: Appcolors.widgetcolor,
+                              borderRadius: BorderRadius.circular(10.sp)),
+                          child: Image.network(
+                            data[index].image.toString(),
+                            width: 150.w,
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5.h,
+                        ),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Container(
-                              height: 165.sp,
-                              width: 165.w,
-                              decoration: BoxDecoration(
-                                  color: Appcolors.widgetcolor,
-                                  borderRadius: BorderRadius.circular(10.sp)),
-                              child: Image.network(
-                                data[index].image.toString(),
-                                width: 150.w,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                if (data[index].oldPrice != null)
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '\$${data[index].oldPrice?.toStringAsFixed(2)}',
-                                        style: GoogleFonts.roboto(
-                                            fontWeight: EshopFontweight.medium,
-                                            fontSize:
-                                                EshopTypography.homepagecategories,
-                                            decoration: TextDecoration.lineThrough),
-                                      ),
-                                      Text(
-                                        '\$${data[index].price}',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: EshopTypography.subtext,
-                                            fontWeight: EshopFontweight.medium,
-                                            color: Appcolors.promptColor),
-                                      ),
-                                    ],
-                                  )
-                                else
+                            if (data[index].oldPrice != null)
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
                                   Text(
-                                    '\$${data[index].price.toStringAsFixed(2)}',
+                                    '\$${data[index].oldPrice?.toStringAsFixed(2)}',
                                     style: GoogleFonts.roboto(
-                                        fontSize: EshopTypography.onboadingbody,
                                         fontWeight: EshopFontweight.medium,
-                                        color: Appcolors.textColor),
+                                        fontSize:
+                                            EshopTypography.homepagecategories,
+                                        decoration: TextDecoration.lineThrough),
                                   ),
-                                IconButton(
+                                  Text(
+                                    '\$${data[index].price}',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: EshopTypography.subtext,
+                                        fontWeight: EshopFontweight.medium,
+                                        color: Appcolors.promptColor),
+                                  ),
+                                ],
+                              )
+                            else
+                              Text(
+                                '\$${data[index].price.toStringAsFixed(2)}',
+                                style: GoogleFonts.roboto(
+                                    fontSize: EshopTypography.onboadingbody,
+                                    fontWeight: EshopFontweight.medium,
+                                    color: Appcolors.textColor),
+                              ),
+                            IconButton(
                                 onPressed: () {
                                   print('${wishlistItems}');
                                   if (isInWishlistFlag) {
                                     final wishlistItem = wishlistItems.value!
-                                        .firstWhere((item) => item.productId == data[index].productId);
+                                        .firstWhere((item) =>
+                                            item.productId ==
+                                            data[index].productId);
                                     ref
-                                        .read(wishlistControllerProvider.notifier)
-                                        .removeFromWishlist(wishlistItem.productId);
+                                        .read(
+                                            wishlistControllerProvider.notifier)
+                                        .removeFromWishlist(
+                                            wishlistItem.productId);
                                   } else {
                                     final wishlistItem = WishlistItem(
                                         productId: data[index].productId,
@@ -698,146 +712,41 @@ class ProductWidget extends ConsumerWidget {
                                         productName: data[index].name,
                                         price: data[index].price,
                                         oldPrice: data[index].oldPrice);
-                                    ref.read(wishlistControllerProvider.notifier).addToWishlist(wishlistItem);
+                                    ref
+                                        .read(
+                                            wishlistControllerProvider.notifier)
+                                        .addToWishlist(wishlistItem);
                                   }
                                 },
-                                icon: Icon( isInWishlistFlag ? Iconsax.heart5 : Iconsax.heart,
-                                    color: isInWishlistFlag? Appcolors.promptColor  : Appcolors.textColor)),
-                              ],
-                            ),
-                            Text(
-                              '${data[index].name} - ${data[index].description}',
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: GoogleFonts.roboto(
-                                  color: Appcolors.subtextColor,
-                                  fontSize: EshopTypography.homepagecategories,
-                                  fontWeight: EshopFontweight.regular),
-                            )
+                                icon: Icon(
+                                    isInWishlistFlag
+                                        ? Iconsax.heart5
+                                        : Iconsax.heart,
+                                    color: isInWishlistFlag
+                                        ? Appcolors.promptColor
+                                        : Appcolors.textColor)),
                           ],
                         ),
-                      ),
-                    );
-                  });
-            },
-            error: (error, StackTrace) => ErrorWidget('Error: $error'),
-            loading: () => Loader());
-      }
-    }
-//         data: (data) {
-//           return GridView.builder(
-//               itemCount: data.length,
-//               shrinkWrap: true,
-//               padding: EdgeInsets.symmetric(horizontal: 20.h),
-//               physics: const NeverScrollableScrollPhysics(),
-//               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-//                   crossAxisCount: 2,
-//                   mainAxisSpacing: 20.h,
-//                   crossAxisSpacing: 20.sp,
-//                   mainAxisExtent: 250.sp),
-//               itemBuilder: (context, index) {
-//                 return GestureDetector(
-//                   onTap: () {
-//                     Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
-//                   },
-//                   child: Container(
-//                     height: 245.h,
-//                     width: 165.w,
-//                     child: Column(
-//                       mainAxisAlignment: MainAxisAlignment.start,
-//                       crossAxisAlignment: CrossAxisAlignment.start,
-//                       children: [
-//                         Container(
-//                           height: 165.sp,
-//                           width: 165.w,
-//                           decoration: BoxDecoration(
-//                               color: Appcolors.widgetcolor,
-//                               borderRadius: BorderRadius.circular(10.sp)),
-//                           child: Image.network(
-//                             data[index].image.toString(),
-//                             width: 150.w,
-//                           ),
-//                         ),
-//                         SizedBox(
-//                           height: 5.h,
-//                         ),
-//                         Row(
-//                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                           children: [
-//                             if (data[index].oldPrice != null)
-//                               Column(
-//                                 crossAxisAlignment: CrossAxisAlignment.start,
-//                                 children: [
-//                                   Text(
-//                                     '\$${data[index].oldPrice?.toStringAsFixed(2)}',
-//                                     style: GoogleFonts.roboto(
-//                                         fontWeight: EshopFontweight.medium,
-//                                         fontSize:
-//                                             EshopTypography.homepagecategories,
-//                                         decoration: TextDecoration.lineThrough),
-//                                   ),
-//                                   Text(
-//                                     '\$${data[index].price}',
-//                                     style: GoogleFonts.roboto(
-//                                         fontSize: EshopTypography.subtext,
-//                                         fontWeight: EshopFontweight.medium,
-//                                         color: Appcolors.promptColor),
-//                                   ),
-//                                 ],
-//                               )
-//                             else
-//                               Text(
-//                                 '\$${data[index].price.toStringAsFixed(2)}',
-//                                 style: GoogleFonts.roboto(
-//                                     fontSize: EshopTypography.onboadingbody,
-//                                     fontWeight: EshopFontweight.medium,
-//                                     color: Appcolors.textColor),
-//                               ),
-//                             IconButton(
-//                             onPressed: () {
-//                               print('${wishlistItems}');
-//                               if (isInWishlist) {
-//                                 final wishlistItem = wishlistItems.value!
-//                                     .firstWhere((item) => item.productId == data[index].productId);
-//                                 ref
-//                                     .read(wishlistControllerProvider.notifier)
-//                                     .removeFromWishlist(wishlistItem.productId);
-//                               } else {
-//                                 final wishlistItem = WishlistItem(
-//                                     productId: data[index].productId,
-//                                     image: data[index].image,
-//                                     productName: data[index].name,
-//                                     price: data[index].price,
-//                                     oldPrice: data[index].oldPrice);
-//                                 ref.read(wishlistControllerProvider.notifier).addToWishlist(wishlistItem);
-//                               }
-//                             },
-//                             icon: Icon( isInWishlist ? Iconsax.heart5 : Iconsax.heart,
-//                                 color: isInWishlist? Appcolors.promptColor  : Appcolors.textColor)),
-//                           ],
-//                         ),
-//                         Text(
-//                           '${data[index].name} - ${data[index].description}',
-//                           softWrap: true,
-//                           overflow: TextOverflow.ellipsis,
-//                           maxLines: 2,
-//                           style: GoogleFonts.roboto(
-//                               color: Appcolors.subtextColor,
-//                               fontSize: EshopTypography.homepagecategories,
-//                               fontWeight: EshopFontweight.regular),
-//                         )
-//                       ],
-//                     ),
-//                   ),
-//                 );
-//               });
-//         },
-//         error: (error, StackTrace) => ErrorWidget(error.toString()),
-//         loading: () => Loader());
-//   }
-// }
-
+                        Text(
+                          '${data[index].name} - ${data[index].description}',
+                          softWrap: true,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: GoogleFonts.roboto(
+                              color: Appcolors.subtextColor,
+                              fontSize: EshopTypography.homepagecategories,
+                              fontWeight: EshopFontweight.regular),
+                        )
+                      ],
+                    ),
+                  ),
+                );
+              });
+        },
+        error: (error, StackTrace) => ErrorWidget('Error: $error'),
+        loading: () => Loader());
+  }
+}
 
 //Profile Widgets
 class ProfileWidget extends StatelessWidget {
@@ -896,7 +805,10 @@ class ProfileWidget extends StatelessWidget {
 
 class ProductActionButton extends StatelessWidget {
   const ProductActionButton(
-      {super.key, required this.buttonText, required this.function, required this.color});
+      {super.key,
+      required this.buttonText,
+      required this.function,
+      required this.color});
 
   final String buttonText;
   final VoidCallback function;
@@ -909,8 +821,8 @@ class ProductActionButton extends StatelessWidget {
       width: 160.w,
       child: FilledButton(
         style: FilledButton.styleFrom(
-            shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(5)),
+            shape:
+                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             backgroundColor: color),
         onPressed: function,
         child: Text(
@@ -924,12 +836,12 @@ class ProductActionButton extends StatelessWidget {
   }
 }
 
-
 //Related Products Widget
 class RelatedProductsWidget extends ConsumerWidget {
   final String prodctname;
-   final String categoryname;
-   const RelatedProductsWidget({super.key, 
+  final String categoryname;
+  const RelatedProductsWidget({
+    super.key,
     required this.prodctname,
     required this.categoryname,
   });
@@ -937,115 +849,150 @@ class RelatedProductsWidget extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final relatedProducts = ref.watch(getRelatedProductsProvider(categoryname));
-    return relatedProducts.when(data: (data){
-      final filteredData = data.where((product) => product.name != prodctname).toList();
-      return Container( 
-        child: GridView.builder(
-                  itemCount: filteredData.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.symmetric(horizontal: 0.h),
-                  physics: const NeverScrollableScrollPhysics(),
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 20.h,
-                      crossAxisSpacing: 20.sp,
-                      mainAxisExtent: 250.sp),
-                  itemBuilder: (context, index) {
-                    return GestureDetector(
-                      onTap: () {
-                        print(filteredData.toList());
-                        Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: filteredData[index]),));
-                      },
-                      child: Container(
-                        height: 245.h,
-                        width: 165.w,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Container(
-                              height: 165.sp,
-                              width: 165.w,
-                              decoration: BoxDecoration(
-                                  color: Appcolors.widgetcolor,
-                                  borderRadius: BorderRadius.circular(10.sp)),
-                              child: Image.network(
-                                filteredData[index].image.toString(),
-                                width: 150.w,
-                              ),
+    final wishlistItems = ref.watch(wishlistProvider);
+    bool isInWishlist(int index) => wishlistItems.maybeWhen(
+          data: (items) => items.any((item) =>
+              item.productId == relatedProducts.asData!.value[index].productId),
+          orElse: () => false,
+        );
+    return relatedProducts.when(
+        data: (data) {
+          final filteredData =
+              data.where((product) => product.name != prodctname).toList();
+          return Container(
+            child: GridView.builder(
+                itemCount: filteredData.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.symmetric(horizontal: 0.h),
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: 20.h,
+                    crossAxisSpacing: 20.sp,
+                    mainAxisExtent: 250.sp),
+                itemBuilder: (context, index) {
+                   bool isInWishlistFlag = isInWishlist(index);
+                  return GestureDetector(
+                    onTap: () {
+                      print(filteredData.toList());
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => ProductDetailsPage(),
+                            settings:
+                                RouteSettings(arguments: filteredData[index]),
+                          ));
+                    },
+                    child: Container(
+                      height: 245.h,
+                      width: 165.w,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            height: 165.sp,
+                            width: 165.w,
+                            decoration: BoxDecoration(
+                                color: Appcolors.widgetcolor,
+                                borderRadius: BorderRadius.circular(10.sp)),
+                            child: Image.network(
+                              filteredData[index].image.toString(),
+                              width: 150.w,
                             ),
-                            SizedBox(
-                              height: 5.h,
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                if (filteredData[index].oldPrice != null)
-                                  Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
-                                    children: [
-                                      Text(
-                                        '\$${filteredData[index].oldPrice?.toStringAsFixed(2)}',
-                                        style: GoogleFonts.roboto(
-                                            fontWeight: EshopFontweight.medium,
-                                            fontSize:
-                                                EshopTypography.homepagecategories,
-                                            decoration: TextDecoration.lineThrough),
-                                      ),
-                                      Text(
-                                        '\$${filteredData[index].price}',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: EshopTypography.subtext,
-                                            fontWeight: EshopFontweight.medium,
-                                            color: Appcolors.promptColor),
-                                      ),
-                                    ],
-                                  )
-                                else
-                                  Text(
-                                    '\$${filteredData[index].price.toStringAsFixed(2)}',
-                                    style: GoogleFonts.roboto(
-                                        fontSize: EshopTypography.onboadingbody,
-                                        fontWeight: EshopFontweight.medium,
-                                        color: Appcolors.textColor),
-                                  ),
-                                IconButton(
-                                    onPressed: () {
-                                      // setState(() {
-                                      //   wishlist = !wishlist;
-                                      // });
-                                    },
-                                    icon: const Icon(
-                                      Iconsax.heart5,
-                                      color: Appcolors.promptColor,
-                                    )
-                                    // : const Icon(
-                                    //   Iconsax.heart,
-                                    //   color: Appcolors.iconColor,
-                                    // )
-                                    )
-                              ],
-                            ),
-                            Text(
-                              '${filteredData[index].name} - ${filteredData[index].description}',
-                              softWrap: true,
-                              overflow: TextOverflow.ellipsis,
-                              maxLines: 2,
-                              style: GoogleFonts.roboto(
-                                  color: Appcolors.subtextColor,
-                                  fontSize: EshopTypography.homepagecategories,
-                                  fontWeight: EshopFontweight.regular),
-                            )
-                          ],
-                        ),
+                          ),
+                          SizedBox(
+                            height: 5.h,
+                          ),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              if (filteredData[index].oldPrice != null)
+                                Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      '\$${filteredData[index].oldPrice?.toStringAsFixed(2)}',
+                                      style: GoogleFonts.roboto(
+                                          fontWeight: EshopFontweight.medium,
+                                          fontSize: EshopTypography
+                                              .homepagecategories,
+                                          decoration:
+                                              TextDecoration.lineThrough),
+                                    ),
+                                    Text(
+                                      '\$${filteredData[index].price}',
+                                      style: GoogleFonts.roboto(
+                                          fontSize: EshopTypography.subtext,
+                                          fontWeight: EshopFontweight.medium,
+                                          color: Appcolors.promptColor),
+                                    ),
+                                  ],
+                                )
+                              else
+                                Text(
+                                  '\$${filteredData[index].price.toStringAsFixed(2)}',
+                                  style: GoogleFonts.roboto(
+                                      fontSize: EshopTypography.onboadingbody,
+                                      fontWeight: EshopFontweight.medium,
+                                      color: Appcolors.textColor),
+                                ),
+                             IconButton(
+                                onPressed: () {
+                                  print('${wishlistItems}');
+                                  if (isInWishlistFlag) {
+                                    final wishlistItem = wishlistItems.value!
+                                        .firstWhere((item) =>
+                                            item.productId ==
+                                            filteredData[index].productId);
+                                    ref
+                                        .read(
+                                            wishlistControllerProvider.notifier)
+                                        .removeFromWishlist(
+                                            wishlistItem.productId);
+                                  } else {
+                                    final wishlistItem = WishlistItem(
+                                        productId: filteredData[index].productId,
+                                        image: filteredData[index].image,
+                                        productName: filteredData[index].name,
+                                        price: filteredData[index].price,
+                                        oldPrice: filteredData[index].oldPrice);
+                                    ref
+                                        .read(
+                                            wishlistControllerProvider.notifier)
+                                        .addToWishlist(wishlistItem);
+                                  }
+                                },
+                                icon: Icon(
+                                    isInWishlistFlag
+                                        ? Iconsax.heart5
+                                        : Iconsax.heart,
+                                    color: isInWishlistFlag
+                                        ? Appcolors.promptColor
+                                        : Appcolors.textColor)), 
+                            ],
+                          ),
+                          Text(
+                            '${filteredData[index].name} - ${filteredData[index].description}',
+                            softWrap: true,
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 2,
+                            style: GoogleFonts.roboto(
+                                color: Appcolors.subtextColor,
+                                fontSize: EshopTypography.homepagecategories,
+                                fontWeight: EshopFontweight.regular),
+                          )
+                        ],
                       ),
-                    );
-                  }),
-           );
-    }, error: (error, StackTrace)=> ErrorText(error: error.toString()), loading: ()=>Loader());
+                    ),
+                  );
+                }),
+          );
+        },
+        error: (error, StackTrace) => ErrorText(error: error.toString()),
+        loading: () => Loader());
   }
 }
-
 
 //Search Widget
 class SearchProducts extends SearchDelegate {
@@ -1056,21 +1003,29 @@ class SearchProducts extends SearchDelegate {
     return [
       Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10),
-        child: IconButton(onPressed: (){
-          query = '';
-        }, icon: Icon(Iconsax.search_normal_1)),
+        child: IconButton(
+            onPressed: () {
+              query = '';
+            },
+            icon: Icon(Iconsax.search_normal_1)),
       )
     ];
   }
-  
+
   @override
   Widget? buildLeading(BuildContext context) {
     return null;
   }
-  
+
   @override
   Widget buildResults(BuildContext context) {
-   final product = ref.watch(searchProductsProvider(query));
+    final product = ref.watch(searchProductsProvider(query));
+    final wishlistItems = ref.watch(wishlistProvider);
+    bool isInWishlist(int index) => wishlistItems.maybeWhen(
+          data: (items) => items.any((item) =>
+              item.productId == product.asData!.value[index].productId),
+          orElse: () => false,
+        );
     return product.when(
         data: (data) {
           return GridView.builder(
@@ -1084,9 +1039,15 @@ class SearchProducts extends SearchDelegate {
                   crossAxisSpacing: 20.sp,
                   mainAxisExtent: 250.sp),
               itemBuilder: (context, index) {
+                 bool isInWishlistFlag = isInWishlist(index);
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailsPage(),
+                          settings: RouteSettings(arguments: data[index]),
+                        ));
                   },
                   child: Container(
                     height: 245.h,
@@ -1141,21 +1102,39 @@ class SearchProducts extends SearchDelegate {
                                     fontWeight: EshopFontweight.medium,
                                     color: Appcolors.textColor),
                               ),
-                            IconButton(
+                           IconButton(
                                 onPressed: () {
-                                  // setState(() {
-                                  //   wishlist = !wishlist;
-                                  // });
+                                  print('${wishlistItems}');
+                                  if (isInWishlistFlag) {
+                                    final wishlistItem = wishlistItems.value!
+                                        .firstWhere((item) =>
+                                            item.productId ==
+                                           data[index].productId);
+                                    ref
+                                        .read(
+                                            wishlistControllerProvider.notifier)
+                                        .removeFromWishlist(
+                                            wishlistItem.productId);
+                                  } else {
+                                    final wishlistItem = WishlistItem(
+                                        productId: data[index].productId,
+                                        image: data[index].image,
+                                        productName: data[index].name,
+                                        price: data[index].price,
+                                        oldPrice: data[index].oldPrice);
+                                    ref
+                                        .read(
+                                            wishlistControllerProvider.notifier)
+                                        .addToWishlist(wishlistItem);
+                                  }
                                 },
-                                icon: const Icon(
-                                  Iconsax.heart5,
-                                  color: Appcolors.promptColor,
-                                )
-                                // : const Icon(
-                                //   Iconsax.heart,
-                                //   color: Appcolors.iconColor,
-                                // )
-                                )
+                                icon: Icon(
+                                    isInWishlistFlag
+                                        ? Iconsax.heart5
+                                        : Iconsax.heart,
+                                    color: isInWishlistFlag
+                                        ? Appcolors.promptColor
+                                        : Appcolors.textColor)),  
                           ],
                         ),
                         Text(
@@ -1177,10 +1156,16 @@ class SearchProducts extends SearchDelegate {
         error: (error, StackTrace) => ErrorWidget(error.toString()),
         loading: () => Loader());
   }
-  
+
   @override
   Widget buildSuggestions(BuildContext context) {
     final product = ref.watch(searchProductsProvider(query));
+    final wishlistItems = ref.watch(wishlistProvider);
+    bool isInWishlist(int index) => wishlistItems.maybeWhen(
+          data: (items) => items.any((item) =>
+              item.productId == product.asData!.value[index].productId),
+          orElse: () => false,
+        );
     return product.when(
         data: (data) {
           return GridView.builder(
@@ -1194,9 +1179,15 @@ class SearchProducts extends SearchDelegate {
                   crossAxisSpacing: 20.sp,
                   mainAxisExtent: 250.sp),
               itemBuilder: (context, index) {
+                 bool isInWishlistFlag = isInWishlist(index);
                 return GestureDetector(
                   onTap: () {
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: data[index]),));
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProductDetailsPage(),
+                          settings: RouteSettings(arguments: data[index]),
+                        ));
                   },
                   child: Container(
                     height: 245.h,
@@ -1251,21 +1242,39 @@ class SearchProducts extends SearchDelegate {
                                     fontWeight: EshopFontweight.medium,
                                     color: Appcolors.textColor),
                               ),
-                            IconButton(
+                          IconButton(
                                 onPressed: () {
-                                  // setState(() {
-                                  //   wishlist = !wishlist;
-                                  // });
+                                  print('${wishlistItems}');
+                                  if (isInWishlistFlag) {
+                                    final wishlistItem = wishlistItems.value!
+                                        .firstWhere((item) =>
+                                            item.productId ==
+                                           data[index].productId);
+                                    ref
+                                        .read(
+                                            wishlistControllerProvider.notifier)
+                                        .removeFromWishlist(
+                                            wishlistItem.productId);
+                                  } else {
+                                    final wishlistItem = WishlistItem(
+                                        productId: data[index].productId,
+                                        image: data[index].image,
+                                        productName: data[index].name,
+                                        price: data[index].price,
+                                        oldPrice: data[index].oldPrice);
+                                    ref
+                                        .read(
+                                            wishlistControllerProvider.notifier)
+                                        .addToWishlist(wishlistItem);
+                                  }
                                 },
-                                icon: const Icon(
-                                  Iconsax.heart5,
-                                  color: Appcolors.promptColor,
-                                )
-                                // : const Icon(
-                                //   Iconsax.heart,
-                                //   color: Appcolors.iconColor,
-                                // )
-                                )
+                                icon: Icon(
+                                    isInWishlistFlag
+                                        ? Iconsax.heart5
+                                        : Iconsax.heart,
+                                    color: isInWishlistFlag
+                                        ? Appcolors.promptColor
+                                        : Appcolors.textColor)),  
                           ],
                         ),
                         Text(
@@ -1287,7 +1296,7 @@ class SearchProducts extends SearchDelegate {
         error: (error, StackTrace) => ErrorWidget(error.toString()),
         loading: () => Loader());
   }
-} 
+}
 
 class CartDisplay extends ConsumerWidget {
   const CartDisplay({super.key});
@@ -1296,22 +1305,25 @@ class CartDisplay extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final cartItems = ref.watch(cartProvider);
     return cartItems.when(
-                data: (items){
-                if (items.isEmpty) {
-                  return Center(child: Text('No items in the Cart'));
-                }
-                return ListView.builder(
-                  itemCount: items.length,
-                  itemBuilder: (context, index) {
-                  final CartItem item = items[index];
-                  return ListTile(
-                    title: Text(item.productName),
-                    subtitle: Text('\$${item.price.toStringAsFixed(2).toString()}'),
-                    trailing: Text('Quantity: ${item.quantity}'),
-                  );
-                },);
-              }, 
-              error: (error, StackTrace) => Center(child: Text('Error: $error'),),
-               loading: () => Center(child: CircularProgressIndicator()));
+        data: (items) {
+          if (items.isEmpty) {
+            return Center(child: Text('No items in the Cart'));
+          }
+          return ListView.builder(
+            itemCount: items.length,
+            itemBuilder: (context, index) {
+              final CartItem item = items[index];
+              return ListTile(
+                title: Text(item.productName),
+                subtitle: Text('\$${item.price.toStringAsFixed(2).toString()}'),
+                trailing: Text('Quantity: ${item.quantity}'),
+              );
+            },
+          );
+        },
+        error: (error, StackTrace) => Center(
+              child: Text('Error: $error'),
+            ),
+        loading: () => Center(child: CircularProgressIndicator()));
   }
 }
