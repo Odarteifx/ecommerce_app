@@ -232,12 +232,12 @@ class MyCartPage extends ConsumerWidget {
                       Text(
                         'Total:',
                         style: GoogleFonts.roboto(
-                            fontSize: 20.sp, fontWeight: FontWeight.w800),
+                            fontSize: 22.sp, fontWeight: FontWeight.w800),
                       ),
                       Expanded(child: SizedBox()),
                       cartItems.when(
                         data: (items) => Text(
-                            '\$${getTotalPrice(items).toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody, fontWeight: FontWeight.bold),),
+                            '\$${getTotalPrice(items).toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: EshopTypography.heading2, fontWeight: FontWeight.bold),),
                         error: (error, stackTrace) {
                           return Text(
                             'Error: $error',
@@ -249,13 +249,20 @@ class MyCartPage extends ConsumerWidget {
                           return Text(
                             '\$0.00',
                             style: GoogleFonts.roboto(
-                                fontSize: 18.sp, fontWeight: FontWeight.w600),
+                                fontSize: EshopTypography.heading2, fontWeight: FontWeight.w600),
                           );
                         },
                       ),
                       SizedBox(width: 10.sp,),
                       FilledButton(
-                        onPressed: () {},
+                        onPressed: () {
+
+                        },
+                        style: FilledButton.styleFrom(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(2.sp)
+                          )
+                        ),
                         child: Text('Checkout'),
                       )
                     ],
