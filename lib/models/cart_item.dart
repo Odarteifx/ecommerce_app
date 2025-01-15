@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class CartItem {
-  final String? productId;
+  final String productId;
   final String? image;
   final String productName;
   final int quantity;

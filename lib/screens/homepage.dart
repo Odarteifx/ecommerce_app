@@ -180,35 +180,41 @@ class MyCartPage extends ConsumerWidget {
                           itemCount: items.length,
                           itemBuilder: (context, index) {
                             final CartItem item = items[index];
-                            return ListTile(
-                              onTap: () {
-                                print(
-                                    '${item.image}, ${item.productName}, ${item.productId}');
+                            return  Dismissible(
+                              key: Key(item.productId),
+                              onDismissed: (direction) {
+                               ref.read(cartControllerProvider.notifier).removeFromCart(item.productId);
                               },
-                              leading: Container(
-                                height: 50.h,
-                                width: 50.w,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.sp),
-                                  image: DecorationImage(
-                                    image: item.image != null
-                                        ? NetworkImage(item.image!)
-                                        : const AssetImage(EshopAssets.product1)
-                                            as ImageProvider,
-                                    fit: BoxFit.cover,
+                              child: ListTile(
+                                onTap: () {
+                                  print(
+                                      '${item.image}, ${item.productName}, ${item.productId}');
+                                },
+                                leading: Container(
+                                  height: 50.h,
+                                  width: 50.w,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(10.sp),
+                                    image: DecorationImage(
+                                      image: item.image != null
+                                          ? NetworkImage(item.image!)
+                                          : const AssetImage(EshopAssets.product1)
+                                              as ImageProvider,
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
+                                title: Text(item.productName),
+                                subtitle: Text('Quantity: ${item.quantity}',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w300)),
+                                trailing: Text(
+                                    '\$${item.price.toStringAsFixed(2)}',
+                                    style: GoogleFonts.roboto(
+                                        fontSize: 14.sp,
+                                        fontWeight: FontWeight.w500)),
                               ),
-                              title: Text(item.productName),
-                              subtitle: Text('Quantity: ${item.quantity}',
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w300)),
-                              trailing: Text(
-                                  '\$${item.price.toStringAsFixed(2)}',
-                                  style: GoogleFonts.roboto(
-                                      fontSize: 14.sp,
-                                      fontWeight: FontWeight.w500)),
                             );
                           },
                         );

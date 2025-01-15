@@ -42,6 +42,15 @@ class CartController extends StateNotifier<List<CartItem>> {
     }
   }
 
+  void removeFromCart(String productId) async{
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final firebaseCartServices = CartServices();
+      state = state.where((item) => item.productId != item.productId).toList();
+      await firebaseCartServices.removeFromCart(user.uid, productId);
+    }
+  }
+
   void clearCart() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {

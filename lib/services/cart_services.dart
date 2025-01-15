@@ -51,14 +51,21 @@ class CartServices {
     }
   }
 
-  Future<void> removeFromCart(String itemId) async {
-    final user = auth.currentUser;
-    if (user != null) {
+  Future<void> removeFromCart(String userId, String productId) async {
+    final cartItemDoc = await _firestore
+        .collection('users')
+        .doc(userId)
+        .collection('cart')
+        .where('productId', isEqualTo: productId)
+        .limit(1)
+        .get();
+
+    if (cartItemDoc.docs.isNotEmpty) {
       await _firestore
           .collection('users')
-          .doc(user.uid)
+          .doc(userId)
           .collection('cart')
-          .doc(itemId)
+          .doc(cartItemDoc.docs.first.id)
           .delete();
     }
   }
