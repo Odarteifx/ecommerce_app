@@ -127,6 +127,10 @@ class MyCartPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartItems = ref.watch(cartProvider);
+    double getTotalPrice(List<CartItem> items) {
+      return items.fold(0.0, (sum, item) => sum + (item.price * item.quantity));
+    }
+
     return SafeArea(
         child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -219,17 +223,35 @@ class MyCartPage extends ConsumerWidget {
                   height: 50.h,
                   child: Row(
                     children: [
-                      Text('Total', style: GoogleFonts.roboto(
-                        fontSize: 18.sp,
-                        fontWeight: FontWeight.w600
-                      ),),
+                      Text(
+                        'Total:',
+                        style: GoogleFonts.roboto(
+                            fontSize: 20.sp, fontWeight: FontWeight.w800),
+                      ),
                       Expanded(child: SizedBox()),
-                      Text('\$0.00'),
+                      cartItems.when(
+                        data: (items) => Text(
+                            '\$${getTotalPrice(items).toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody, fontWeight: FontWeight.bold),),
+                        error: (error, stackTrace) {
+                          return Text(
+                            'Error: $error',
+                            style: GoogleFonts.roboto(
+                                fontSize: 18.sp, fontWeight: FontWeight.w600),
+                          );
+                        },
+                        loading: () {
+                          return Text(
+                            '\$0.00',
+                            style: GoogleFonts.roboto(
+                                fontSize: 18.sp, fontWeight: FontWeight.w600),
+                          );
+                        },
+                      ),
+                      SizedBox(width: 10.sp,),
                       FilledButton(
-                        onPressed: (){}, child: Text('Checkout'),
-                        
-                        )
-                     
+                        onPressed: () {},
+                        child: Text('Checkout'),
+                      )
                     ],
                   ),
                 )
@@ -441,7 +463,7 @@ class WishlistPage extends ConsumerWidget {
                           ),
                         ),
                         title: Text(item.productName),
-                        subtitle: item.oldPrice != null 
+                        subtitle: item.oldPrice != null
                             ? Row(
                                 children: [
                                   Text(
@@ -454,17 +476,16 @@ class WishlistPage extends ConsumerWidget {
                                     ),
                                   ),
                                   SizedBox(width: 5.w),
-                                  Text('\$${item.price.toStringAsFixed(2)}',
-                                  style: TextStyle(
-                                  fontWeight: EshopFontweight.bold),)
+                                  Text(
+                                    '\$${item.price.toStringAsFixed(2)}',
+                                    style: TextStyle(
+                                        fontWeight: EshopFontweight.bold),
+                                  )
                                 ],
                               )
                             : Text('\$${item.price.toStringAsFixed(2)}',
                                 style: TextStyle(
-                                  fontWeight: EshopFontweight.bold
-                                )),
-                        
-                         
+                                    fontWeight: EshopFontweight.bold)),
                         trailing: IconButton(
                             onPressed: () {
                               print('${item.productId}');
@@ -472,7 +493,7 @@ class WishlistPage extends ConsumerWidget {
                                   .read(wishlistControllerProvider.notifier)
                                   .removeFromWishlist(item.productId);
                             },
-                            icon: Icon( Iconsax.heart5,
+                            icon: Icon(Iconsax.heart5,
                                 color: Appcolors.promptColor)),
                       );
                     }),
