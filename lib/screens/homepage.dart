@@ -16,6 +16,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+import 'package:flutter_slidable/flutter_slidable.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
@@ -180,11 +181,23 @@ class MyCartPage extends ConsumerWidget {
                           itemCount: items.length,
                           itemBuilder: (context, index) {
                             final CartItem item = items[index];
-                            return  Dismissible(
+                            return  Slidable(
                               key: Key(item.productId),
-                              onDismissed: (direction) {
-                               ref.read(cartControllerProvider.notifier).removeFromCart(item.productId);
-                              },
+                              endActionPane:  ActionPane(motion: ScrollMotion(), 
+                              dismissible: DismissiblePane(onDismissed: (){
+                                
+                              }),
+                              children: [
+                                SlidableAction(
+                                  icon: Iconsax.trash,
+                                  backgroundColor: Appcolors.promptColor,
+                                  foregroundColor: Colors.white,
+                                  label: 'Delete',
+                                  onPressed: (context) {
+                                  ref.read(cartControllerProvider.notifier).removeFromCart(item.productId);
+                                },
+                                )
+                              ]),
                               child: ListTile(
                                 onTap: () {
                                   print(
