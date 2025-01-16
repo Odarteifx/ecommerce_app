@@ -274,10 +274,13 @@ class MyCartPage extends ConsumerWidget {
                         style: FilledButton.styleFrom(
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(2.sp)
-                          )
+                          ),
+                          backgroundColor: Appcolors.bottomNavActive
                         ),
-                        child: Text('Checkout'),
-                      )
+                        child: Text('Checkout', style: GoogleFonts.roboto(
+                          fontWeight: EshopFontweight.medium
+                        ),
+                      ))
                     ],
                   ),
                 )
