@@ -1,3 +1,4 @@
+import 'package:ecommerce_app/constants/colors.dart';
 import 'package:flutter/material.dart';
 
 class PaymentPage extends StatefulWidget {
@@ -11,6 +12,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     return  Scaffold(
+      backgroundColor: Appcolors.backgroundColor,
       appBar: AppBar(
         title: Text('Payment Page'),
       ),
