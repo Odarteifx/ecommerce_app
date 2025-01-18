@@ -14,13 +14,15 @@ class _PaymentPageState extends State<PaymentPage> {
     return  Scaffold(
       backgroundColor: Appcolors.backgroundColor,
       appBar: AppBar(
-        title: Text('Payment Page'),
+        backgroundColor: Appcolors.backgroundColor,
+        title: Text('Payment'),
       ),
       body: Form(child: Column(
         children: [
           TextFormField(
             decoration: InputDecoration(
               labelText: 'Card Number',
+              border: OutlineInputBorder()
             ),
           ),
           TextFormField(
