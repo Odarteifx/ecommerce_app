@@ -52,6 +52,8 @@ dependencies:
   build_runner: ^2.1.7
   flutter_slidable: ^3.1.2
   dio: ^5.7.0
+  webview_flutter: ^4.10.0
+  flutter_dotenv: ^5.2.1
   # firebase_auth: ^5.3.4
 
 dev_dependencies:
@@ -82,6 +84,7 @@ flutter:
    - assets/images/
    - assets/icons/
    - assets/banners/
+   - .env
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
