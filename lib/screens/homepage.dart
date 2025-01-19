@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
@@ -6,11 +5,10 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
-import 'package:ecommerce_app/screens/payment_page.dart';
-import 'package:ecommerce_app/screens/product_details_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -269,9 +267,14 @@ class MyCartPage extends ConsumerWidget {
                       ),
                       SizedBox(width: 10.sp,),
                       FilledButton(
+                        
                         onPressed: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentPage(),));
+                          debugPrint(dotenv.env['SECRET_KEY']);
+                         showBottomSheet(context: context, builder: (context) {
+                           return Text('data');
 
+                
+                         },);
                         },
                         style: FilledButton.styleFrom(
                           shape: RoundedRectangleBorder(
