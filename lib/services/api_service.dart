@@ -4,7 +4,6 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 import '../models/paystack_models/api_response.dart';
 
-
 class ApiService {
   final Dio _dio = Dio();
   BaseOptions options = BaseOptions(

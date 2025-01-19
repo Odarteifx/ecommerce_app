@@ -185,6 +185,7 @@ class MyCartPage extends ConsumerWidget {
                         return ListView.builder(
                           itemCount: items.length,
                           itemBuilder: (context, index) {
+                    
                             final CartItem item = items[index];
                             return Slidable(
                               key: Key(item.productId),
@@ -287,8 +288,9 @@ class MyCartPage extends ConsumerWidget {
                           onPressed: () {
                             final items =
                                 ref.read(cartProvider).asData?.value ?? [];
-                            debugPrint(dotenv.env['SECRET_KEY']);
-                            debugPrint(FirebaseAuth.instance.currentUser!.email!);
+                                final totalPrice = getTotalPrice(items);
+                                final amountInCents = (totalPrice * 100).toInt();
+                                debugPrint((amountInCents.toString()));
                             showBottomSheet(
                               context: context,
                               builder: (context) => PaymentMethod(
@@ -296,8 +298,9 @@ class MyCartPage extends ConsumerWidget {
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PaymentPage(
                                     reference: Utils.uniqueRefenece(),
-                                    amount: getTotalPrice(items).toString(),
-                                    email: FirebaseAuth.instance.currentUser!.email!,
+                                    amount: amountInCents.toDouble(),
+                                    email: FirebaseAuth
+                                        .instance.currentUser!.email!,
                                     currency: 'GHS',
                                     onSuccessfulTransaction: (data) {
                                       debugPrint('Transaction successful');

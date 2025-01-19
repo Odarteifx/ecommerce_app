@@ -12,7 +12,7 @@ class PaystackService {
 //Initialize transaction
   Future<PaystackAuthResponse> initializeTransaction({
     required String email,
-    required String amount,
+    required double amount,
     String currency = 'GHS',
     required String reference,
     List<String> channels = const ['card', 'mobile_money'],

@@ -7,7 +7,7 @@ import 'package:webview_flutter/webview_flutter.dart';
 
 class PaymentPage extends ConsumerWidget {
   final String reference;
-  final String amount;
+  final double amount;
   final String email;
   final String currency;
   final Object? metadata;
