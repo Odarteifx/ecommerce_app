@@ -5,6 +5,10 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
+import 'package:ecommerce_app/providers/eshop_providers.dart';
+import 'package:ecommerce_app/screens/payment_page.dart';
+import 'package:ecommerce_app/utils/enums.dart';
+import 'package:ecommerce_app/utils/utils.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -16,6 +20,8 @@ import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+
+import 'signup_page.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
@@ -180,23 +186,26 @@ class MyCartPage extends ConsumerWidget {
                           itemCount: items.length,
                           itemBuilder: (context, index) {
                             final CartItem item = items[index];
-                            return  Slidable(
+                            return Slidable(
                               key: Key(item.productId),
-                              endActionPane:  ActionPane(motion: ScrollMotion(), 
-                              dismissible: DismissiblePane(onDismissed: (){
-                                
-                              }),
-                              children: [
-                                SlidableAction(
-                                  icon: Iconsax.trash,
-                                  backgroundColor: Appcolors.promptColor,
-                                  foregroundColor: Colors.white,
-                                  label: 'Delete',
-                                  onPressed: (context) {
-                                  ref.read(cartControllerProvider.notifier).removeFromCart(item.productId);
-                                },
-                                )
-                              ]),
+                              endActionPane: ActionPane(
+                                  motion: ScrollMotion(),
+                                  dismissible:
+                                      DismissiblePane(onDismissed: () {}),
+                                  children: [
+                                    SlidableAction(
+                                      icon: Iconsax.trash,
+                                      backgroundColor: Appcolors.promptColor,
+                                      foregroundColor: Colors.white,
+                                      label: 'Delete',
+                                      onPressed: (context) {
+                                        ref
+                                            .read(
+                                                cartControllerProvider.notifier)
+                                            .removeFromCart(item.productId);
+                                      },
+                                    )
+                                  ]),
                               child: ListTile(
                                 onTap: () {
                                   print(
@@ -210,7 +219,8 @@ class MyCartPage extends ConsumerWidget {
                                     image: DecorationImage(
                                       image: item.image != null
                                           ? NetworkImage(item.image!)
-                                          : const AssetImage(EshopAssets.product1)
+                                          : const AssetImage(
+                                                  EshopAssets.product1)
                                               as ImageProvider,
                                       fit: BoxFit.cover,
                                     ),
@@ -249,7 +259,11 @@ class MyCartPage extends ConsumerWidget {
                       Expanded(child: SizedBox()),
                       cartItems.when(
                         data: (items) => Text(
-                            '\$${getTotalPrice(items).toStringAsFixed(2)}', style: GoogleFonts.roboto(fontSize: EshopTypography.heading2, fontWeight: FontWeight.bold),),
+                          '\$${getTotalPrice(items).toStringAsFixed(2)}',
+                          style: GoogleFonts.roboto(
+                              fontSize: EshopTypography.heading2,
+                              fontWeight: FontWeight.bold),
+                        ),
                         error: (error, stackTrace) {
                           return Text(
                             'Error: $error',
@@ -261,31 +275,50 @@ class MyCartPage extends ConsumerWidget {
                           return Text(
                             '\$0.00',
                             style: GoogleFonts.roboto(
-                                fontSize: EshopTypography.heading2, fontWeight: FontWeight.w600),
+                                fontSize: EshopTypography.heading2,
+                                fontWeight: FontWeight.w600),
                           );
                         },
                       ),
-                      SizedBox(width: 10.sp,),
+                      SizedBox(
+                        width: 10.sp,
+                      ),
                       FilledButton(
-                        
-                        onPressed: () {
-                          debugPrint(dotenv.env['SECRET_KEY']);
-                         showBottomSheet(context: context, builder: (context) {
-                           return Text('data');
-
-                
-                         },);
-                        },
-                        style: FilledButton.styleFrom(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(2.sp)
-                          ),
-                          backgroundColor: Appcolors.bottomNavActive
-                        ),
-                        child: Text('Checkout', style: GoogleFonts.roboto(
-                          fontWeight: EshopFontweight.medium
-                        ),
-                      ))
+                          onPressed: () {
+                            final items =
+                                ref.read(cartProvider).asData?.value ?? [];
+                            debugPrint(dotenv.env['SECRET_KEY']);
+                            debugPrint(FirebaseAuth.instance.currentUser!.email!);
+                            showBottomSheet(
+                              context: context,
+                              builder: (context) => PaymentMethod(
+                                  onselectedChannel: (Channels values) {
+                                Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) => PaymentPage(
+                                    reference: Utils.uniqueRefenece(),
+                                    amount: getTotalPrice(items).toString(),
+                                    email: FirebaseAuth.instance.currentUser!.email!,
+                                    currency: 'GHS',
+                                    onSuccessfulTransaction: (data) {
+                                      debugPrint('Transaction successful');
+                                    },
+                                    onFailedTransaction: (data) {
+                                      debugPrint('Transaction failed');
+                                    },
+                                  ),
+                                ));
+                              }),
+                            );
+                          },
+                          style: FilledButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(2.sp)),
+                              backgroundColor: Appcolors.bottomNavActive),
+                          child: Text(
+                            'Checkout',
+                            style: GoogleFonts.roboto(
+                                fontWeight: EshopFontweight.medium),
+                          ))
                     ],
                   ),
                 )

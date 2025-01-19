@@ -5,6 +5,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
+import 'package:ecommerce_app/utils/enums.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -871,7 +872,7 @@ class RelatedProductsWidget extends ConsumerWidget {
                     crossAxisSpacing: 20.sp,
                     mainAxisExtent: 250.sp),
                 itemBuilder: (context, index) {
-                   bool isInWishlistFlag = isInWishlist(index);
+                  bool isInWishlistFlag = isInWishlist(index);
                   return GestureDetector(
                     onTap: () {
                       print(filteredData.toList());
@@ -937,39 +938,41 @@ class RelatedProductsWidget extends ConsumerWidget {
                                       fontWeight: EshopFontweight.medium,
                                       color: Appcolors.textColor),
                                 ),
-                             IconButton(
-                                onPressed: () {
-                                  print('${wishlistItems}');
-                                  if (isInWishlistFlag) {
-                                    final wishlistItem = wishlistItems.value!
-                                        .firstWhere((item) =>
-                                            item.productId ==
-                                            filteredData[index].productId);
-                                    ref
-                                        .read(
-                                            wishlistControllerProvider.notifier)
-                                        .removeFromWishlist(
-                                            wishlistItem.productId);
-                                  } else {
-                                    final wishlistItem = WishlistItem(
-                                        productId: filteredData[index].productId,
-                                        image: filteredData[index].image,
-                                        productName: filteredData[index].name,
-                                        price: filteredData[index].price,
-                                        oldPrice: filteredData[index].oldPrice);
-                                    ref
-                                        .read(
-                                            wishlistControllerProvider.notifier)
-                                        .addToWishlist(wishlistItem);
-                                  }
-                                },
-                                icon: Icon(
-                                    isInWishlistFlag
-                                        ? Iconsax.heart5
-                                        : Iconsax.heart,
-                                    color: isInWishlistFlag
-                                        ? Appcolors.promptColor
-                                        : Appcolors.textColor)), 
+                              IconButton(
+                                  onPressed: () {
+                                    print('${wishlistItems}');
+                                    if (isInWishlistFlag) {
+                                      final wishlistItem = wishlistItems.value!
+                                          .firstWhere((item) =>
+                                              item.productId ==
+                                              filteredData[index].productId);
+                                      ref
+                                          .read(wishlistControllerProvider
+                                              .notifier)
+                                          .removeFromWishlist(
+                                              wishlistItem.productId);
+                                    } else {
+                                      final wishlistItem = WishlistItem(
+                                          productId:
+                                              filteredData[index].productId,
+                                          image: filteredData[index].image,
+                                          productName: filteredData[index].name,
+                                          price: filteredData[index].price,
+                                          oldPrice:
+                                              filteredData[index].oldPrice);
+                                      ref
+                                          .read(wishlistControllerProvider
+                                              .notifier)
+                                          .addToWishlist(wishlistItem);
+                                    }
+                                  },
+                                  icon: Icon(
+                                      isInWishlistFlag
+                                          ? Iconsax.heart5
+                                          : Iconsax.heart,
+                                      color: isInWishlistFlag
+                                          ? Appcolors.promptColor
+                                          : Appcolors.textColor)),
                             ],
                           ),
                           Text(
@@ -1039,7 +1042,7 @@ class SearchProducts extends SearchDelegate {
                   crossAxisSpacing: 20.sp,
                   mainAxisExtent: 250.sp),
               itemBuilder: (context, index) {
-                 bool isInWishlistFlag = isInWishlist(index);
+                bool isInWishlistFlag = isInWishlist(index);
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -1102,14 +1105,14 @@ class SearchProducts extends SearchDelegate {
                                     fontWeight: EshopFontweight.medium,
                                     color: Appcolors.textColor),
                               ),
-                           IconButton(
+                            IconButton(
                                 onPressed: () {
                                   print('${wishlistItems}');
                                   if (isInWishlistFlag) {
                                     final wishlistItem = wishlistItems.value!
                                         .firstWhere((item) =>
                                             item.productId ==
-                                           data[index].productId);
+                                            data[index].productId);
                                     ref
                                         .read(
                                             wishlistControllerProvider.notifier)
@@ -1134,7 +1137,7 @@ class SearchProducts extends SearchDelegate {
                                         : Iconsax.heart,
                                     color: isInWishlistFlag
                                         ? Appcolors.promptColor
-                                        : Appcolors.textColor)),  
+                                        : Appcolors.textColor)),
                           ],
                         ),
                         Text(
@@ -1179,7 +1182,7 @@ class SearchProducts extends SearchDelegate {
                   crossAxisSpacing: 20.sp,
                   mainAxisExtent: 250.sp),
               itemBuilder: (context, index) {
-                 bool isInWishlistFlag = isInWishlist(index);
+                bool isInWishlistFlag = isInWishlist(index);
                 return GestureDetector(
                   onTap: () {
                     Navigator.push(
@@ -1242,14 +1245,14 @@ class SearchProducts extends SearchDelegate {
                                     fontWeight: EshopFontweight.medium,
                                     color: Appcolors.textColor),
                               ),
-                          IconButton(
+                            IconButton(
                                 onPressed: () {
                                   print('${wishlistItems}');
                                   if (isInWishlistFlag) {
                                     final wishlistItem = wishlistItems.value!
                                         .firstWhere((item) =>
                                             item.productId ==
-                                           data[index].productId);
+                                            data[index].productId);
                                     ref
                                         .read(
                                             wishlistControllerProvider.notifier)
@@ -1274,7 +1277,7 @@ class SearchProducts extends SearchDelegate {
                                         : Iconsax.heart,
                                     color: isInWishlistFlag
                                         ? Appcolors.promptColor
-                                        : Appcolors.textColor)),  
+                                        : Appcolors.textColor)),
                           ],
                         ),
                         Text(
@@ -1325,5 +1328,73 @@ class CartDisplay extends ConsumerWidget {
               child: Text('Error: $error'),
             ),
         loading: () => Center(child: CircularProgressIndicator()));
+  }
+}
+
+//Paystack Payment Method Component
+final _stateChannel = StateProvider<Channels>((ref) => Channels.mobile_money);
+
+class PaymentMethod extends ConsumerWidget {
+  final ValueChanged<Channels> onselectedChannel;
+  const PaymentMethod({super.key, required this.onselectedChannel});
+
+  @override
+  Widget build(BuildContext context, WidgetRef ref) {
+    final channel = ref.watch(_stateChannel);
+    return SizedBox(
+      height: 100.h,
+      child: Column(
+        children: [
+          SizedBox(
+            height: 10.h,
+          ),
+          Text(
+            'Select Payment Method',
+            style: GoogleFonts.roboto(
+                fontSize: EshopTypography.heading2,
+                fontWeight: EshopFontweight.semibold),
+          ),
+          SizedBox(
+            height: 10.h,
+          ),
+          Expanded(
+              child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [channelWidget(
+              context,
+              ref,
+              Channels.mobile_money,
+              channel == Channels.mobile_money
+                  ? Appcolors.primaryColor
+                  : Appcolors.widgetcolor,
+            ),
+            channelWidget(context, ref, Channels.card, channel == Channels.card
+                ? Appcolors.primaryColor
+                : Appcolors.widgetcolor),],
+          ))
+        ],
+      ),
+    );
+
+  }
+
+  InkWell channelWidget(
+    BuildContext context,
+    WidgetRef ref,
+    Channels channel,
+    Color color,
+  ) {
+    return InkWell(
+        onTap: () {
+          onselectedChannel(channel);
+          ref.read(_stateChannel.notifier).update((state) => channel);
+        },
+        child: Card(
+          color: color,
+          child: Text(
+            channel.name.split('_').join(' ').toUpperCase(),
+            style: GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody),
+          ),
+        ));
   }
 }

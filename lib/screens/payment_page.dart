@@ -10,7 +10,7 @@ class PaymentPage extends ConsumerWidget {
   final String amount;
   final String email;
   final String currency;
-  final Object metadata;
+  final Object? metadata;
   final Object? channel;
   final Function(Object?) onSuccessfulTransaction;
   final Function(Object?) onFailedTransaction;
@@ -19,7 +19,7 @@ class PaymentPage extends ConsumerWidget {
       required this.amount,
       required this.email,
       required this.currency,
-      required this.metadata,
+      this.metadata,
       this.channel,
       required this.onSuccessfulTransaction,
       required this.onFailedTransaction,
@@ -27,6 +27,17 @@ class PaymentPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+     if (email.isEmpty) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Payment'),
+        ),
+        body: Center(
+          child: Text('Error: Email is required'),
+        ),
+      );
+    }
+    
     return FutureBuilder<PaystackAuthResponse>(
       future: PaystackService().initializeTransaction(
           email: email,
@@ -34,12 +45,6 @@ class PaymentPage extends ConsumerWidget {
           reference: reference,
           metadata: metadata),
       builder: (context, snapshot) {
-        final controller = WebViewController()
-          ..setJavaScriptMode(JavaScriptMode.unrestricted)
-          ..loadRequest(
-            Uri.parse(snapshot.data!.authorizationUrl!),
-          );
-
         // ignore: deprecated_member_use
         return WillPopScope(
             onWillPop: () async {
@@ -59,7 +64,7 @@ class PaymentPage extends ConsumerWidget {
             },
             child: Scaffold(
               appBar: AppBar(
-                title: Text('Paystack Payment'),
+                title: Text('Payment'),
                 leading: IconButton(
                   icon: Icon(Icons.close),
                   onPressed: () {
@@ -82,8 +87,9 @@ class PaymentPage extends ConsumerWidget {
               body: snapshot.connectionState == ConnectionState.done &&
                       snapshot.hasData &&
                       snapshot.data!.authorizationUrl != null
-                  ? WebViewWidget(
-                      controller: controller, // Create a WebViewController
+                  ? WebView(
+                      initialUrl: snapshot.data!.authorizationUrl!,
+                      javascriptMode: JavascriptMode.unrestricted,
                     )
                   : snapshot.connectionState == ConnectionState.waiting
                       ? const Center(
