@@ -7,7 +7,7 @@ import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/screens/payment_page.dart';
-import 'package:ecommerce_app/utils/enums.dart';
+import 'package:ecommerce_app/screens/shipping_screen.dart';
 import 'package:ecommerce_app/utils/utils.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -127,7 +127,6 @@ class MyCartPage extends ConsumerWidget {
   const MyCartPage({
     super.key,
   });
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final cartItems = ref.watch(cartProvider);
@@ -149,8 +148,9 @@ class MyCartPage extends ConsumerWidget {
                     Text(
                       'My Cart (${cartItems.asData!.value.length})',
                       style: GoogleFonts.roboto(
-                          fontSize: EshopTypography.heading2,
-                          fontWeight: EshopFontweight.medium),
+                          fontSize: 20.sp,
+                          fontWeight: EshopFontweight.bold,
+                          color: Appcolors.textColor),
                     ),
                     const Expanded(child: SizedBox()),
                     IconButton(
@@ -252,15 +252,17 @@ class MyCartPage extends ConsumerWidget {
                       Text(
                         'Total:',
                         style: GoogleFonts.roboto(
-                            fontSize: 22.sp, fontWeight: FontWeight.w800),
+                          fontSize: EshopTypography.onboadingbody,
+                          fontWeight: EshopFontweight.regular,
+                        ),
                       ),
                       Expanded(child: SizedBox()),
                       cartItems.when(
                         data: (items) => Text(
                           '\$${getTotalPrice(items).toStringAsFixed(2)}',
                           style: GoogleFonts.roboto(
-                              fontSize: EshopTypography.heading2,
-                              fontWeight: FontWeight.bold),
+                              fontSize: EshopTypography.onboadingbody,
+                              fontWeight: EshopFontweight.bold),
                         ),
                         error: (error, stackTrace) {
                           return Text(
@@ -273,8 +275,8 @@ class MyCartPage extends ConsumerWidget {
                           return Text(
                             '\$0.00',
                             style: GoogleFonts.roboto(
-                                fontSize: EshopTypography.heading2,
-                                fontWeight: FontWeight.w600),
+                                fontSize: EshopTypography.onboadingbody,
+                                fontWeight: EshopFontweight.bold),
                           );
                         },
                       ),
@@ -286,37 +288,9 @@ class MyCartPage extends ConsumerWidget {
                             final items =
                                 ref.read(cartProvider).asData?.value ?? [];
                             final totalPrice = getTotalPrice(items);
-                            final double amountInUSD =
-                                (totalPrice * 100).toDouble();
-                            final ghsAmount = await CurrencyConverter.convert(
-                              amount: amountInUSD,
-                              from: Currency.usd,
-                              to: Currency.ghs,
-                            );
-
-                            final amountNew = ghsAmount?.toStringAsFixed(0);
-                            final amountInCedis = double.parse(amountNew!);
-
-                            debugPrint(amountInCedis.toString());
-
-                            
-                                Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => PaymentPage(
-                                    reference: Utils.uniqueRefenece(),
-                                    amount: amountInCedis,
-                                    email: FirebaseAuth
-                                        .instance.currentUser!.email!,
-                                    currency: 'GHS',
-                                    onSuccessfulTransaction: (data) {
-                                      debugPrint('Transaction successful');
-                                    },
-                                    onFailedTransaction: (data) {
-                                      debugPrint('Transaction failed');
-                                    },
-                                  ),
-                                ));
-                            
-                            
+                            Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) =>
+                                    ShippingScreen(amount: totalPrice)));
                           },
                           style: FilledButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -325,7 +299,8 @@ class MyCartPage extends ConsumerWidget {
                           child: Text(
                             'Checkout',
                             style: GoogleFonts.roboto(
-                                fontWeight: EshopFontweight.medium),
+                                fontSize: EshopTypography.onboadingbody,
+                                fontWeight: EshopFontweight.bold),
                           ))
                     ],
                   ),
@@ -335,7 +310,7 @@ class MyCartPage extends ConsumerWidget {
   }
 }
 
-//HomePage(searchcontroller: _searchcontroller, carouselController: _carouselController, imageList: imageList, iconList: iconList))
+//HomePage
 class HomePage extends StatelessWidget {
   const HomePage({
     super.key,
@@ -440,7 +415,7 @@ class EshopAppBar extends ConsumerWidget {
             )),
         IconButton(
             onPressed: () {
-             //Navigator.push(context, MaterialPageRoute(builder: (context) => MyCartPage(),));
+              //Navigator.push(context, MaterialPageRoute(builder: (context) => MyCartPage(),));
             },
             icon: Badge(
                 label: Text('${cartItems.asData?.value.length}'),
@@ -499,8 +474,9 @@ class WishlistPage extends ConsumerWidget {
           Text(
             'My Wishlist',
             style: GoogleFonts.roboto(
-                fontSize: EshopTypography.heading2,
-                fontWeight: EshopFontweight.medium),
+                 fontSize: 20.sp,
+                  fontWeight: EshopFontweight.bold,
+                  color: Appcolors.textColor),
           ),
           SizedBox(
             height: 20.h,
@@ -608,8 +584,9 @@ class ProfilePage extends ConsumerWidget {
           Text(
             'My Account',
             style: GoogleFonts.roboto(
-                fontSize: EshopTypography.heading2,
-                fontWeight: EshopFontweight.medium),
+                 fontSize: 20.sp,
+                  fontWeight: EshopFontweight.bold,
+                  color: Appcolors.textColor),
           ),
           SizedBox(height: 30.h),
           Row(
