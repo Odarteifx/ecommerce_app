@@ -225,15 +225,32 @@ class MyCartPage extends ConsumerWidget {
                                   ),
                                 ),
                                 title: Text(item.productName),
-                                subtitle: Text('Quantity: ${item.quantity}',
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w300)),
+                                subtitle: Row(
+                                  children: [
+                                    IconButton(
+                                      iconSize: 15.sp,
+                                      onPressed: () {
+                                        ref.read(cartControllerProvider.notifier).decreaseQuantity(item.productId);
+                                      },
+                                      icon: const Icon(Iconsax.minus),
+                                    ),
+                                    Text('${item.quantity}',
+                                        style: GoogleFonts.roboto(
+                                            fontSize: 15.sp,
+                                            fontWeight: FontWeight.bold)),
+                                      IconButton(
+                                        iconSize: 15.sp,
+                                        onPressed: (){
+                                          ref.read(cartControllerProvider.notifier).increaseQuantity(item.productId);
+                                        }, 
+                                        icon: Icon(Iconsax.add))
+                                  ],
+                                ),
                                 trailing: Text(
                                     '\$${item.price.toStringAsFixed(2)}',
                                     style: GoogleFonts.roboto(
-                                        fontSize: 14.sp,
-                                        fontWeight: FontWeight.w500)),
+                                        fontSize: 16.sp,
+                                        fontWeight: FontWeight.w800)),
                               ),
                             );
                           },

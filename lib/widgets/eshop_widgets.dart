@@ -6,6 +6,7 @@ import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/utils/enums.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -1360,22 +1361,27 @@ class PaymentMethod extends ConsumerWidget {
           Expanded(
               child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [channelWidget(
-              context,
-              ref,
-              Channels.mobile_money,
-              channel == Channels.mobile_money
-                  ? Appcolors.primaryColor
-                  : Appcolors.widgetcolor,
-            ),
-            channelWidget(context, ref, Channels.card, channel == Channels.card
-                ? Appcolors.primaryColor
-                : Appcolors.widgetcolor),],
+            children: [
+              channelWidget(
+                context,
+                ref,
+                Channels.mobile_money,
+                channel == Channels.mobile_money
+                    ? Appcolors.primaryColor
+                    : Appcolors.widgetcolor,
+              ),
+              channelWidget(
+                  context,
+                  ref,
+                  Channels.card,
+                  channel == Channels.card
+                      ? Appcolors.primaryColor
+                      : Appcolors.widgetcolor),
+            ],
           ))
         ],
       ),
     );
-
   }
 
   InkWell channelWidget(
@@ -1396,5 +1402,127 @@ class PaymentMethod extends ConsumerWidget {
             style: GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody),
           ),
         ));
+  }
+}
+
+//Shipping address form
+class ShippingForm extends StatefulWidget {
+  const ShippingForm({super.key});
+
+  @override
+  State<ShippingForm> createState() => _ShippingFormState();
+}
+
+
+@override
+class _ShippingFormState extends State<ShippingForm> {
+  final userEmail = FirebaseAuth.instance.currentUser!.email;
+late final _formkey = GlobalKey<FormState>();
+late final TextEditingController _fullNameController ;
+late final TextEditingController _phoneNumberController ;
+late final TextEditingController _addressLineController;
+late final TextEditingController _cityController ;
+late final TextEditingController _stateController;
+
+ @override
+  void initState() {
+    _fullNameController = TextEditingController();
+    _phoneNumberController = TextEditingController();
+    _addressLineController = TextEditingController();
+    _cityController = TextEditingController();
+    _stateController = TextEditingController();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _fullNameController.dispose();
+    _phoneNumberController.dispose();
+    _cityController.dispose();
+    _addressLineController.dispose();
+    _stateController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return  Column(children: [
+        Form(
+          key: _formkey,
+          child: Column(
+            spacing: 10.h,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              Text('Contact Information',
+                  style: GoogleFonts.roboto(
+                      fontSize: 20.sp,
+                      fontWeight: EshopFontweight.bold,
+                      color: Appcolors.textColor)),
+              TextField(
+                decoration: InputDecoration(
+                  enabled: false,
+                  hintText: userEmail,
+                  disabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(color: Appcolors.iconColor),
+                  ),
+                ),
+              ),
+              SizedBox(height: 10.h),
+              Text('Shipping Address',
+                  style: GoogleFonts.roboto(
+                      fontSize: 20.sp,
+                      fontWeight: EshopFontweight.bold,
+                      color: Appcolors.textColor)),
+              TextField(
+                controller: _fullNameController,
+                keyboardType: TextInputType.name,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Full Name',
+                ),
+              ),
+              TextField(
+                controller: _phoneNumberController,
+                keyboardType: TextInputType.phone,
+                decoration: InputDecoration(
+                  hintText: 'Phone Number',
+                  border: OutlineInputBorder(),
+                ),
+              ),
+              TextField(
+                controller: _addressLineController,
+                keyboardType: TextInputType.streetAddress,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Address Line',
+                ),
+              ),
+              TextField(
+                controller: _cityController,
+                keyboardType: TextInputType.streetAddress,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'City',
+                ),
+              ),
+              TextField(
+                controller: _stateController,
+                keyboardType: TextInputType.streetAddress,
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'State',
+                ),
+              ),
+              TextField(
+                decoration: InputDecoration(
+                  border: OutlineInputBorder(),
+                  hintText: 'Country',
+                ),
+              ),
+            ],
+          ),
+        )
+      ]);
   }
 }

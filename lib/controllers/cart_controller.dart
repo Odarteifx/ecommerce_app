@@ -59,7 +59,49 @@ class CartController extends StateNotifier<List<CartItem>> {
       state = [];
     }
   }
+  
+  void increaseQuantity(String productId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final existingItemIndex = state.indexWhere((item) => item.productId == productId);
+      if (existingItemIndex >= 0) {
+        final existingItem = state[existingItemIndex];
+        final updatedItem = existingItem.copyWith(quantity: existingItem.quantity + 1);
+
+        state = [
+          ...state.sublist(0, existingItemIndex),
+          updatedItem,
+          ...state.sublist(existingItemIndex + 1)
+        ];
+        await CartServices().updateCartItem(user.uid, updatedItem);
+      }
+    }
+  }
+
+  void decreaseQuantity(String productId) async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      final existingItemIndex = state.indexWhere((item) => item.productId == productId);
+      if (existingItemIndex >= 0) {
+        final existingItem = state[existingItemIndex];
+        if (existingItem.quantity > 1) {
+          final updatedItem = existingItem.copyWith(quantity: existingItem.quantity - 1);
+
+          state = [
+            ...state.sublist(0, existingItemIndex),
+            updatedItem,
+            ...state.sublist(existingItemIndex + 1)
+          ];
+          await CartServices().updateCartItem(user.uid, updatedItem);
+        } else {
+          removeFromCart(productId);
+        }
+      }
+    }
+  }
 }
+
+
 
 final cartControllerProvider = StateNotifierProvider<CartController, List<CartItem>>((ref) {
   return CartController();

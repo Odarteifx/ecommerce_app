@@ -1,6 +1,5 @@
 import 'package:currency_converter/currency.dart';
 import 'package:currency_converter/currency_converter.dart';
-import 'package:ecommerce_app/screens/signup_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +13,13 @@ import 'payment_page.dart';
 
 class ShippingScreen extends ConsumerWidget {
   final double amount;
-  const ShippingScreen({
+  ShippingScreen({
     super.key,
     required this.amount,
   });
+
+  
+
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -70,71 +72,7 @@ class ShippingScreen extends ConsumerWidget {
           children: [
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.h),
-              child: Column(
-                spacing: 5.h,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Text('Contact Information',
-                      style: GoogleFonts.roboto(
-                          fontSize: 20.sp,
-                          fontWeight: EshopFontweight.bold,
-                          color: Appcolors.textColor)),
-                  TextField(
-              
-                    decoration: InputDecoration(
-                      enabled: false,
-                      hintText: userEmail,
-                      disabledBorder: OutlineInputBorder(
-                        borderSide: BorderSide(color: Appcolors.iconColor),
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 10.h),
-                  Text('Shipping Address',
-                      style: GoogleFonts.roboto(
-                          fontSize: 20.sp,
-                          fontWeight: EshopFontweight.bold,
-                          color: Appcolors.textColor)),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Full Name',
-                    ),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      hintText: 'Phone Number',
-                      border: OutlineInputBorder(),
-                    ),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Address',
-                    ),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'City',
-                    ),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'State',
-                    ),
-                  ),
-                  TextField(
-                    decoration: InputDecoration(
-                      border: OutlineInputBorder(),
-                      hintText: 'Country',
-                    ),
-                  ),
-                ],
-              ),
-            ),
+              child: ShippingForm()),
             Expanded(child: SizedBox(height: 20)),
             Container(
               height: 50.h,
