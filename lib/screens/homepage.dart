@@ -301,7 +301,9 @@ class MyCartPage extends ConsumerWidget {
                             final items =
                                 ref.read(cartProvider).asData?.value ?? [];
                             final totalPrice = getTotalPrice(items);
-                            Navigator.of(context).push(MaterialPageRoute(
+                            (totalPrice == 0)? ScaffoldMessenger.of(context).showSnackBar(
+                              SnackBar(content: Text('No Item to Checkout'))
+                            ) : Navigator.of(context).push(MaterialPageRoute(
                                 builder: (context) =>
                                     ShippingScreen(amount: totalPrice)));
                           },

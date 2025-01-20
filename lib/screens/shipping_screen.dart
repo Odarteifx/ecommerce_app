@@ -13,14 +13,11 @@ import 'payment_page.dart';
 
 class ShippingScreen extends ConsumerWidget {
   final double amount;
-  ShippingScreen({
+  const ShippingScreen({
     super.key,
     required this.amount,
   });
-
   
-
-
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(

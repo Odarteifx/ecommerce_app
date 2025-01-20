@@ -46,9 +46,7 @@ class CartController extends StateNotifier<List<CartItem>> {
       final updatedState = List.from(state);
       final firebaseCartServices = CartServices();
       state = state.where((item) => item.productId != item.productId).toList();
-      await firebaseCartServices.removeFromCart(user.uid, productId);
-
-      
+      await firebaseCartServices.removeFromCart(user.uid, productId);  
       state = updatedState.cast<CartItem>();
     }
   }
