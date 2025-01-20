@@ -1,4 +1,3 @@
-import 'package:currency_converter/currency.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
@@ -6,9 +5,7 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
-import 'package:ecommerce_app/screens/payment_page.dart';
 import 'package:ecommerce_app/screens/shipping_screen.dart';
-import 'package:ecommerce_app/utils/utils.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +16,6 @@ import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-import 'package:currency_converter/currency_converter.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});

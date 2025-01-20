@@ -23,7 +23,6 @@ class ShippingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final userEmail = FirebaseAuth.instance.currentUser!.email;
     return Scaffold(
         backgroundColor: Appcolors.backgroundColor,
         appBar: AppBar(
