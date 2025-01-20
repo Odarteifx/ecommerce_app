@@ -5,6 +5,7 @@ import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/product_models.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
+import 'package:ecommerce_app/screens/shipping_screen.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -32,8 +33,6 @@ class ProductDetailsPage extends ConsumerWidget {
             ProductActionButton(
               buttonText: 'Add To Cart',
               function: () {
-                print(
-                    '${product.name}, ${product.image}, ${product.productId},}');
                 final cartItem = CartItem(
                   quantity: 1,
                   productId: product.productId,
@@ -51,7 +50,9 @@ class ProductDetailsPage extends ConsumerWidget {
             ),
             ProductActionButton(
               buttonText: 'Buy Now',
-              function: () {},
+              function: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShippingScreen(amount: product.price),));
+              },
               color: Appcolors.bottomNavActive,
             )
           ])),

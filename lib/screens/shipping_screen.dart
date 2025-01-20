@@ -20,7 +20,9 @@ class ShippingScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
+      backgroundColor: Appcolors.backgroundColor,
         appBar: AppBar(
+          backgroundColor: Appcolors.backgroundColor,
           title: Text('Shipping Address',
               style: GoogleFonts.roboto(
                   fontSize: 20.sp,

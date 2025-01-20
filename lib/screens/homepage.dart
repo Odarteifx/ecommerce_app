@@ -415,7 +415,7 @@ class EshopAppBar extends ConsumerWidget {
             )),
         IconButton(
             onPressed: () {
-              //Navigator.push(context, MaterialPageRoute(builder: (context) => MyCartPage(),));
+              //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyCartPage(),)) ;
             },
             icon: Badge(
                 label: Text('${cartItems.asData?.value.length}'),
@@ -541,7 +541,6 @@ class WishlistPage extends ConsumerWidget {
                                     fontWeight: EshopFontweight.bold)),
                         trailing: IconButton(
                             onPressed: () {
-                              print('${item.productId}');
                               ref
                                   .read(wishlistControllerProvider.notifier)
                                   .removeFromWishlist(item.productId);
