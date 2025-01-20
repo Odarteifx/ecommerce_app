@@ -1,4 +1,5 @@
 // ignore_for_file: use_build_context_synchronously
+import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/models/paystack_models/paystack_auth_response.dart';
 import 'package:ecommerce_app/services/paystack_service.dart';
 import 'package:flutter/material.dart';
@@ -65,6 +66,7 @@ class PaymentPage extends ConsumerWidget {
             child: Scaffold(
               appBar: AppBar(
                 title: Text('Payment'),
+                backgroundColor: Appcolors.backgroundColor,
                 leading: IconButton(
                   icon: Icon(Icons.close),
                   onPressed: () {

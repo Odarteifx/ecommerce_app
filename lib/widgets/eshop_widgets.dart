@@ -1342,14 +1342,14 @@ class PaymentMethod extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final channel = ref.watch(_stateChannel);
     return SizedBox(
-      height: 100.h,
+      height: 200.h,
       child: Column(
         children: [
           SizedBox(
             height: 10.h,
           ),
           Text(
-            'Select Payment Method',
+            'Proceed to Payment',
             style: GoogleFonts.roboto(
                 fontSize: EshopTypography.heading2,
                 fontWeight: EshopFontweight.semibold),

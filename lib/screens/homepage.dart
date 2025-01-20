@@ -1,3 +1,4 @@
+import 'package:currency_converter/currency.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
@@ -5,14 +6,12 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
-import 'package:ecommerce_app/providers/eshop_providers.dart';
 import 'package:ecommerce_app/screens/payment_page.dart';
 import 'package:ecommerce_app/utils/enums.dart';
 import 'package:ecommerce_app/utils/utils.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -20,8 +19,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
-import 'signup_page.dart';
+import 'package:currency_converter/currency_converter.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
@@ -185,7 +183,6 @@ class MyCartPage extends ConsumerWidget {
                         return ListView.builder(
                           itemCount: items.length,
                           itemBuilder: (context, index) {
-                    
                             final CartItem item = items[index];
                             return Slidable(
                               key: Key(item.productId),
@@ -209,7 +206,7 @@ class MyCartPage extends ConsumerWidget {
                                   ]),
                               child: ListTile(
                                 onTap: () {
-                                  print(
+                                  debugPrint(
                                       '${item.image}, ${item.productName}, ${item.productId}');
                                 },
                                 leading: Container(
@@ -285,20 +282,28 @@ class MyCartPage extends ConsumerWidget {
                         width: 10.sp,
                       ),
                       FilledButton(
-                          onPressed: () {
+                          onPressed: () async {
                             final items =
                                 ref.read(cartProvider).asData?.value ?? [];
-                                final totalPrice = getTotalPrice(items);
-                                final amountInCents = (totalPrice * 100).toInt();
-                                debugPrint((amountInCents.toString()));
-                            showBottomSheet(
-                              context: context,
-                              builder: (context) => PaymentMethod(
-                                  onselectedChannel: (Channels values) {
+                            final totalPrice = getTotalPrice(items);
+                            final double amountInUSD =
+                                (totalPrice * 100).toDouble();
+                            final ghsAmount = await CurrencyConverter.convert(
+                              amount: amountInUSD,
+                              from: Currency.usd,
+                              to: Currency.ghs,
+                            );
+
+                            final amountNew = ghsAmount?.toStringAsFixed(0);
+                            final amountInCedis = double.parse(amountNew!);
+
+                            debugPrint(amountInCedis.toString());
+
+                            
                                 Navigator.of(context).push(MaterialPageRoute(
                                   builder: (context) => PaymentPage(
                                     reference: Utils.uniqueRefenece(),
-                                    amount: amountInCents.toDouble(),
+                                    amount: amountInCedis,
                                     email: FirebaseAuth
                                         .instance.currentUser!.email!,
                                     currency: 'GHS',
@@ -310,8 +315,8 @@ class MyCartPage extends ConsumerWidget {
                                     },
                                   ),
                                 ));
-                              }),
-                            );
+                            
+                            
                           },
                           style: FilledButton.styleFrom(
                               shape: RoundedRectangleBorder(
@@ -434,7 +439,9 @@ class EshopAppBar extends ConsumerWidget {
               icon: const Icon(Iconsax.notification),
             )),
         IconButton(
-            onPressed: () {},
+            onPressed: () {
+             //Navigator.push(context, MaterialPageRoute(builder: (context) => MyCartPage(),));
+            },
             icon: Badge(
                 label: Text('${cartItems.asData?.value.length}'),
                 child: const Icon(Iconsax.bag_2)))
