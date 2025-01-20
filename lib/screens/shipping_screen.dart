@@ -1,5 +1,7 @@
 import 'package:currency_converter/currency.dart';
 import 'package:currency_converter/currency_converter.dart';
+import 'package:ecommerce_app/screens/signup_page.dart';
+import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -19,15 +21,11 @@ class ShippingScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userEmail = FirebaseAuth.instance.currentUser!.email;
     return Scaffold(
-      backgroundColor: Appcolors.backgroundColor,
+        backgroundColor: Appcolors.backgroundColor,
         appBar: AppBar(
           backgroundColor: Appcolors.backgroundColor,
-          title: Text('Shipping Address',
-              style: GoogleFonts.roboto(
-                  fontSize: 20.sp,
-                  fontWeight: EshopFontweight.bold,
-                  color: Appcolors.textColor)),
         ),
         bottomNavigationBar: BottomAppBar(
           child: FilledButton(
@@ -41,7 +39,7 @@ class ShippingScreen extends ConsumerWidget {
                 final amountNew = ghsAmount?.toStringAsFixed(0);
                 final amountInCedis = double.parse(amountNew!);
                 debugPrint(amountInCedis.toString());
-                
+
                 Navigator.of(context).push(MaterialPageRoute(
                   builder: (context) => PaymentPage(
                     reference: Utils.uniqueRefenece(),
@@ -73,34 +71,64 @@ class ShippingScreen extends ConsumerWidget {
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.h),
               child: Column(
+                spacing: 5.h,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
+                  Text('Contact Information',
+                      style: GoogleFonts.roboto(
+                          fontSize: 20.sp,
+                          fontWeight: EshopFontweight.bold,
+                          color: Appcolors.textColor)),
+                  TextField(
+              
+                    decoration: InputDecoration(
+                      enabled: false,
+                      hintText: userEmail,
+                      disabledBorder: OutlineInputBorder(
+                        borderSide: BorderSide(color: Appcolors.iconColor),
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 10.h),
+                  Text('Shipping Address',
+                      style: GoogleFonts.roboto(
+                          fontSize: 20.sp,
+                          fontWeight: EshopFontweight.bold,
+                          color: Appcolors.textColor)),
                   TextField(
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'Full Name',
                     ),
                   ),
                   TextField(
                     decoration: InputDecoration(
                       hintText: 'Phone Number',
+                      border: OutlineInputBorder(),
                     ),
                   ),
                   TextField(
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'Address',
                     ),
                   ),
                   TextField(
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'City',
                     ),
                   ),
                   TextField(
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'State',
                     ),
                   ),
                   TextField(
                     decoration: InputDecoration(
+                      border: OutlineInputBorder(),
                       hintText: 'Country',
                     ),
                   ),
