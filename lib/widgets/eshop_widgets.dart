@@ -1413,18 +1413,19 @@ class ShippingForm extends StatefulWidget {
   State<ShippingForm> createState() => _ShippingFormState();
 }
 
-
 @override
 class _ShippingFormState extends State<ShippingForm> {
   final userEmail = FirebaseAuth.instance.currentUser!.email;
-late final _formkey = GlobalKey<FormState>();
-late final TextEditingController _fullNameController ;
-late final TextEditingController _phoneNumberController ;
-late final TextEditingController _addressLineController;
-late final TextEditingController _cityController ;
-late final TextEditingController _stateController;
+  late final _formkey = GlobalKey<FormState>();
+  late final TextEditingController _fullNameController;
+  late final TextEditingController _phoneNumberController;
+  late final TextEditingController _addressLineController;
+  late final TextEditingController _cityController;
+  late final TextEditingController _stateController;
+  bool _isEditable = true;
+  bool _saveAddress = true;
 
- @override
+  @override
   void initState() {
     _fullNameController = TextEditingController();
     _phoneNumberController = TextEditingController();
@@ -1444,85 +1445,154 @@ late final TextEditingController _stateController;
     super.dispose();
   }
 
+
+  void _handleSave(){
+    setState(() {
+     _isEditable == true ?  _isEditable = false : _isEditable = true;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    return  Column(children: [
-        Form(
-          key: _formkey,
-          child: Column(
-            spacing: 10.h,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Text('Contact Information',
-                  style: GoogleFonts.roboto(
-                      fontSize: 20.sp,
-                      fontWeight: EshopFontweight.bold,
-                      color: Appcolors.textColor)),
-              TextField(
-                decoration: InputDecoration(
-                  enabled: false,
-                  hintText: userEmail,
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: Appcolors.iconColor),
-                  ),
+    return Column(children: [
+      Form(
+        key: _formkey,
+        child: Column(
+          spacing: 8.h,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            Text('Contact Information',
+                style: GoogleFonts.roboto(
+                    fontSize: 20.sp,
+                    fontWeight: EshopFontweight.bold,
+                    color: Appcolors.textColor)),
+            TextFormField(
+              decoration: InputDecoration(
+                enabled: false,
+                hintText: userEmail,
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
               ),
-              SizedBox(height: 10.h),
-              Text('Shipping Address',
-                  style: GoogleFonts.roboto(
-                      fontSize: 20.sp,
-                      fontWeight: EshopFontweight.bold,
-                      color: Appcolors.textColor)),
-              TextField(
-                controller: _fullNameController,
-                keyboardType: TextInputType.name,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Full Name',
+            ),
+            SizedBox(height: 5.h),
+            Text('Shipping Address',
+                style: GoogleFonts.roboto(
+                    fontSize: 20.sp,
+                    fontWeight: EshopFontweight.bold,
+                    color: Appcolors.textColor)),
+            TextFormField(
+              controller: _fullNameController,
+              keyboardType: TextInputType.name,
+              decoration: InputDecoration(
+                 enabled: _isEditable,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
+                enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                hintText: 'Full Name',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
-              TextField(
-                controller: _phoneNumberController,
-                keyboardType: TextInputType.phone,
-                decoration: InputDecoration(
-                  hintText: 'Phone Number',
-                  border: OutlineInputBorder(),
+            ),
+            TextField(
+              controller: _phoneNumberController,
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                enabled: _isEditable,
+                hintText: 'Phone Number',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
+                enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Appcolors.iconColor)), 
               ),
-              TextField(
-                controller: _addressLineController,
-                keyboardType: TextInputType.streetAddress,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Address Line',
+            ),
+            TextField(
+              controller: _addressLineController,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                 enabled: _isEditable,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
+                enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                hintText: 'Address Line',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
-              TextField(
-                controller: _cityController,
-                keyboardType: TextInputType.streetAddress,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'City',
+            ),
+            TextField(
+              controller: _cityController,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                 enabled: _isEditable,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
+                enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                hintText: 'City',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
-              TextField(
-                controller: _stateController,
-                keyboardType: TextInputType.streetAddress,
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'State',
+            ),
+            TextField(
+              controller: _stateController,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                 enabled: _isEditable,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
+                enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                hintText: 'State',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(),
-                  hintText: 'Country',
+            ),
+            TextField(
+              decoration: InputDecoration(
+                 enabled: _isEditable,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
+                enabledBorder: const OutlineInputBorder(
+              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                hintText: 'Country',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
-            ],
-          ),
-        )
-      ]);
+            ),
+            Row(
+              children: [
+                Checkbox(
+                  value: _saveAddress,
+                   onChanged: (value) {
+                  setState(() {
+                    _saveAddress = value!;
+                  });
+                }),
+                Text('Add to Default',
+                    style: GoogleFonts.roboto(
+                        fontSize: 16.sp,
+                        fontWeight: EshopFontweight.regular,
+                        color: Appcolors.textColor)),
+                Expanded(child: SizedBox()),
+                FilledButton(
+                    onPressed: () {
+                      _handleSave();
+                    },
+                    style: FilledButton.styleFrom(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(2.sp)),
+                        backgroundColor: Appcolors.bottomNavActive),
+                    child: Text( _isEditable? 'Save' : 'Edit', style: GoogleFonts.roboto(fontSize: EshopTypography.subtext),)),
+              ],
+            )
+          ],
+        ),
+      )
+    ]);
   }
 }
