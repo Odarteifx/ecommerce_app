@@ -89,7 +89,7 @@ class ProductDetailsPage extends ConsumerWidget {
                       children: [
                         IconButton(
                             onPressed: () {
-                              print('${wishlistItems}');
+                              // print('${wishlistItems}');
                               if (isInWishlist) {
                                 final wishlistItem = wishlistItems.value!
                                     .firstWhere((item) => item.productId == product.productId);

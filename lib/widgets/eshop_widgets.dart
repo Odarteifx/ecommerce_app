@@ -1422,6 +1422,7 @@ class _ShippingFormState extends State<ShippingForm> {
   late final TextEditingController _addressLineController;
   late final TextEditingController _cityController;
   late final TextEditingController _stateController;
+  late final TextEditingController _countryController;
   bool _isEditable = true;
   bool _saveAddress = true;
 
@@ -1432,6 +1433,7 @@ class _ShippingFormState extends State<ShippingForm> {
     _addressLineController = TextEditingController();
     _cityController = TextEditingController();
     _stateController = TextEditingController();
+    _countryController = TextEditingController();
     super.initState();
   }
 
@@ -1442,6 +1444,7 @@ class _ShippingFormState extends State<ShippingForm> {
     _cityController.dispose();
     _addressLineController.dispose();
     _stateController.dispose();
+    _countryController.dispose();
     super.dispose();
   }
 
@@ -1450,6 +1453,24 @@ class _ShippingFormState extends State<ShippingForm> {
     setState(() {
      _isEditable == true ?  _isEditable = false : _isEditable = true;
     });
+
+    if (!_isEditable) {
+      final email = userEmail;
+      final fullName = _fullNameController.text;
+      final phoneNumber = _phoneNumberController.text;
+      final addressLine = _addressLineController.text;
+      final city = _cityController.text;
+      final state = _stateController.text;
+      final country = _countryController.text;
+
+      debugPrint('Email: $email');
+      debugPrint('Full Name: $fullName');
+      debugPrint('Phone Number: $phoneNumber');
+      debugPrint('Address Line: $addressLine');
+      debugPrint('City: $city');
+      debugPrint('State: $state');
+      debugPrint('Country: $country');
+    }
   }
 
   @override
@@ -1496,7 +1517,7 @@ class _ShippingFormState extends State<ShippingForm> {
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
             ),
-            TextField(
+            TextFormField(
               controller: _phoneNumberController,
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
@@ -1510,7 +1531,7 @@ class _ShippingFormState extends State<ShippingForm> {
               borderSide: BorderSide(color: Appcolors.iconColor)), 
               ),
             ),
-            TextField(
+            TextFormField(
               controller: _addressLineController,
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
@@ -1524,7 +1545,7 @@ class _ShippingFormState extends State<ShippingForm> {
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
             ),
-            TextField(
+            TextFormField(
               controller: _cityController,
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
@@ -1538,7 +1559,7 @@ class _ShippingFormState extends State<ShippingForm> {
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
             ),
-            TextField(
+            TextFormField(
               controller: _stateController,
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
@@ -1552,7 +1573,8 @@ class _ShippingFormState extends State<ShippingForm> {
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
             ),
-            TextField(
+            TextFormField(
+              controller: _countryController,
               decoration: InputDecoration(
                  enabled: _isEditable,
                 border: OutlineInputBorder(
