@@ -23,6 +23,7 @@ class AddedAddressScreen extends ConsumerWidget {
           title: const Text('Saved Address'),
         ),
         body: Scaffold(
+          backgroundColor: Appcolors.backgroundColor,
             body: shippingAddress.isEmpty
                 ? Center(
                   child: Text('No Saved Address',
