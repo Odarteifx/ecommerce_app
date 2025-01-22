@@ -17,6 +17,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
+import 'added_address_screen.dart';
+
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
 
@@ -151,7 +153,6 @@ class MyCartPage extends ConsumerWidget {
                     const Expanded(child: SizedBox()),
                     IconButton(
                       onPressed: () {
-                        print('Delete all items');
                         ref.read(cartControllerProvider.notifier).clearCart();
                       },
                       icon: const Icon(
@@ -172,7 +173,7 @@ class MyCartPage extends ConsumerWidget {
                           return Center(
                               child: Text(
                             'No items in the cart',
-                            style: TextStyle(
+                            style: GoogleFonts.roboto(
                                 fontSize: EshopTypography.onboadingbody),
                           ));
                         }
@@ -503,7 +504,7 @@ class WishlistPage extends ConsumerWidget {
                   child: Center(
                       child: Text(
                     'No items added to wishlist',
-                    style: TextStyle(fontSize: EshopTypography.onboadingbody),
+                    style: GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody),
                   )),
                 );
               }
@@ -536,7 +537,7 @@ class WishlistPage extends ConsumerWidget {
                                 children: [
                                   Text(
                                     '\$${item.oldPrice?.toStringAsFixed(2)}',
-                                    style: TextStyle(
+                                    style: GoogleFonts.roboto(
                                       decoration: TextDecoration.lineThrough,
                                       decorationColor: Appcolors.promptColor,
                                       color: Appcolors.promptColor,
@@ -546,13 +547,13 @@ class WishlistPage extends ConsumerWidget {
                                   SizedBox(width: 5.w),
                                   Text(
                                     '\$${item.price.toStringAsFixed(2)}',
-                                    style: TextStyle(
+                                    style: GoogleFonts.roboto(
                                         fontWeight: EshopFontweight.bold),
                                   )
                                 ],
                               )
                             : Text('\$${item.price.toStringAsFixed(2)}',
-                                style: TextStyle(
+                                style: GoogleFonts.roboto(
                                     fontWeight: EshopFontweight.bold)),
                         trailing: IconButton(
                             onPressed: () {
@@ -696,7 +697,10 @@ class ProfilePage extends ConsumerWidget {
               ProfileTile(
                 icon: Iconsax.location,
                 iconText: 'Delivery address',
-                onpressed: () {},
+                onpressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => const AddedAddressScreen()));
+                },
               ),
               SizedBox(
                 height: 20.h,

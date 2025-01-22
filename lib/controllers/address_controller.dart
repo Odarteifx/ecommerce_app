@@ -5,6 +5,7 @@ import '../models/shipping_model.dart';
 
 final addressControllerProvider = StateNotifierProvider<AddressController, List<ShippingAddress>>((ref){
   final addressServices = ref.watch(addressServicesProvider);
+  
   return AddressController(addressServices);
 });
 
