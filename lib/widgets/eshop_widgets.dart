@@ -1438,7 +1438,6 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
     _stateController = TextEditingController();
     _countryController = TextEditingController();
     super.initState();
-    ship = ref.read(addressServicesProvider);
   }
 
   @override
@@ -1475,20 +1474,15 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
       debugPrint('Country: $country');
 
       try  {
-        ShippingAddress(
+       final shippingAddress = ShippingAddress(
             fullName: fullName,
             phoneNumber: phoneNumber,
             addressLine: addressLine,
             state: state,
             city: city,
             country: country);
+         await ref.read(addressControllerProvider.notifier).addShippingAddress(shippingAddress);
         debugPrint('Address saved successfully');
-        ship.addShippingAddress(ShippingAddress(
-            fullName: fullName,
-            phoneNumber: phoneNumber,
-            addressLine: addressLine,
-            city: city,
-            country: country));
       } catch (e) {
         debugPrint('Error: $e');
       }
