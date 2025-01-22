@@ -3,7 +3,7 @@ import 'package:ecommerce_app/models/shipping_address.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final addressServices = Provider<AddressServices>((ref){
+final addressServicesProvider = Provider<AddressServices>((ref){
   return AddressServices();
 });
 
@@ -11,7 +11,7 @@ class AddressServices {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
-  Stream <List<ShippingAddress>> getShippingAddress(String userId) {
+  Stream <List<ShippingAddress>> getShippingAddress(String userId, {required String fullName}) {
     return _firestore
         .collection('users')
         .doc(userId)

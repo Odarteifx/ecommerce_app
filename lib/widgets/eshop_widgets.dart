@@ -4,7 +4,9 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
+import 'package:ecommerce_app/models/shipping_address.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
+import 'package:ecommerce_app/services/address_services.dart';
 import 'package:ecommerce_app/utils/enums.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -1406,16 +1408,17 @@ class PaymentMethod extends ConsumerWidget {
 }
 
 //Shipping address form
-class ShippingForm extends StatefulWidget {
+class ShippingForm extends ConsumerStatefulWidget {
   const ShippingForm({super.key});
 
   @override
-  State<ShippingForm> createState() => _ShippingFormState();
+  ConsumerState<ShippingForm> createState() => _ShippingFormState();
 }
 
 @override
-class _ShippingFormState extends State<ShippingForm> {
+class _ShippingFormState extends ConsumerState<ShippingForm> {
   final userEmail = FirebaseAuth.instance.currentUser!.email;
+  late final AddressServices ship;
   late final _formkey = GlobalKey<FormState>();
   late final TextEditingController _fullNameController;
   late final TextEditingController _phoneNumberController;
@@ -1435,6 +1438,7 @@ class _ShippingFormState extends State<ShippingForm> {
     _stateController = TextEditingController();
     _countryController = TextEditingController();
     super.initState();
+    ship = ref.read(addressServicesProvider);
   }
 
   @override
@@ -1448,10 +1452,9 @@ class _ShippingFormState extends State<ShippingForm> {
     super.dispose();
   }
 
-
-  void _handleSave(){
+  Future<void> _handleSave() async {
     setState(() {
-     _isEditable == true ?  _isEditable = false : _isEditable = true;
+      _isEditable == true ? _isEditable = false : _isEditable = true;
     });
 
     if (!_isEditable) {
@@ -1470,6 +1473,25 @@ class _ShippingFormState extends State<ShippingForm> {
       debugPrint('City: $city');
       debugPrint('State: $state');
       debugPrint('Country: $country');
+
+      try  {
+        ShippingAddress(
+            fullName: fullName,
+            phoneNumber: phoneNumber,
+            addressLine: addressLine,
+            state: state,
+            city: city,
+            country: country);
+        debugPrint('Address saved successfully');
+        ship.addShippingAddress(ShippingAddress(
+            fullName: fullName,
+            phoneNumber: phoneNumber,
+            addressLine: addressLine,
+            city: city,
+            country: country));
+      } catch (e) {
+        debugPrint('Error: $e');
+      }
     }
   }
 
@@ -1507,12 +1529,12 @@ class _ShippingFormState extends State<ShippingForm> {
               controller: _fullNameController,
               keyboardType: TextInputType.name,
               decoration: InputDecoration(
-                 enabled: _isEditable,
+                enabled: _isEditable,
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
                 enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
                 hintText: 'Full Name',
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
@@ -1528,19 +1550,19 @@ class _ShippingFormState extends State<ShippingForm> {
                   borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
                 enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
               ),
             ),
             TextFormField(
               controller: _addressLineController,
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
-                 enabled: _isEditable,
+                enabled: _isEditable,
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
                 enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
                 hintText: 'Address Line',
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
@@ -1549,12 +1571,12 @@ class _ShippingFormState extends State<ShippingForm> {
               controller: _cityController,
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
-                 enabled: _isEditable,
+                enabled: _isEditable,
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
                 enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
                 hintText: 'City',
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
@@ -1563,12 +1585,12 @@ class _ShippingFormState extends State<ShippingForm> {
               controller: _stateController,
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
-                 enabled: _isEditable,
+                enabled: _isEditable,
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
                 enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
                 hintText: 'State',
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
@@ -1576,12 +1598,12 @@ class _ShippingFormState extends State<ShippingForm> {
             TextFormField(
               controller: _countryController,
               decoration: InputDecoration(
-                 enabled: _isEditable,
+                enabled: _isEditable,
                 border: OutlineInputBorder(
                   borderSide: BorderSide(color: Appcolors.iconColor),
                 ),
                 enabledBorder: const OutlineInputBorder(
-              borderSide: BorderSide(color: Appcolors.iconColor)), 
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
                 hintText: 'Country',
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
@@ -1589,12 +1611,12 @@ class _ShippingFormState extends State<ShippingForm> {
             Row(
               children: [
                 Checkbox(
-                  value: _saveAddress,
-                   onChanged: (value) {
-                  setState(() {
-                    _saveAddress = value!;
-                  });
-                }),
+                    value: _saveAddress,
+                    onChanged: (value) {
+                      setState(() {
+                        _saveAddress = value!;
+                      });
+                    }),
                 Text('Add to Default',
                     style: GoogleFonts.roboto(
                         fontSize: 16.sp,
@@ -1609,7 +1631,11 @@ class _ShippingFormState extends State<ShippingForm> {
                         shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(2.sp)),
                         backgroundColor: Appcolors.bottomNavActive),
-                    child: Text( _isEditable? 'Save' : 'Edit', style: GoogleFonts.roboto(fontSize: EshopTypography.subtext),)),
+                    child: Text(
+                      _isEditable ? 'Save' : 'Edit',
+                      style:
+                          GoogleFonts.roboto(fontSize: EshopTypography.subtext),
+                    )),
               ],
             )
           ],
