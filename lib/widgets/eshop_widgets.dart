@@ -813,19 +813,24 @@ class ProductActionButton extends StatelessWidget {
       {super.key,
       required this.buttonText,
       required this.function,
-      required this.color});
+      required this.color,
+      required this.textColorcolor,
+      required this.borderColor});
 
   final String buttonText;
   final VoidCallback function;
   final Color color;
+  final Color borderColor;
+  final Color textColorcolor;
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
       height: 50.h,
-      width: 160.w,
+      width: 150.w,
       child: FilledButton(
         style: FilledButton.styleFrom(
+            side: BorderSide(color: borderColor),
             shape:
                 RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
             backgroundColor: color),
@@ -834,6 +839,7 @@ class ProductActionButton extends StatelessWidget {
           buttonText,
           style: GoogleFonts.roboto(
               fontSize: EshopTypography.onboadingbody,
+              color: textColorcolor,
               fontWeight: EshopFontweight.medium),
         ),
       ),

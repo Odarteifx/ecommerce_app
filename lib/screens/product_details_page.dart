@@ -46,14 +46,14 @@ class ProductDetailsPage extends ConsumerWidget {
                   SnackBar(content: Text('${product.name} Added to Cart')),
                 );
               },
-              color: Appcolors.iconColor,
+              color: Appcolors.backgroundColor, textColorcolor: Appcolors.bottomNavActive, borderColor: Appcolors.bottomNavActive,
             ),
             ProductActionButton(
               buttonText: 'Buy Now',
               function: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShippingScreen(amount: product.price),));
               },
-              color: Appcolors.bottomNavActive,
+              color: Appcolors.bottomNavActive, textColorcolor: Appcolors.backgroundColor, borderColor: Appcolors.bottomNavActive,
             )
           ])),
       backgroundColor: Appcolors.backgroundColor,
