@@ -1,7 +1,7 @@
-import 'package:ecommerce_app/models/shipping_address.dart';
 import 'package:ecommerce_app/services/address_services.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import '../models/shipping_model.dart';
 
 final addressControllerProvider = StateNotifierProvider<AddressController, List<ShippingAddress>>((ref){
   final addressServices = ref.watch(addressServicesProvider);
@@ -14,12 +14,14 @@ class AddressController extends StateNotifier<List<ShippingAddress>> {
   AddressController(this._addressServices) : super([]){
     _fetchShippingAddresses();
   }
+  
+
 
   Future<void> _fetchShippingAddresses() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
       final userId = user.uid;
-      _addressServices.getShippingAddress(userId, fullName: fullName).listen((addresses){
+      _addressServices.getShippingAddress(userId).listen((addresses){
         state = addresses;
       });
       

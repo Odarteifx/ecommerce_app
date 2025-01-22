@@ -4,7 +4,6 @@ import 'dart:math';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
-import 'package:ecommerce_app/models/shipping_address.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/services/address_services.dart';
 import 'package:ecommerce_app/utils/enums.dart';
@@ -24,7 +23,9 @@ import 'package:ecommerce_app/screens/product_categories_page.dart';
 
 import '../constants/eshop_assets.dart';
 import '../constants/eshop_typography.dart';
+import '../controllers/address_controller.dart';
 import '../controllers/cart_controller.dart';
+import '../models/shipping_model.dart';
 import '../screens/product_details_page.dart';
 
 //Onboarding and pageview Images
@@ -1473,15 +1474,17 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
       debugPrint('State: $state');
       debugPrint('Country: $country');
 
-      try  {
-       final shippingAddress = ShippingAddress(
+      try {
+        final shippingAddress = ShippingAddress(
             fullName: fullName,
             phoneNumber: phoneNumber,
             addressLine: addressLine,
             state: state,
             city: city,
             country: country);
-         await ref.read(addressControllerProvider.notifier).addShippingAddress(shippingAddress);
+        await ref
+            .read(addressControllerProvider.notifier)
+            .addShippingAddress(shippingAddress);
         debugPrint('Address saved successfully');
       } catch (e) {
         debugPrint('Error: $e');
