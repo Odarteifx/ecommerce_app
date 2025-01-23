@@ -1434,7 +1434,7 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
   late final TextEditingController _stateController;
   late final TextEditingController _countryController;
   bool _isEditable = true;
-  bool _saveAddress = true;
+  bool _saveAddress = false;
 
   @override
   void initState() {
@@ -1462,16 +1462,15 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
     setState(() {
       _isEditable == true ? _isEditable = false : _isEditable = true;
     });
+    final email = userEmail;
+    final fullName = _fullNameController.text;
+    final phoneNumber = _phoneNumberController.text;
+    final addressLine = _addressLineController.text;
+    final city = _cityController.text;
+    final state = _stateController.text;
+    final country = _countryController.text;
 
     if (!_isEditable) {
-      final email = userEmail;
-      final fullName = _fullNameController.text;
-      final phoneNumber = _phoneNumberController.text;
-      final addressLine = _addressLineController.text;
-      final city = _cityController.text;
-      final state = _stateController.text;
-      final country = _countryController.text;
-
       debugPrint('Email: $email');
       debugPrint('Full Name: $fullName');
       debugPrint('Phone Number: $phoneNumber');
@@ -1479,19 +1478,23 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
       debugPrint('City: $city');
       debugPrint('State: $state');
       debugPrint('Country: $country');
-
       try {
-        final shippingAddress = ShippingAddress(
+       final shippingAddress = ShippingAddress(
             fullName: fullName,
             phoneNumber: phoneNumber,
             addressLine: addressLine,
             state: state,
             city: city,
             country: country);
+
+       if (_saveAddress == true) {
         await ref
             .read(addressControllerProvider.notifier)
             .addShippingAddress(shippingAddress);
-        debugPrint('Address saved successfully');
+        debugPrint('Address saved successfully ;)');
+       } else {
+        debugPrint('Shipping Address Not Saved');
+       }
       } catch (e) {
         debugPrint('Error: $e');
       }
@@ -1586,6 +1589,12 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             ),
             TextFormField(
               controller: _stateController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a valid state';
+                }
+                return null;
+              },
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
                 enabled: _isEditable,

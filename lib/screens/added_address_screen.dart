@@ -1,6 +1,5 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/controllers/address_controller.dart';
-import 'package:ecommerce_app/services/address_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

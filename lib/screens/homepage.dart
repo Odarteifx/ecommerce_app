@@ -132,197 +132,200 @@ class MyCartPage extends ConsumerWidget {
       return items.fold(0.0, (sum, item) => sum + (item.price * item.quantity));
     }
 
-    return SafeArea(
-        child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.h),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 15.h,
-                ),
-                Row(
-                  children: [
-                    Text(
-                      'My Cart (${cartItems.asData!.value.length})',
-                      style: GoogleFonts.roboto(
-                          fontSize: 20.sp,
-                          fontWeight: EshopFontweight.bold,
-                          color: Appcolors.textColor),
-                    ),
-                    const Expanded(child: SizedBox()),
-                    IconButton(
-                      onPressed: () {
-                        ref.read(cartControllerProvider.notifier).clearCart();
-                      },
-                      icon: const Icon(
-                        Iconsax.trash,
-                        color: Appcolors.textColor,
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(
-                  height: 20.h,
-                ),
-                Expanded(
-                  child: Container(
-                    child: cartItems.when(
-                      data: (items) {
-                        if (items.isEmpty) {
-                          return Center(
-                              child: Text(
-                            'No items in the cart',
-                            style: GoogleFonts.roboto(
-                                fontSize: EshopTypography.onboadingbody),
-                          ));
-                        }
-                        return ListView.builder(
-                          itemCount: items.length,
-                          itemBuilder: (context, index) {
-                            final CartItem item = items[index];
-                            return Slidable(
-                              key: Key(item.productId),
-                              endActionPane: ActionPane(
-                                  motion: ScrollMotion(),
-                                  dismissible:
-                                      DismissiblePane(onDismissed: () {}),
-                                  children: [
-                                    SlidableAction(
-                                      icon: Iconsax.trash,
-                                      backgroundColor: Appcolors.promptColor,
-                                      foregroundColor: Colors.white,
-                                      label: 'Delete',
-                                      onPressed: (context) {
-                                        ref
-                                            .read(
-                                                cartControllerProvider.notifier)
-                                            .removeFromCart(item.productId);
-                                      },
-                                    )
-                                  ]),
-                              child: ListTile(
-                                onTap: () {
-                                  debugPrint(
-                                      '${item.image}, ${item.productName}, ${item.productId}');
-                                },
-                                leading: Container(
-                                  height: 50.h,
-                                  width: 50.w,
-                                  decoration: BoxDecoration(
-                                    borderRadius: BorderRadius.circular(10.sp),
-                                    image: DecorationImage(
-                                      image: item.image != null
-                                          ? NetworkImage(item.image!)
-                                          : const AssetImage(
-                                                  EshopAssets.product1)
-                                              as ImageProvider,
-                                      fit: BoxFit.cover,
-                                    ),
-                                  ),
-                                ),
-                                title: Text(item.productName),
-                                subtitle: Row(
-                                  children: [
-                                    IconButton(
-                                      iconSize: 15.sp,
-                                      onPressed: () {
-                                        ref.read(cartControllerProvider.notifier).decreaseQuantity(item.productId);
-                                      },
-                                      icon: const Icon(Iconsax.minus),
-                                    ),
-                                    Text('${item.quantity}',
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 15.sp,
-                                            fontWeight: FontWeight.bold)),
-                                      IconButton(
-                                        iconSize: 15.sp,
-                                        onPressed: (){
-                                          ref.read(cartControllerProvider.notifier).increaseQuantity(item.productId);
-                                        }, 
-                                        icon: Icon(Iconsax.add))
-                                  ],
-                                ),
-                                trailing: Text(
-                                    '\$${item.price.toStringAsFixed(2)}',
-                                    style: GoogleFonts.roboto(
-                                        fontSize: 16.sp,
-                                        fontWeight: FontWeight.w800)),
-                              ),
-                            );
-                          },
-                        );
-                      },
-                      loading: () => Center(child: CircularProgressIndicator()),
-                      error: (error, stackTrace) =>
-                          Center(child: Text('Error: $error')),
-                    ),
+    return Scaffold(
+      backgroundColor: Appcolors.backgroundColor,
+      body: SafeArea(
+          child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 20.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    height: 15.h,
                   ),
-                ),
-                Container(
-                  height: 50.h,
-                  child: Row(
+                  Row(
                     children: [
                       Text(
-                        'Total:',
+                        'My Cart (${cartItems.asData!.value.length})',
                         style: GoogleFonts.roboto(
-                          fontSize: EshopTypography.onboadingbody,
-                          fontWeight: EshopFontweight.regular,
-                        ),
+                            fontSize: 20.sp,
+                            fontWeight: EshopFontweight.bold,
+                            color: Appcolors.textColor),
                       ),
-                      Expanded(child: SizedBox()),
-                      cartItems.when(
-                        data: (items) => Text(
-                          '\$${getTotalPrice(items).toStringAsFixed(2)}',
-                          style: GoogleFonts.roboto(
-                              fontSize: EshopTypography.onboadingbody,
-                              fontWeight: EshopFontweight.bold),
-                        ),
-                        error: (error, stackTrace) {
-                          return Text(
-                            'Error: $error',
-                            style: GoogleFonts.roboto(
-                                fontSize: 18.sp, fontWeight: FontWeight.w600),
-                          );
+                      const Expanded(child: SizedBox()),
+                      IconButton(
+                        onPressed: () {
+                          ref.read(cartControllerProvider.notifier).clearCart();
                         },
-                        loading: () {
-                          return Text(
-                            '\$0.00',
-                            style: GoogleFonts.roboto(
-                                fontSize: EshopTypography.onboadingbody,
-                                fontWeight: EshopFontweight.bold),
-                          );
-                        },
-                      ),
-                      SizedBox(
-                        width: 10.sp,
-                      ),
-                      FilledButton(
-                          onPressed: () async {
-                            final items =
-                                ref.read(cartProvider).asData?.value ?? [];
-                            final totalPrice = getTotalPrice(items);
-                            (totalPrice == 0)? ScaffoldMessenger.of(context).showSnackBar(
-                              SnackBar(content: Text('No Item to Checkout'))
-                            ) : Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) =>
-                                    ShippingScreen(amount: totalPrice)));
-                          },
-                          style: FilledButton.styleFrom(
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2.sp)),
-                              backgroundColor: Appcolors.bottomNavActive),
-                          child: Text(
-                            'Checkout',
-                            style: GoogleFonts.roboto(
-                                fontSize: EshopTypography.onboadingbody,
-                                fontWeight: EshopFontweight.bold),
-                          ))
+                        icon: const Icon(
+                          Iconsax.trash,
+                          color: Appcolors.textColor,
+                        ),
+                      )
                     ],
                   ),
-                )
-              ],
-            )));
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Expanded(
+                    child: Container(
+                      child: cartItems.when(
+                        data: (items) {
+                          if (items.isEmpty) {
+                            return Center(
+                                child: Text(
+                              'No items in the cart',
+                              style: GoogleFonts.roboto(
+                                  fontSize: EshopTypography.onboadingbody),
+                            ));
+                          }
+                          return ListView.builder(
+                            itemCount: items.length,
+                            itemBuilder: (context, index) {
+                              final CartItem item = items[index];
+                              return Slidable(
+                                key: Key(item.productId),
+                                endActionPane: ActionPane(
+                                    motion: ScrollMotion(),
+                                    dismissible:
+                                        DismissiblePane(onDismissed: () {}),
+                                    children: [
+                                      SlidableAction(
+                                        icon: Iconsax.trash,
+                                        backgroundColor: Appcolors.promptColor,
+                                        foregroundColor: Colors.white,
+                                        label: 'Delete',
+                                        onPressed: (context) {
+                                          ref
+                                              .read(
+                                                  cartControllerProvider.notifier)
+                                              .removeFromCart(item.productId);
+                                        },
+                                      )
+                                    ]),
+                                child: ListTile(
+                                  onTap: () {
+                                    debugPrint(
+                                        '${item.image}, ${item.productName}, ${item.productId}');
+                                  },
+                                  leading: Container(
+                                    height: 50.h,
+                                    width: 50.w,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10.sp),
+                                      image: DecorationImage(
+                                        image: item.image != null
+                                            ? NetworkImage(item.image!)
+                                            : const AssetImage(
+                                                    EshopAssets.product1)
+                                                as ImageProvider,
+                                        fit: BoxFit.cover,
+                                      ),
+                                    ),
+                                  ),
+                                  title: Text(item.productName),
+                                  subtitle: Row(
+                                    children: [
+                                      IconButton(
+                                        iconSize: 15.sp,
+                                        onPressed: () {
+                                          ref.read(cartControllerProvider.notifier).decreaseQuantity(item.productId);
+                                        },
+                                        icon: const Icon(Iconsax.minus),
+                                      ),
+                                      Text('${item.quantity}',
+                                          style: GoogleFonts.roboto(
+                                              fontSize: 15.sp,
+                                              fontWeight: FontWeight.bold)),
+                                        IconButton(
+                                          iconSize: 15.sp,
+                                          onPressed: (){
+                                            ref.read(cartControllerProvider.notifier).increaseQuantity(item.productId);
+                                          }, 
+                                          icon: Icon(Iconsax.add))
+                                    ],
+                                  ),
+                                  trailing: Text(
+                                      '\$${item.price.toStringAsFixed(2)}',
+                                      style: GoogleFonts.roboto(
+                                          fontSize: 16.sp,
+                                          fontWeight: FontWeight.w800)),
+                                ),
+                              );
+                            },
+                          );
+                        },
+                        loading: () => Center(child: CircularProgressIndicator()),
+                        error: (error, stackTrace) =>
+                            Center(child: Text('Error: $error')),
+                      ),
+                    ),
+                  ),
+                  Container(
+                    height: 50.h,
+                    child: Row(
+                      children: [
+                        Text(
+                          'Total:',
+                          style: GoogleFonts.roboto(
+                            fontSize: EshopTypography.onboadingbody,
+                            fontWeight: EshopFontweight.regular,
+                          ),
+                        ),
+                        Expanded(child: SizedBox()),
+                        cartItems.when(
+                          data: (items) => Text(
+                            '\$${getTotalPrice(items).toStringAsFixed(2)}',
+                            style: GoogleFonts.roboto(
+                                fontSize: EshopTypography.onboadingbody,
+                                fontWeight: EshopFontweight.bold),
+                          ),
+                          error: (error, stackTrace) {
+                            return Text(
+                              'Error: $error',
+                              style: GoogleFonts.roboto(
+                                  fontSize: 18.sp, fontWeight: FontWeight.w600),
+                            );
+                          },
+                          loading: () {
+                            return Text(
+                              '\$0.00',
+                              style: GoogleFonts.roboto(
+                                  fontSize: EshopTypography.onboadingbody,
+                                  fontWeight: EshopFontweight.bold),
+                            );
+                          },
+                        ),
+                        SizedBox(
+                          width: 10.sp,
+                        ),
+                        FilledButton(
+                            onPressed: () async {
+                              final items =
+                                  ref.read(cartProvider).asData?.value ?? [];
+                              final totalPrice = getTotalPrice(items);
+                              (totalPrice == 0)? ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('No Item to Checkout'))
+                              ) : Navigator.of(context).push(MaterialPageRoute(
+                                  builder: (context) =>
+                                      ShippingScreen(amount: totalPrice)));
+                            },
+                            style: FilledButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(2.sp)),
+                                backgroundColor: Appcolors.bottomNavActive),
+                            child: Text(
+                              'Checkout',
+                              style: GoogleFonts.roboto(
+                                  fontSize: EshopTypography.onboadingbody,
+                                  fontWeight: EshopFontweight.bold),
+                            ))
+                      ],
+                    ),
+                  )
+                ],
+              ))),
+    );
   }
 }
 
@@ -431,7 +434,7 @@ class EshopAppBar extends ConsumerWidget {
             )),
         IconButton(
             onPressed: () {
-              //  Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyCartPage(),)) ;
+               Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCartPage(),));
             },
             icon: Badge(
                 label: Text('${cartItems.asData?.value.length}'),
