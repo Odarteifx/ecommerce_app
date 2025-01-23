@@ -1459,9 +1459,19 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
   }
 
   Future<void> _handleSave() async {
-    setState(() {
-      _isEditable == true ? _isEditable = false : _isEditable = true;
-    });
+    if (_formkey.currentState!.validate()) {
+      _formkey.currentState!.save();
+      setState(() {
+        _isEditable == true ? _isEditable = false : _isEditable = true;
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Please fill in your address details'),
+        ),
+      );
+    }
+
     final email = userEmail;
     final fullName = _fullNameController.text;
     final phoneNumber = _phoneNumberController.text;
@@ -1479,7 +1489,7 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
       debugPrint('State: $state');
       debugPrint('Country: $country');
       try {
-       final shippingAddress = ShippingAddress(
+        final shippingAddress = ShippingAddress(
             fullName: fullName,
             phoneNumber: phoneNumber,
             addressLine: addressLine,
@@ -1487,14 +1497,14 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             city: city,
             country: country);
 
-       if (_saveAddress == true) {
-        await ref
-            .read(addressControllerProvider.notifier)
-            .addShippingAddress(shippingAddress);
-        debugPrint('Address saved successfully ;)');
-       } else {
-        debugPrint('Shipping Address Not Saved');
-       }
+        if (_saveAddress == true) {
+          await ref
+              .read(addressControllerProvider.notifier)
+              .addShippingAddress(shippingAddress);
+          debugPrint('Address saved successfully ;)');
+        } else {
+          debugPrint('Shipping Address Not Saved');
+        }
       } catch (e) {
         debugPrint('Error: $e');
       }
@@ -1507,13 +1517,13 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
       Form(
         key: _formkey,
         child: Column(
-          spacing: 8.h,
+          spacing: 4.h,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             Text('Contact Information',
                 style: GoogleFonts.roboto(
-                    fontSize: 20.sp,
+                    fontSize: 18.sp,
                     fontWeight: EshopFontweight.bold,
                     color: Appcolors.textColor)),
             TextFormField(
@@ -1525,14 +1535,20 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 ),
               ),
             ),
-            SizedBox(height: 5.h),
+            SizedBox(height: 4.h),
             Text('Shipping Address',
                 style: GoogleFonts.roboto(
-                    fontSize: 20.sp,
+                    fontSize: 15.sp,
                     fontWeight: EshopFontweight.bold,
                     color: Appcolors.textColor)),
             TextFormField(
               controller: _fullNameController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your name';
+                }
+                return null;
+              },
               keyboardType: TextInputType.name,
               decoration: InputDecoration(
                 enabled: _isEditable,
@@ -1547,6 +1563,12 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             ),
             TextFormField(
               controller: _phoneNumberController,
+              validator: (value) {
+                if (value!.isEmpty || value.length < 10) {
+                  return 'Please enter a valid phone number';
+                }
+                return null;
+              },
               keyboardType: TextInputType.phone,
               decoration: InputDecoration(
                 enabled: _isEditable,
@@ -1561,6 +1583,12 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             ),
             TextFormField(
               controller: _addressLineController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a your address';
+                }
+                return null;
+              },
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
                 enabled: _isEditable,
@@ -1575,6 +1603,12 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             ),
             TextFormField(
               controller: _cityController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your city';
+                }
+                return null;
+              },
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
                 enabled: _isEditable,
@@ -1589,12 +1623,6 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             ),
             TextFormField(
               controller: _stateController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter a valid state';
-                }
-                return null;
-              },
               keyboardType: TextInputType.streetAddress,
               decoration: InputDecoration(
                 enabled: _isEditable,
@@ -1609,6 +1637,12 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             ),
             TextFormField(
               controller: _countryController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your country';
+                }
+                return null;
+              },
               decoration: InputDecoration(
                 enabled: _isEditable,
                 border: OutlineInputBorder(
