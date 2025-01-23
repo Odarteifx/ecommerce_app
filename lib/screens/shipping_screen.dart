@@ -17,7 +17,7 @@ class ShippingScreen extends ConsumerWidget {
     super.key,
     required this.amount,
   });
-  
+
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Scaffold(
@@ -64,35 +64,39 @@ class ShippingScreen extends ConsumerWidget {
                     fontSize: EshopTypography.onboadingbody),
               )),
         ),
-        body: Column(
-          children: [
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 20.h),
-              child: ShippingForm()),
-            Expanded(child: SizedBox(height: 20)),
-            Container(
-              height: 50.h,
-              color: Appcolors.subtextColor,
-              padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Order Summary:',
+        body: SafeArea(
+          child: Column(
+            children: [
+              Expanded(
+                child: Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.h),
+                    child: ShippingForm()),
+              ),
+                
+              Container(
+                height: 50.h,
+                color: Appcolors.subtextColor,
+                padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 10.h),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Order Summary:',
+                        style: GoogleFonts.roboto(
+                            fontSize: EshopTypography.onboadingbody,
+                            fontWeight: EshopFontweight.regular,
+                            color: Appcolors.textColor)),
+                    Expanded(child: SizedBox()),
+                    Text(
+                      '\$${amount.toStringAsFixed(2)}',
                       style: GoogleFonts.roboto(
                           fontSize: EshopTypography.onboadingbody,
-                          fontWeight: EshopFontweight.regular,
-                          color: Appcolors.textColor)),
-                  Expanded(child: SizedBox()),
-                  Text(
-                    '\$${amount.toStringAsFixed(2)}',
-                    style: GoogleFonts.roboto(
-                        fontSize: EshopTypography.onboadingbody,
-                        fontWeight: EshopFontweight.bold),
-                  ),
-                ],
+                          fontWeight: EshopFontweight.bold),
+                    ),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ));
   }
 }

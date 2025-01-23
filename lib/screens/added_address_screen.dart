@@ -14,53 +14,78 @@ class AddedAddressScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final shippingAddress = ref.watch(addressControllerProvider);
-    
+
     return Scaffold(
         backgroundColor: Appcolors.backgroundColor,
         appBar: AppBar(
           backgroundColor: Appcolors.backgroundColor,
           title: const Text('Saved Address'),
         ),
+        bottomNavigationBar: BottomAppBar(
+          child: FilledButton(
+              onPressed: () async {},
+              style: FilledButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(2.sp)),
+                  backgroundColor: Appcolors.bottomNavActive),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Icon(Iconsax.add,
+                  size: 20.sp,
+                   color: Appcolors.backgroundColor),
+                   SizedBox(width: 10.sp),
+                  Text(
+                    'Add New Address',
+                    style: GoogleFonts.roboto(
+                        fontWeight: EshopFontweight.bold,
+                        fontSize: EshopTypography.onboadingbody),
+                  ),
+                ],
+              )),
+        ),
         body: Scaffold(
-          backgroundColor: Appcolors.backgroundColor,
+            backgroundColor: Appcolors.backgroundColor,
             body: shippingAddress.isEmpty
                 ? Center(
-                  child: Text('No Saved Address',
-                      style: GoogleFonts.roboto(
-                          fontSize: EshopTypography.onboadingbody)),
-                )
+                    child: Text('No Saved Address',
+                        style: GoogleFonts.roboto(
+                            fontSize: EshopTypography.onboadingbody)),
+                  )
                 : ListView.builder(
-                     itemCount: shippingAddress.length,
-                     itemBuilder: (context, index) {
-                     final savedAddress = shippingAddress[index];
-                     return  ListTile(
-                               title: Row(
-                                 children: [
-                                   Text(
-                                     savedAddress.fullName,
-                                     style: GoogleFonts.roboto(
-                                         fontWeight: EshopFontweight.medium),
-                                   ),
-                                   SizedBox(width: 5.sp),
-                                   Text(
-                                     savedAddress.phoneNumber,
-                                     style: GoogleFonts.roboto(
-                                         fontSize: EshopTypography.homepagecategories),
-                                   )
-                                 ],
-                               ),
-                               subtitle: Column(
-                                 crossAxisAlignment: CrossAxisAlignment.start,
-                                 children: [
-                                   Text(savedAddress.addressLine),
-                                   Text('${savedAddress.city} ${savedAddress.country} ${savedAddress.state}')
-                                 ],
-                               ),
-                               trailing: IconButton(
-                                 onPressed: () {},
-                                 icon: Icon(Iconsax.edit),
-                               ),
-                             );
-                   },)));
+                    itemCount: shippingAddress.length,
+                    itemBuilder: (context, index) {
+                      final savedAddress = shippingAddress[index];
+                      return ListTile(
+                        title: Row(
+                          children: [
+                            Text(
+                              savedAddress.fullName,
+                              style: GoogleFonts.roboto(
+                                  fontWeight: EshopFontweight.medium),
+                            ),
+                            SizedBox(width: 5.sp),
+                            Text(
+                              savedAddress.phoneNumber,
+                              style: GoogleFonts.roboto(
+                                  fontSize: EshopTypography.homepagecategories),
+                            )
+                          ],
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(savedAddress.addressLine),
+                            Text(
+                                '${savedAddress.city} ${savedAddress.country} ${savedAddress.state}')
+                          ],
+                        ),
+                        trailing: IconButton(
+                          onPressed: () {},
+                          icon: Icon(Iconsax.edit),
+                        ),
+                      );
+                    },
+                  )));
   }
 }

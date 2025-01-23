@@ -1513,11 +1513,13 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(children: [
-      Form(
+    return SingleChildScrollView(
+      scrollDirection: Axis.vertical,
+      physics: AlwaysScrollableScrollPhysics(),
+      child: Form(
         key: _formkey,
         child: Column(
-          spacing: 4.h,
+          spacing: 4.5.sp,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -1535,7 +1537,7 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 ),
               ),
             ),
-            SizedBox(height: 4.h),
+            SizedBox(height: 3.h),
             Text('Shipping Address',
                 style: GoogleFonts.roboto(
                     fontSize: 15.sp,
@@ -1686,7 +1688,7 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             )
           ],
         ),
-      )
-    ]);
+      ),
+    );
   }
 }
