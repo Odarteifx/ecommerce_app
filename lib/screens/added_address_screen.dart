@@ -50,6 +50,7 @@ class AddedAddressScreen extends ConsumerWidget {
                 ? Center(
                     child: Text('No Saved Address',
                         style: GoogleFonts.roboto(
+                          color: Appcolors.iconColor,
                             fontSize: EshopTypography.onboadingbody)),
                   )
                 : ListView.builder(

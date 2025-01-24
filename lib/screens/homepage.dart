@@ -18,6 +18,7 @@ import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 
 import 'added_address_screen.dart';
+import 'product_details_page.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
@@ -176,6 +177,7 @@ class MyCartPage extends ConsumerWidget {
                                 child: Text(
                               'No items in the cart',
                               style: GoogleFonts.roboto(
+                                color: Appcolors.iconColor,
                                   fontSize: EshopTypography.onboadingbody),
                             ));
                           }
@@ -483,113 +485,120 @@ class WishlistPage extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final wishlistItems = ref.watch(wishlistProvider);
-    return SafeArea(
-        child: Padding(
-      padding: EdgeInsets.symmetric(horizontal: 20.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          EshopAppBar(searchcontroller: searchcontroller),
-          Text(
-            'My Wishlist',
-            style: GoogleFonts.roboto(
-                 fontSize: 20.sp,
-                  fontWeight: EshopFontweight.bold,
-                  color: Appcolors.textColor),
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
-          wishlistItems.when(
-            data: (items) {
-              if (items.isEmpty) {
+    return Scaffold(
+      backgroundColor: Appcolors.backgroundColor,
+      body: SafeArea(
+          child: Padding(
+        padding: EdgeInsets.symmetric(horizontal: 20.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            EshopAppBar(searchcontroller: searchcontroller),
+            Text(
+              'My Wishlist',
+              style: GoogleFonts.roboto(
+                   fontSize: 20.sp,
+                    fontWeight: EshopFontweight.bold,
+                    color: Appcolors.textColor),
+            ),
+            SizedBox(
+              height: 20.h,
+            ),
+            wishlistItems.when(
+              data: (items) {
+                if (items.isEmpty) {
+                  return Expanded(
+                    child: Center(
+                        child: Text(
+                      'No items added to wishlist',
+                      style: GoogleFonts.roboto(
+                        color: Appcolors.iconColor,
+                        fontSize: EshopTypography.onboadingbody),
+                    )),
+                  );
+                }
                 return Expanded(
-                  child: Center(
-                      child: Text(
-                    'No items added to wishlist',
-                    style: GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody),
-                  )),
-                );
-              }
-              return Expanded(
-                child: ListView.builder(
-                    itemCount: items.length,
-                    itemBuilder: (context, index) {
-                      final WishlistItem item = items[index];
-                      return ListTile(
-                        onTap: () {
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: items[index]),),
-                          // );
-                        },
-                        leading: Container(
-                          height: 50.h,
-                          width: 50.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10.sp),
-                            image: DecorationImage(
-                              image: NetworkImage(item.image),
-                              fit: BoxFit.cover,
+                  child: ListView.builder(
+                      itemCount: items.length,
+                      itemBuilder: (context, index) {
+                        final WishlistItem item = items[index];
+                        return ListTile(
+                          onTap: () {
+                            // Navigator.push(
+                            //   context,
+                            //   MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: items[index]),),
+                            // );
+                          },
+                          leading: Container(
+                            height: 50.h,
+                            width: 50.h,
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10.sp),
+                              image: DecorationImage(
+                                image: NetworkImage(item.image),
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
-                        ),
-                        title: Text(item.productName),
-                        subtitle: item.oldPrice != null
-                            ? Row(
-                                children: [
-                                  Text(
-                                    '\$${item.oldPrice?.toStringAsFixed(2)}',
-                                    style: GoogleFonts.roboto(
-                                      decoration: TextDecoration.lineThrough,
-                                      decorationColor: Appcolors.promptColor,
-                                      color: Appcolors.promptColor,
-                                      fontWeight: EshopFontweight.semibold,
+                          title: Text(item.productName),
+                          subtitle: item.oldPrice != null
+                              ? Row(
+                                  children: [
+                                    Text(
+                                      '\$${item.oldPrice?.toStringAsFixed(2)}',
+                                      style: GoogleFonts.roboto(
+                                        decoration: TextDecoration.lineThrough,
+                                        decorationColor: Appcolors.promptColor,
+                                        color: Appcolors.promptColor,
+                                        fontWeight: EshopFontweight.semibold,
+                                      ),
                                     ),
-                                  ),
-                                  SizedBox(width: 5.w),
-                                  Text(
-                                    '\$${item.price.toStringAsFixed(2)}',
-                                    style: GoogleFonts.roboto(
-                                        fontWeight: EshopFontweight.bold),
-                                  )
-                                ],
-                              )
-                            : Text('\$${item.price.toStringAsFixed(2)}',
-                                style: GoogleFonts.roboto(
-                                    fontWeight: EshopFontweight.bold)),
-                        trailing: IconButton(
-                            onPressed: () {
-                              ref
-                                  .read(wishlistControllerProvider.notifier)
-                                  .removeFromWishlist(item.productId);
-                            },
-                            icon: Icon(Iconsax.heart5,
-                                color: Appcolors.promptColor)),
-                      );
-                    }),
-              );
-            },
-            error: (error, stackTrace) => Center(
-              child: Text('Error: $error'),
-            ),
-            loading: () => Center(
-              child: CircularProgressIndicator(),
-            ),
-          )
-        ],
-      ),
-    ));
+                                    SizedBox(width: 5.w),
+                                    Text(
+                                      '\$${item.price.toStringAsFixed(2)}',
+                                      style: GoogleFonts.roboto(
+                                          fontWeight: EshopFontweight.bold),
+                                    )
+                                  ],
+                                )
+                              : Text('\$${item.price.toStringAsFixed(2)}',
+                                  style: GoogleFonts.roboto(
+                                      fontWeight: EshopFontweight.bold)),
+                          trailing: IconButton(
+                              onPressed: () {
+                                ref
+                                    .read(wishlistControllerProvider.notifier)
+                                    .removeFromWishlist(item.productId);
+                              },
+                              icon: Icon(Iconsax.heart5,
+                                  color: Appcolors.promptColor)),
+                        );
+                      }),
+                );
+              },
+              error: (error, stackTrace) => Center(
+                child: Text('Error: $error'),
+              ),
+              loading: () => Center(
+                child: CircularProgressIndicator(),
+              ),
+            )
+          ],
+        ),
+      )),
+    );
   }
 }
 
 //Profile page
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
+  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final user = FirebaseAuth.instance.currentUser;
+    final TextEditingController searchcontroller = TextEditingController();
     return SafeArea(
         child: Padding(
       padding: EdgeInsets.symmetric(horizontal: 20.h),
@@ -692,7 +701,10 @@ class ProfilePage extends ConsumerWidget {
               ProfileTile(
                 icon: Iconsax.heart,
                 iconText: 'Wishlist',
-                onpressed: () {},
+                onpressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => WishlistPage(searchcontroller: searchcontroller,)));
+                },
               ),
               SizedBox(
                 height: 20.h,

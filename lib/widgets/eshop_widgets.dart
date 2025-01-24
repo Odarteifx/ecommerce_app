@@ -1311,36 +1311,6 @@ class SearchProducts extends SearchDelegate {
   }
 }
 
-class CartDisplay extends ConsumerWidget {
-  const CartDisplay({super.key});
-
-  @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final cartItems = ref.watch(cartProvider);
-    return cartItems.when(
-        data: (items) {
-          if (items.isEmpty) {
-            return Center(child: Text('No items in the Cart'));
-          }
-          return ListView.builder(
-            itemCount: items.length,
-            itemBuilder: (context, index) {
-              final CartItem item = items[index];
-              return ListTile(
-                title: Text(item.productName),
-                subtitle: Text('\$${item.price.toStringAsFixed(2).toString()}'),
-                trailing: Text('Quantity: ${item.quantity}'),
-              );
-            },
-          );
-        },
-        error: (error, StackTrace) => Center(
-              child: Text('Error: $error'),
-            ),
-        loading: () => Center(child: CircularProgressIndicator()));
-  }
-}
-
 //Paystack Payment Method Component
 final _stateChannel = StateProvider<Channels>((ref) => Channels.mobile_money);
 
