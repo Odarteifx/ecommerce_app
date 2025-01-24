@@ -61,9 +61,38 @@ class ProductServices {
     });
   }
 
-  Stream<List<ProductModel>> searchProducts(String search){
-    return _products.orderBy('name').startAt([search]).endAt(['$search\uff8ff']).limit(10).snapshots().map((event){
-      List <ProductModel>products = [];
+  // Stream<List<ProductModel>> searchProducts(String search){
+  //   return _products.orderBy('name').startAt([search]).endAt(['$search\uff8ff']).limit(10).snapshots().map((event){
+  //     List <ProductModel>products = [];
+  //     for (var doc in event.docs) {
+  //       products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+  //     }
+  //     return products;
+  //   });
+  // }
+
+  Stream<List<ProductModel>> searchProducts(String search, {int limit = 10}) {
+    return _products
+        .where('name', isGreaterThanOrEqualTo: search)
+        .where('name', isLessThanOrEqualTo: '$search\uf8ff')
+        .limit(limit)
+        .snapshots()
+        .map((event) {
+      List<ProductModel> products = [];
+      for (var doc in event.docs) {
+        products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>, doc.id));
+      }
+      return products;
+    });
+  }
+
+  Stream<List<ProductModel>> searchProductsByFields(String search, {int limit = 10}) {
+    return _products
+        .where('keywords', arrayContains: search)
+        .limit(limit)
+        .snapshots()
+        .map((event) {
+      List<ProductModel> products = [];
       for (var doc in event.docs) {
         products.add(ProductModel.fromMap(doc.data() as Map<String, dynamic>, doc.id));
       }

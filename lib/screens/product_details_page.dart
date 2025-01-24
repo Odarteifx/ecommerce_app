@@ -5,6 +5,7 @@ import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/product_models.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
+import 'package:ecommerce_app/screens/homepage.dart';
 import 'package:ecommerce_app/screens/shipping_screen.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
@@ -20,6 +21,7 @@ class ProductDetailsPage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
     final wishlistItems = ref.watch(wishlistProvider);
+    final cartItems = ref.watch(cartProvider);
 
     bool isInWishlist = wishlistItems.maybeWhen(
       data: (items) => items.any((item) => item.productId == product.productId),
@@ -109,9 +111,11 @@ class ProductDetailsPage extends ConsumerWidget {
                             icon: Icon( isInWishlist ? Iconsax.heart5 : Iconsax.heart,
                                 color: isInWishlist? Appcolors.promptColor  : Appcolors.textColor)),
                         IconButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyCartPage(),));
+                            },
                             icon: Badge(
-                                label: Text(''), child: Icon(Iconsax.bag_2))),
+                                label: Text('${cartItems.asData?.value.length}'), child: Icon(Iconsax.bag_2))),
                       ],
                     ))
               ],
