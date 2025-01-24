@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:ecommerce_app/Auth/eshop_auth.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';

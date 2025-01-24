@@ -1,3 +1,6 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/Auth/eshop_auth.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
@@ -58,8 +61,22 @@ class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
           _emailcontroller.text.isNotEmpty &&
           _passwordcontroller.text.isNotEmpty) {
         try {
-          await FirebaseAuth.instance
-              .createUserWithEmailAndPassword(email: email, password: password);
+          final userCredential =
+              await FirebaseAuth.instance.createUserWithEmailAndPassword(
+            email: email,
+            password: password,
+          );
+          FirebaseAuth.instance.currentUser?.updateDisplayName(_namecontroller.text.trim());
+
+          await FirebaseFirestore.instance
+              .collection('User')
+              .doc(userCredential.user!.uid)
+              .set({
+            'name': _namecontroller.text.trim(),
+            'email': email,
+            'id': userCredential.user!.uid,
+          });
+
           ScaffoldMessenger.of(context).showSnackBar(
             const SnackBar(
                 content: Center(child: Text('Account Successfully Created'))),
@@ -209,11 +226,11 @@ class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   SigninIcon(
-                      iconUrl: EshopAssets.googlelogo, function: () {
+                      iconUrl: EshopAssets.googlelogo,
+                      function: () {
                         AuthMethods().signInWithGoogle(context);
                       }),
-                  SigninIcon(
-                      iconUrl: EshopAssets.applelogo, function: () {})
+                  SigninIcon(iconUrl: EshopAssets.applelogo, function: () {})
                 ],
               ),
             ),

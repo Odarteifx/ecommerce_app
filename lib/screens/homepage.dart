@@ -16,9 +16,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
-
 import 'added_address_screen.dart';
-import 'product_details_page.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
@@ -633,7 +631,7 @@ class ProfilePage extends ConsumerWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    user?.displayName ?? 'New User ',
+                    user?.displayName ?? 'User',
                     style: GoogleFonts.roboto(
                         fontSize: EshopTypography.onboadingbody,
                         fontWeight: EshopFontweight.medium),
@@ -650,7 +648,10 @@ class ProfilePage extends ConsumerWidget {
               ),
               const Expanded(child: SizedBox()),
               IconButton(
-                  onPressed: () {},
+                  onPressed: () {
+                   FirebaseAuth.instance.currentUser?.updateDisplayName('banku guy');
+                  debugPrint( FirebaseAuth.instance.currentUser?.displayName);
+                  },
                   icon: const Icon(
                     Iconsax.edit,
                     color: Appcolors.subtextColor,
