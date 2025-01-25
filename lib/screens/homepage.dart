@@ -8,6 +8,7 @@ import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/screens/onboarding.dart';
 import 'package:ecommerce_app/screens/shipping_screen.dart';
 import 'package:ecommerce_app/screens/signin_page.dart';
+import 'package:ecommerce_app/screens/signup_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -755,7 +756,7 @@ class ProfilePage extends ConsumerWidget {
                          FirebaseAuth.instance.signOut();
                          Navigator.of(context).pop();
                          Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const EshopSignInPage()));
-                         debugPrint('User Logged out');
+                         debugPrint('${user?.displayName} Logged out');
                        }, child: Text('Yes'))
                      ],
                    );
