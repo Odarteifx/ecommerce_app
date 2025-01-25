@@ -96,7 +96,7 @@ class MajorButton extends StatelessWidget {
         child: FilledButton(
           style: FilledButton.styleFrom(
               shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5)),
+                  borderRadius: BorderRadius.circular(5.sp)),
               backgroundColor: Appcolors.primaryColor),
           onPressed: function,
           child: Text(
@@ -829,14 +829,14 @@ class ProductActionButton extends StatelessWidget {
       child: FilledButton(
         style: FilledButton.styleFrom(
             side: BorderSide(color: borderColor),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)),
+            shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(5.sp)),
             backgroundColor: color),
         onPressed: function,
         child: Text(
           buttonText,
           style: GoogleFonts.roboto(
-              fontSize: EshopTypography.onboadingbody,
+              //fontSize: EshopTypography.onboadingbody,
               color: textColorcolor,
               fontWeight: EshopFontweight.medium),
         ),
@@ -1384,7 +1384,11 @@ class PaymentMethod extends ConsumerWidget {
 
 //Shipping address form
 class ShippingForm extends ConsumerStatefulWidget {
-  const ShippingForm({super.key});
+  const ShippingForm(
+    this.addnewAddress, {
+    super.key,
+  });
+  final bool addnewAddress;
 
   @override
   ConsumerState<ShippingForm> createState() => _ShippingFormState();
@@ -1402,7 +1406,7 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
   late final TextEditingController _stateController;
   late final TextEditingController _countryController;
   bool _isEditable = true;
-  bool _saveAddress = false;
+  bool _saveAddress = true;
 
   @override
   void initState() {
@@ -1482,12 +1486,10 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      scrollDirection: Axis.vertical,
-      physics: AlwaysScrollableScrollPhysics(),
       child: Form(
         key: _formkey,
         child: Column(
-          spacing: 4.5.sp,
+          spacing: 6.sp,
           crossAxisAlignment: CrossAxisAlignment.start,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -1505,7 +1507,7 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 ),
               ),
             ),
-            SizedBox(height: 3.h),
+            SizedBox(height: 5.h),
             Text('Shipping Address',
                 style: GoogleFonts.roboto(
                     fontSize: 15.sp,
@@ -1624,36 +1626,64 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
             ),
-            Row(
-              children: [
-                Checkbox(
-                    value: _saveAddress,
-                    onChanged: (value) {
-                      setState(() {
-                        _saveAddress = value!;
-                      });
-                    }),
-                Text('Add to Default',
-                    style: GoogleFonts.roboto(
-                        fontSize: 16.sp,
-                        fontWeight: EshopFontweight.regular,
-                        color: Appcolors.textColor)),
-                Expanded(child: SizedBox()),
-                FilledButton(
-                    onPressed: () {
-                      _handleSave();
-                    },
-                    style: FilledButton.styleFrom(
-                        shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(2.sp)),
-                        backgroundColor: Appcolors.bottomNavActive),
-                    child: Text(
-                      _isEditable ? 'Save' : 'Edit',
-                      style:
-                          GoogleFonts.roboto(fontSize: EshopTypography.subtext),
-                    )),
-              ],
-            )
+            widget.addnewAddress
+                ? Column(
+                  children: [
+                    SizedBox(height: 10.h,),
+                    Row(
+                      children: [
+                            Expanded(
+                              child: Container(
+                                height: 50.sp,
+                                child: FilledButton(
+                                onPressed: () {
+                                  _handleSave();
+                                },
+                                style: FilledButton.styleFrom(
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(5.sp)),
+                                    backgroundColor: Appcolors.bottomNavActive),
+                                child: Text(
+                                  _isEditable ? 'Save Address' : 'Edit',
+                                  style:
+                                      GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody),
+                                )),
+                              ),
+                            ),
+                          ],
+                    ),
+                  ],
+                )
+                : Row(
+                    children: [
+                      Checkbox(
+                          value: _saveAddress,
+                          onChanged: (value) {
+                            setState(() {
+                              _saveAddress = value!;
+                            });
+                          }),
+                      Text('Add to Default',
+                          style: GoogleFonts.roboto(
+                              fontSize: 16.sp,
+                              fontWeight: EshopFontweight.regular,
+                              color: Appcolors.textColor)),
+                      Expanded(child: SizedBox()),
+                      FilledButton(
+                          onPressed: () {
+                            _handleSave();
+                          },
+                          style: FilledButton.styleFrom(
+                              shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(5.sp)),
+                              backgroundColor: Appcolors.bottomNavActive),
+                          child: Text(
+                            _isEditable ? 'Save' : 'Edit',
+                            style: GoogleFonts.roboto(
+                                fontSize: EshopTypography.subtext),
+                          )),
+                    ],
+                  )
           ],
         ),
       ),

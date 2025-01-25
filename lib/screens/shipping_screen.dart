@@ -55,12 +55,12 @@ class ShippingScreen extends ConsumerWidget {
               },
               style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(2.sp)),
+                      borderRadius: BorderRadius.circular(5.sp)),
                   backgroundColor: Appcolors.bottomNavActive),
               child: Text(
                 'Proceed to Payment',
                 style: GoogleFonts.roboto(
-                    fontWeight: EshopFontweight.bold,
+                    
                     fontSize: EshopTypography.onboadingbody),
               )),
         ),
@@ -70,7 +70,7 @@ class ShippingScreen extends ConsumerWidget {
               Expanded(
                 child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.h),
-                    child: ShippingForm()),
+                    child: ShippingForm(false)),
               ),
                 
               Container(

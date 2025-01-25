@@ -5,10 +5,8 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
-import 'package:ecommerce_app/screens/onboarding.dart';
 import 'package:ecommerce_app/screens/shipping_screen.dart';
 import 'package:ecommerce_app/screens/signin_page.dart';
-import 'package:ecommerce_app/screens/signup_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -150,9 +148,7 @@ class MyCartPage extends ConsumerWidget {
                       Text(
                         'My Cart (${cartItems.asData!.value.length})',
                         style: GoogleFonts.roboto(
-                            fontSize: 20.sp,
-                            fontWeight: EshopFontweight.bold,
-                            color: Appcolors.textColor),
+                            fontSize: 20.sp, color: Appcolors.textColor),
                       ),
                       const Expanded(child: SizedBox()),
                       IconButton(
@@ -178,7 +174,7 @@ class MyCartPage extends ConsumerWidget {
                                 child: Text(
                               'No items in the cart',
                               style: GoogleFonts.roboto(
-                                color: Appcolors.iconColor,
+                                  color: Appcolors.iconColor,
                                   fontSize: EshopTypography.onboadingbody),
                             ));
                           }
@@ -200,8 +196,8 @@ class MyCartPage extends ConsumerWidget {
                                         label: 'Delete',
                                         onPressed: (context) {
                                           ref
-                                              .read(
-                                                  cartControllerProvider.notifier)
+                                              .read(cartControllerProvider
+                                                  .notifier)
                                               .removeFromCart(item.productId);
                                         },
                                       )
@@ -215,7 +211,8 @@ class MyCartPage extends ConsumerWidget {
                                     height: 50.h,
                                     width: 50.w,
                                     decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(10.sp),
+                                      borderRadius:
+                                          BorderRadius.circular(10.sp),
                                       image: DecorationImage(
                                         image: item.image != null
                                             ? NetworkImage(item.image!)
@@ -232,7 +229,10 @@ class MyCartPage extends ConsumerWidget {
                                       IconButton(
                                         iconSize: 15.sp,
                                         onPressed: () {
-                                          ref.read(cartControllerProvider.notifier).decreaseQuantity(item.productId);
+                                          ref
+                                              .read(cartControllerProvider
+                                                  .notifier)
+                                              .decreaseQuantity(item.productId);
                                         },
                                         icon: const Icon(Iconsax.minus),
                                       ),
@@ -240,11 +240,15 @@ class MyCartPage extends ConsumerWidget {
                                           style: GoogleFonts.roboto(
                                               fontSize: 15.sp,
                                               fontWeight: FontWeight.bold)),
-                                        IconButton(
+                                      IconButton(
                                           iconSize: 15.sp,
-                                          onPressed: (){
-                                            ref.read(cartControllerProvider.notifier).increaseQuantity(item.productId);
-                                          }, 
+                                          onPressed: () {
+                                            ref
+                                                .read(cartControllerProvider
+                                                    .notifier)
+                                                .increaseQuantity(
+                                                    item.productId);
+                                          },
                                           icon: Icon(Iconsax.add))
                                     ],
                                   ),
@@ -258,7 +262,8 @@ class MyCartPage extends ConsumerWidget {
                             },
                           );
                         },
-                        loading: () => Center(child: CircularProgressIndicator()),
+                        loading: () =>
+                            Center(child: CircularProgressIndicator()),
                         error: (error, stackTrace) =>
                             Center(child: Text('Error: $error')),
                       ),
@@ -307,11 +312,14 @@ class MyCartPage extends ConsumerWidget {
                               final items =
                                   ref.read(cartProvider).asData?.value ?? [];
                               final totalPrice = getTotalPrice(items);
-                              (totalPrice == 0)? ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('No Item to Checkout'))
-                              ) : Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) =>
-                                      ShippingScreen(amount: totalPrice)));
+                              (totalPrice == 0)
+                                  ? ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                          content: Text('No Item to Checkout')))
+                                  : Navigator.of(context).push(
+                                      MaterialPageRoute(
+                                          builder: (context) => ShippingScreen(
+                                              amount: totalPrice)));
                             },
                             style: FilledButton.styleFrom(
                                 shape: RoundedRectangleBorder(
@@ -320,8 +328,8 @@ class MyCartPage extends ConsumerWidget {
                             child: Text(
                               'Checkout',
                               style: GoogleFonts.roboto(
-                                  fontSize: EshopTypography.onboadingbody,
-                                  fontWeight: EshopFontweight.bold),
+                                fontSize: EshopTypography.onboadingbody,
+                              ),
                             ))
                       ],
                     ),
@@ -437,7 +445,11 @@ class EshopAppBar extends ConsumerWidget {
             )),
         IconButton(
             onPressed: () {
-               Navigator.push(context, MaterialPageRoute(builder: (context) =>  MyCartPage(),));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => MyCartPage(),
+                  ));
             },
             icon: Badge(
                 label: Text('${cartItems.asData?.value.length}'),
@@ -498,9 +510,7 @@ class WishlistPage extends ConsumerWidget {
             Text(
               'My Wishlist',
               style: GoogleFonts.roboto(
-                   fontSize: 20.sp,
-                    fontWeight: EshopFontweight.bold,
-                    color: Appcolors.textColor),
+                  fontSize: 20.sp, color: Appcolors.textColor),
             ),
             SizedBox(
               height: 20.h,
@@ -513,8 +523,8 @@ class WishlistPage extends ConsumerWidget {
                         child: Text(
                       'No items added to wishlist',
                       style: GoogleFonts.roboto(
-                        color: Appcolors.iconColor,
-                        fontSize: EshopTypography.onboadingbody),
+                          color: Appcolors.iconColor,
+                          fontSize: EshopTypography.onboadingbody),
                     )),
                   );
                 }
@@ -594,7 +604,6 @@ class WishlistPage extends ConsumerWidget {
 //Profile page
 class ProfilePage extends ConsumerWidget {
   const ProfilePage({super.key});
-  
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -611,10 +620,8 @@ class ProfilePage extends ConsumerWidget {
           ),
           Text(
             'My Account',
-            style: GoogleFonts.roboto(
-                 fontSize: 20.sp,
-                  fontWeight: EshopFontweight.bold,
-                  color: Appcolors.textColor),
+            style:
+                GoogleFonts.roboto(fontSize: 20.sp, color: Appcolors.textColor),
           ),
           SizedBox(height: 30.h),
           Row(
@@ -651,9 +658,7 @@ class ProfilePage extends ConsumerWidget {
               ),
               const Expanded(child: SizedBox()),
               IconButton(
-                  onPressed: () {
-                  
-                  },
+                  onPressed: () {},
                   icon: const Icon(
                     Iconsax.edit,
                     color: Appcolors.subtextColor,
@@ -706,7 +711,9 @@ class ProfilePage extends ConsumerWidget {
                 iconText: 'Wishlist',
                 onpressed: () {
                   Navigator.of(context).push(MaterialPageRoute(
-                      builder: (context) => WishlistPage(searchcontroller: searchcontroller,)));
+                      builder: (context) => WishlistPage(
+                            searchcontroller: searchcontroller,
+                          )));
                 },
               ),
               SizedBox(
@@ -736,31 +743,43 @@ class ProfilePage extends ConsumerWidget {
                 iconText: 'Security settings',
                 onpressed: () {},
               ),
-              SizedBox(height: 20.sp,),
+              SizedBox(
+                height: 20.sp,
+              ),
               ProfileTile(
                 icon: Iconsax.logout,
                 iconText: 'Logout',
                 onpressed: () {
-                 showDialog(context: context, builder: (context) {
-                   return AlertDialog(
-                    shape: RoundedRectangleBorder(
-                       borderRadius: BorderRadius.circular(10.sp)),
-                    backgroundColor: Appcolors.backgroundColor,
-                     title: Text('Logout'),
-                     content: Text('Are you sure you want to logout?'),
-                     actions: [
-                       TextButton(onPressed: () {
-                         Navigator.of(context).pop();
-                       }, child: Text('No')),
-                       TextButton(onPressed: () {
-                         FirebaseAuth.instance.signOut();
-                         Navigator.of(context).pop();
-                         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const EshopSignInPage()));
-                         debugPrint('${user?.displayName} Logged out');
-                       }, child: Text('Yes'))
-                     ],
-                   );
-                 },);
+                  showDialog(
+                    context: context,
+                    builder: (context) {
+                      return AlertDialog(
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.sp)),
+                        backgroundColor: Appcolors.backgroundColor,
+                        title: Text('Logout'),
+                        content: Text('Are you sure you want to logout?'),
+                        actions: [
+                          TextButton(
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                              },
+                              child: Text('No')),
+                          TextButton(
+                              onPressed: () {
+                                FirebaseAuth.instance.signOut();
+                                Navigator.of(context).pop();
+                                Navigator.of(context).pushReplacement(
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            const EshopSignInPage()));
+                                debugPrint('${user?.displayName} Logged out');
+                              },
+                              child: Text('Yes'))
+                        ],
+                      );
+                    },
+                  );
                 },
               )
             ],
