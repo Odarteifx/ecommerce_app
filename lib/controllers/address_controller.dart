@@ -32,6 +32,8 @@ class AddressController extends StateNotifier<List<ShippingAddress>> {
   Future<void> addShippingAddress(ShippingAddress address) async {
       await _addressServices.addShippingAddress(address);
   }
-
+Future<void> deleteShippingAddress(String addressId ) async{
+  await _addressServices.deleteShippingAddress(addressId);
+}
 
 }
