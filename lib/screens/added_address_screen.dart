@@ -25,7 +25,11 @@ class AddedAddressScreen extends ConsumerWidget {
         bottomNavigationBar: BottomAppBar(
           child: FilledButton(
               onPressed: () {
-              Navigator.push(context, MaterialPageRoute(builder: (context) => NewAddress(),));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => NewAddress(),
+                    ));
               },
               style: FilledButton.styleFrom(
                   shape: RoundedRectangleBorder(
@@ -83,7 +87,61 @@ class AddedAddressScreen extends ConsumerWidget {
                           ],
                         ),
                         trailing: IconButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            showModalBottomSheet(
+                              backgroundColor: Colors.transparent,
+                              context: context,
+                              builder: (context) {
+                                return Container(
+                                  height: 200,
+                                  child: Padding(
+                                    padding:
+                                        EdgeInsets.symmetric(horizontal: 20.sp),
+                                    child: Column(
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                                child: FilledButton(
+                                                    onPressed: () {},
+                                                    child: Text('Edit Address'),
+                                                    style: FilledButton.styleFrom(
+                                                        shape: RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.sp)),
+                                                        backgroundColor: Appcolors
+                                                            .bottomNavActive))),
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Expanded(
+                                                child: FilledButton(
+                                                    style: FilledButton.styleFrom(
+                                                        shape: RoundedRectangleBorder(
+                                                          side: BorderSide(
+                                                            color: Appcolors.primaryColor
+                                                          ),
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5.sp)),
+                                                        backgroundColor: Appcolors
+                                                            .backgroundColor),
+                                                    onPressed: () {},
+                                                    child: Text(
+                                                        'Delete Address', style: GoogleFonts.roboto(color: Appcolors.bottomNavActive),))),
+                                          ],
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                            );
+                          },
                           icon: Icon(Iconsax.edit),
                         ),
                       );
