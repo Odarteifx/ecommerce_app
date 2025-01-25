@@ -649,8 +649,7 @@ class ProfilePage extends ConsumerWidget {
               const Expanded(child: SizedBox()),
               IconButton(
                   onPressed: () {
-                   FirebaseAuth.instance.currentUser?.updateDisplayName('banku guy');
-                  debugPrint( FirebaseAuth.instance.currentUser?.displayName);
+                  
                   },
                   icon: const Icon(
                     Iconsax.edit,
@@ -734,6 +733,15 @@ class ProfilePage extends ConsumerWidget {
                 iconText: 'Security settings',
                 onpressed: () {},
               ),
+              SizedBox(height: 20.sp,),
+              ProfileTile(
+                icon: Iconsax.logout,
+                iconText: 'Logout',
+                onpressed: () {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                },
+              )
             ],
           )
         ],
