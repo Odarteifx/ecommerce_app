@@ -5,7 +5,9 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
+import 'package:ecommerce_app/screens/onboarding.dart';
 import 'package:ecommerce_app/screens/shipping_screen.dart';
+import 'package:ecommerce_app/screens/signin_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -738,8 +740,26 @@ class ProfilePage extends ConsumerWidget {
                 icon: Iconsax.logout,
                 iconText: 'Logout',
                 onpressed: () {
-                  FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pushNamedAndRemoveUntil('/', (route) => false);
+                 showDialog(context: context, builder: (context) {
+                   return AlertDialog(
+                    shape: RoundedRectangleBorder(
+                       borderRadius: BorderRadius.circular(10.sp)),
+                    backgroundColor: Appcolors.backgroundColor,
+                     title: Text('Logout'),
+                     content: Text('Are you sure you want to logout?'),
+                     actions: [
+                       TextButton(onPressed: () {
+                         Navigator.of(context).pop();
+                       }, child: Text('No')),
+                       TextButton(onPressed: () {
+                         FirebaseAuth.instance.signOut();
+                         Navigator.of(context).pop();
+                         Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const EshopSignInPage()));
+                         debugPrint('User Logged out');
+                       }, child: Text('Yes'))
+                     ],
+                   );
+                 },);
                 },
               )
             ],
