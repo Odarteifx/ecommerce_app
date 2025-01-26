@@ -1405,8 +1405,24 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
   late final TextEditingController _cityController;
   late final TextEditingController _stateController;
   late final TextEditingController _countryController;
+  late String _selectedCountry;
+
   bool _isEditable = true;
   bool _saveAddress = true;
+
+  final Map<String, dynamic> _countries = {
+    'Ghana': '🇬🇭',
+    'Niger': '🇳🇪',
+    'Nigeria': '🇳🇬',
+    'Burkina Faso': '🇧🇫',
+    'Cote ďIvoire': '🇨🇮',
+    'Benin': '🇧🇯',
+    'Guinea': '🇬🇳',
+    'Gabon': '🇬🇦',
+    'Mali': '🇲🇱',
+    'Liberia': '🇱🇷',
+    'Togo': '🇹🇬',
+  };
 
   @override
   void initState() {
@@ -1416,6 +1432,7 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
     _cityController = TextEditingController();
     _stateController = TextEditingController();
     _countryController = TextEditingController();
+    _selectedCountry = '';
     super.initState();
   }
 
@@ -1608,25 +1625,100 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
             ),
-            TextFormField(
-              controller: _countryController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your country';
+            Autocomplete<String>(
+              optionsMaxHeight: 4,
+              optionsBuilder: (TextEditingValue textEditingValue) {
+                if (textEditingValue.text.isEmpty) {
+                  return const Iterable<String>.empty();
                 }
-                return null;
+                return _countries.keys.where((String option) {
+                  return option
+                      .toLowerCase()
+                      .contains(textEditingValue.text.toLowerCase());
+                });
               },
-              decoration: InputDecoration(
-                enabled: _isEditable,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Appcolors.iconColor),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Appcolors.iconColor)),
-                hintText: 'Country',
-                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
-              ),
+              onSelected: (String selection) {
+                setState(() {
+                  _selectedCountry = selection;
+                });
+              },
+              fieldViewBuilder: (BuildContext context,
+                  TextEditingController textEditingController,
+                  FocusNode focusNode,
+                  VoidCallback onFieldSubmitted) {
+                return TextFormField(
+                  controller: textEditingController,
+                  focusNode: focusNode,
+                  decoration: InputDecoration(
+                    enabled: _isEditable,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(color: Appcolors.iconColor),
+                    ),
+                    enabledBorder: const OutlineInputBorder(
+                        borderSide: BorderSide(color: Appcolors.iconColor)),
+                    hintText: 'Country',
+                    prefix: _selectedCountry.isNotEmpty? Text(
+                      _countries[_selectedCountry][1]
+                    ) : null,
+                    hintStyle:
+                        GoogleFonts.roboto(color: Appcolors.subtextColor),
+                  ),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'Please select your country';
+                    }
+                    return null;
+                  },
+                );
+              },
+              optionsViewBuilder: (BuildContext context,
+                  AutocompleteOnSelected<String> onSelected,
+                  Iterable<String> options) {
+                return Align(
+                  alignment: Alignment.topLeft,
+                  child: Material(
+                    child: Container(
+                      width: MediaQuery.of(context).size.width * 0.9,
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(8.0),
+                        itemCount: options.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          final String option = options.elementAt(index);
+                          return GestureDetector(
+                            onTap: () {
+                              onSelected(option);
+                            },
+                            child: ListTile(
+                              title: Text(option),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
+            // TextFormField(
+            //   focusNode: FocusNode(),
+            //   controller: _countryController,
+            //   validator: (value) {
+            //     if (value!.isEmpty) {
+            //       return 'Please select your country';
+            //     }
+            //     return null;
+            //   },
+            // decoration: InputDecoration(
+            //   enabled: _isEditable,
+            //   border: OutlineInputBorder(
+            //     borderSide: BorderSide(color: Appcolors.iconColor),
+            //   ),
+            //   enabledBorder: const OutlineInputBorder(
+            //       borderSide: BorderSide(color: Appcolors.iconColor)),
+            //   hintText: 'Country',
+            //   hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
+            // ),
+            // ),
             widget.addnewAddress
                 ? Column(
                     children: [
