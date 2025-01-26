@@ -34,12 +34,12 @@ class AddressServices {
 
   Future<void> updateShippingAddress(ShippingAddress address) async {
     final user = auth.currentUser;
-    if (user != null && address.id != null) {
+    if (user != null && address.addressId != null) {
       await _firestore
           .collection('users')
           .doc(user.uid)
           .collection('shipping_address')
-          .doc(address.id)
+          .doc(address.addressId)
           .update(address.toMap());
     }
   }

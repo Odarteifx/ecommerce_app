@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 class ShippingAddress {
-  final String? id;
+  final String? addressId;
   final String fullName;
   final String phoneNumber;
   final String addressLine;
@@ -9,7 +9,7 @@ class ShippingAddress {
   final String? state;
   final String country;
   ShippingAddress({
-    this.id,
+     this.addressId,
     required this.fullName,
     required this.phoneNumber,
     required this.addressLine,
@@ -19,6 +19,7 @@ class ShippingAddress {
   });
 
   ShippingAddress copyWith({
+    String? addressId,
     String? fullName,
     String? phoneNumber,
     String? addressLine,
@@ -27,7 +28,7 @@ class ShippingAddress {
     String? country,
   }) {
     return ShippingAddress(
-      id: id,
+      addressId: addressId ?? this.addressId,
       fullName: fullName ?? this.fullName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       addressLine: addressLine ?? this.addressLine,
@@ -39,6 +40,7 @@ class ShippingAddress {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'addressId': addressId,
       'fullName': fullName,
       'phoneNumber': phoneNumber,
       'addressLine': addressLine,
@@ -48,9 +50,9 @@ class ShippingAddress {
     };
   }
 
-  factory ShippingAddress.fromMap(Map<String, dynamic> map, String? id) {
+  factory ShippingAddress.fromMap(Map<String, dynamic> map, String id) {
     return ShippingAddress(
-      id: id,
+      addressId: id,
       fullName: map['fullName'] as String,
       phoneNumber: map['phoneNumber'] as String,
       addressLine: map['addressLine'] as String,
@@ -67,14 +69,14 @@ class ShippingAddress {
 
   @override
   String toString() {
-    return 'ShippingAddress(id: $id, fullName: $fullName, phoneNumber: $phoneNumber, addressLine: $addressLine, city: $city, state: $state, country: $country)';
+    return 'ShippingAddress(addressId: $addressId, fullName: $fullName, phoneNumber: $phoneNumber, addressLine: $addressLine, city: $city, state: $state, country: $country)';
   }
 
   @override
   bool operator ==(covariant ShippingAddress other) {
     if (identical(this, other)) return true;
 
-    return other.id == id &&
+    return other.addressId == addressId &&
         other.fullName == fullName &&
         other.phoneNumber == phoneNumber &&
         other.addressLine == addressLine &&
@@ -85,7 +87,7 @@ class ShippingAddress {
 
   @override
   int get hashCode {
-    return id.hashCode ^
+    return addressId.hashCode ^
         fullName.hashCode ^
         phoneNumber.hashCode ^
         addressLine.hashCode ^

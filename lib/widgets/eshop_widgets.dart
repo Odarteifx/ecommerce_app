@@ -1462,12 +1462,13 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
       debugPrint('Country: $country');
       try {
         final shippingAddress = ShippingAddress(
-            fullName: fullName,
-            phoneNumber: phoneNumber,
-            addressLine: addressLine,
-            state: state,
-            city: city,
-            country: country);
+          fullName: fullName,
+          phoneNumber: phoneNumber,
+          addressLine: addressLine,
+          state: state,
+          city: city,
+          country: country,
+        );
 
         if (_saveAddress == true) {
           await ref
@@ -1628,32 +1629,37 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
             ),
             widget.addnewAddress
                 ? Column(
-                  children: [
-                    SizedBox(height: 10.h,),
-                    Row(
-                      children: [
-                            Expanded(
-                              child: Container(
-                                height: 50.sp,
-                                child: FilledButton(
-                                onPressed: () {
-                                  _handleSave();
-                                },
-                                style: FilledButton.styleFrom(
-                                    shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(5.sp)),
-                                    backgroundColor: Appcolors.bottomNavActive),
-                                child: Text(
-                                  _isEditable ? 'Save Address' : 'Edit',
-                                  style:
-                                      GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody),
-                                )),
-                              ),
+                    children: [
+                      SizedBox(
+                        height: 10.h,
+                      ),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: Container(
+                              height: 50.sp,
+                              child: FilledButton(
+                                  onPressed: () {
+                                    _handleSave();
+                                  },
+                                  style: FilledButton.styleFrom(
+                                      shape: RoundedRectangleBorder(
+                                          borderRadius:
+                                              BorderRadius.circular(5.sp)),
+                                      backgroundColor:
+                                          Appcolors.bottomNavActive),
+                                  child: Text(
+                                    _isEditable ? 'Save Address' : 'Edit',
+                                    style: GoogleFonts.roboto(
+                                        fontSize:
+                                            EshopTypography.onboadingbody),
+                                  )),
                             ),
-                          ],
-                    ),
-                  ],
-                )
+                          ),
+                        ],
+                      ),
+                    ],
+                  )
                 : Row(
                     children: [
                       Checkbox(

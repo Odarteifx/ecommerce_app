@@ -15,7 +15,6 @@ class AddedAddressScreen extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final shippingAddress = ref.watch(addressControllerProvider);
-
     return Scaffold(
         backgroundColor: Appcolors.backgroundColor,
         appBar: AppBar(
@@ -61,7 +60,6 @@ class AddedAddressScreen extends ConsumerWidget {
                 : ListView.builder(
                     itemCount: shippingAddress.length,
                     itemBuilder: (context, index) {
-                      final address = shippingAddress[index].id;
                       final savedAddress = shippingAddress[index];
                       return ListTile(
                         title: Row(
@@ -122,9 +120,9 @@ class AddedAddressScreen extends ConsumerWidget {
                                                 child: FilledButton(
                                                     style: FilledButton.styleFrom(
                                                         shape: RoundedRectangleBorder(
-                                                          side: BorderSide(
-                                                            color: Appcolors.primaryColor
-                                                          ),
+                                                            side: BorderSide(
+                                                                color: Appcolors
+                                                                    .primaryColor),
                                                             borderRadius:
                                                                 BorderRadius
                                                                     .circular(
@@ -132,10 +130,15 @@ class AddedAddressScreen extends ConsumerWidget {
                                                         backgroundColor: Appcolors
                                                             .backgroundColor),
                                                     onPressed: () {
-                                                      debugPrint(address);
+                                                      debugPrint(savedAddress.addressId);
+                                                      ref.read(addressControllerProvider.notifier).deleteShippingAddress(savedAddress.addressId!);
                                                     },
                                                     child: Text(
-                                                        'Delete Address', style: GoogleFonts.roboto(color: Appcolors.bottomNavActive),))),
+                                                      'Delete Address',
+                                                      style: GoogleFonts.roboto(
+                                                          color: Appcolors
+                                                              .bottomNavActive),
+                                                    ))),
                                           ],
                                         )
                                       ],

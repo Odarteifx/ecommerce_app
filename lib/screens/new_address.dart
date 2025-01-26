@@ -18,7 +18,7 @@ class NewAddress extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 20.sp),
         child: Column(
           children: [
-            ShippingForm(true),
+            ShippingForm(true, ),
           ],
         ),
       ),
