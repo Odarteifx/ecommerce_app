@@ -61,7 +61,7 @@ class AddedAddressScreen extends ConsumerWidget {
                 : ListView.builder(
                     itemCount: shippingAddress.length,
                     itemBuilder: (context, index) {
-                      final address = shippingAddress[index];
+                      final address = shippingAddress[index].id;
                       final savedAddress = shippingAddress[index];
                       return ListTile(
                         title: Row(
@@ -132,7 +132,7 @@ class AddedAddressScreen extends ConsumerWidget {
                                                         backgroundColor: Appcolors
                                                             .backgroundColor),
                                                     onPressed: () {
-                                                      
+                                                      debugPrint(address);
                                                     },
                                                     child: Text(
                                                         'Delete Address', style: GoogleFonts.roboto(color: Appcolors.bottomNavActive),))),

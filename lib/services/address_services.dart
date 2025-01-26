@@ -17,9 +17,8 @@ class AddressServices {
         .doc(userId)
         .collection('shipping_address')
         .snapshots()
-        .map((snapshot) => snapshot.docs
-            .map((doc) => ShippingAddress.fromMap(doc.data()))
-            .toList());
+        .map((snapshot) =>
+            snapshot.docs.map((doc) => ShippingAddress.fromMap(doc.data(), doc.id)).toList());
   }
 
   Future<void> addShippingAddress(ShippingAddress address) async {
@@ -33,6 +32,18 @@ class AddressServices {
     }
   }
 
+  Future<void> updateShippingAddress(ShippingAddress address) async {
+    final user = auth.currentUser;
+    if (user != null && address.id != null) {
+      await _firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('shipping_address')
+          .doc(address.id)
+          .update(address.toMap());
+    }
+  }
+
   Future<void> deleteShippingAddress(String addressId) async {
     final user = auth.currentUser;
     if (user != null) {
@@ -43,5 +54,21 @@ class AddressServices {
           .doc(addressId)
           .delete();
     }
+  }
+
+  Future<ShippingAddress?> getShippingAddressById(String addressId) async {
+    final user = auth.currentUser;
+    if (user != null) {
+      final doc = await _firestore
+          .collection('users')
+          .doc(user.uid)
+          .collection('shipping_address')
+          .doc(addressId)
+          .get();
+      if (doc.exists) {
+        return ShippingAddress.fromMap(doc.data()!, doc.id);
+      }
+    }
+    return null;
   }
 }

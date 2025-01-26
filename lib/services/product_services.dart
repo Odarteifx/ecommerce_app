@@ -10,6 +10,7 @@ final prodcutServiceProvider = Provider((ref) {
 
 class ProductServices {
   final FirebaseFirestore _firestore;
+  
 
   ProductServices({required FirebaseFirestore firestore})
       : _firestore = firestore;

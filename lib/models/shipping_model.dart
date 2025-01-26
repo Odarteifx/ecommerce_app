@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class ShippingAddress {
+  final String? id;
   final String fullName;
   final String phoneNumber;
   final String addressLine;
@@ -8,6 +9,7 @@ class ShippingAddress {
   final String? state;
   final String country;
   ShippingAddress({
+    this.id,
     required this.fullName,
     required this.phoneNumber,
     required this.addressLine,
@@ -25,6 +27,7 @@ class ShippingAddress {
     String? country,
   }) {
     return ShippingAddress(
+      id: id,
       fullName: fullName ?? this.fullName,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       addressLine: addressLine ?? this.addressLine,
@@ -45,8 +48,9 @@ class ShippingAddress {
     };
   }
 
-  factory ShippingAddress.fromMap(Map<String, dynamic> map) {
+  factory ShippingAddress.fromMap(Map<String, dynamic> map, String? id) {
     return ShippingAddress(
+      id: id,
       fullName: map['fullName'] as String,
       phoneNumber: map['phoneNumber'] as String,
       addressLine: map['addressLine'] as String,
@@ -59,18 +63,19 @@ class ShippingAddress {
   String toJson() => json.encode(toMap());
 
   factory ShippingAddress.fromJson(String source) =>
-      ShippingAddress.fromMap(json.decode(source) as Map<String, dynamic>);
+      ShippingAddress.fromMap(json.decode(source) as Map<String, dynamic>, '');
 
   @override
   String toString() {
-    return 'ShippingAddress(fullName: $fullName, phoneNumber: $phoneNumber, addressLine: $addressLine, city: $city, state: $state, country: $country)';
+    return 'ShippingAddress(id: $id, fullName: $fullName, phoneNumber: $phoneNumber, addressLine: $addressLine, city: $city, state: $state, country: $country)';
   }
 
   @override
   bool operator ==(covariant ShippingAddress other) {
     if (identical(this, other)) return true;
 
-    return other.fullName == fullName &&
+    return other.id == id &&
+        other.fullName == fullName &&
         other.phoneNumber == phoneNumber &&
         other.addressLine == addressLine &&
         other.city == city &&
@@ -80,7 +85,8 @@ class ShippingAddress {
 
   @override
   int get hashCode {
-    return fullName.hashCode ^
+    return id.hashCode ^
+        fullName.hashCode ^
         phoneNumber.hashCode ^
         addressLine.hashCode ^
         city.hashCode ^
