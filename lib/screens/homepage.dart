@@ -274,7 +274,7 @@ class MyCartPage extends ConsumerWidget {
                     child: Row(
                       children: [
                         Text(
-                          'Total:',
+                          'Subtotal:',
                           style: GoogleFonts.roboto(
                             fontSize: EshopTypography.onboadingbody,
                             fontWeight: EshopFontweight.regular,

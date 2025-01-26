@@ -9,7 +9,7 @@ class ShippingAddress {
   final String? state;
   final String country;
   ShippingAddress({
-     this.addressId,
+    this.addressId,
     required this.fullName,
     required this.phoneNumber,
     required this.addressLine,

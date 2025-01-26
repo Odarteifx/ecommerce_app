@@ -59,9 +59,8 @@ class ShippingScreen extends ConsumerWidget {
                   backgroundColor: Appcolors.bottomNavActive),
               child: Text(
                 'Proceed to Payment',
-                style: GoogleFonts.roboto(
-                    
-                    fontSize: EshopTypography.onboadingbody),
+                style:
+                    GoogleFonts.roboto(fontSize: EshopTypography.onboadingbody),
               )),
         ),
         body: SafeArea(
@@ -70,9 +69,10 @@ class ShippingScreen extends ConsumerWidget {
               Expanded(
                 child: Padding(
                     padding: EdgeInsets.symmetric(horizontal: 20.h),
-                    child: ShippingForm(false, )),
+                    child: ShippingForm(
+                      false,
+                    )),
               ),
-                
               Container(
                 height: 50.h,
                 color: Appcolors.subtextColor,
@@ -80,7 +80,7 @@ class ShippingScreen extends ConsumerWidget {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Order Summary:',
+                    Text('Total:',
                         style: GoogleFonts.roboto(
                             fontSize: EshopTypography.onboadingbody,
                             fontWeight: EshopFontweight.regular,

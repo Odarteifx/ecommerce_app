@@ -130,8 +130,15 @@ class AddedAddressScreen extends ConsumerWidget {
                                                         backgroundColor: Appcolors
                                                             .backgroundColor),
                                                     onPressed: () {
-                                                      debugPrint(savedAddress.addressId);
-                                                      ref.read(addressControllerProvider.notifier).deleteShippingAddress(savedAddress.addressId!);
+                                                      debugPrint(savedAddress
+                                                          .addressId);
+                                                      ref
+                                                          .read(
+                                                              addressControllerProvider
+                                                                  .notifier)
+                                                          .deleteShippingAddress(
+                                                              savedAddress
+                                                                  .addressId!);
                                                     },
                                                     child: Text(
                                                       'Delete Address',
