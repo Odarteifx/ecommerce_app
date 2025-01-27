@@ -29,7 +29,7 @@ class EshopAssets {
   static const String gamingVR = 'assets/icons/game-control.png';
   static const String digitalCamera = 'assets/icons/photo-camera.png';
   static const String headphones = 'assets/icons/headset.png';
-  
+
   //Product example
   static const String product1 = 'assets/images/studiopro.png';
   static const String product2 = 'assets/images/headsetred.png';
@@ -38,5 +38,17 @@ class EshopAssets {
 
   //Profile Photo
   static const String person = 'assets/images/person.png';
-  
+
+  // Country flags
+  static const String benin = 'assets/images/flags/benin.png';
+  static const String ghana = 'assets/images/flags/ghana.png';
+  static const String nigeria = 'assets/images/flags/nigeria.png';
+  static const String togo = 'assets/images/flags/togo.png';
+  static const String mali = 'assets/images/flags/mali.png';
+  static const String burkina = 'assets/images/flags/burkina-faso.png';
+  static const String niger = 'assets/images/flags/niger.png';
+  static const String cotedivoire = 'assets/images/flags/cote-dIvoire.png';
+  static const String guinea = 'assets/images/flags/guinea.png';
+  static const String liberia = 'assets/images/flags/liberia.png';
+  static const String gabon = 'assets/images/flags/gabon.png';
 }

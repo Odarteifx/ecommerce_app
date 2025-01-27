@@ -1410,18 +1410,18 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
   bool _isEditable = true;
   bool _saveAddress = true;
 
-  final Map<String, dynamic> _countries = {
-    'Ghana': '🇬🇭',
-    'Niger': '🇳🇪',
-    'Nigeria': '🇳🇬',
-    'Burkina Faso': '🇧🇫',
-    'Cote ďIvoire': '🇨🇮',
-    'Benin': '🇧🇯',
-    'Guinea': '🇬🇳',
-    'Gabon': '🇬🇦',
-    'Mali': '🇲🇱',
-    'Liberia': '🇱🇷',
-    'Togo': '🇹🇬',
+  final Map<String, Map<String, String>>_countries = {
+    'Ghana': {'flag':EshopAssets.ghana, 'code': 'GHA'}, 
+    'Niger (NG)' : {'flag':EshopAssets.niger, 'code': 'NER'},
+    'Nigeria': {'flag':EshopAssets.nigeria, 'code': 'NGA'},
+    'Burkina Faso': {'flag':EshopAssets.burkina, 'code': 'BFA'},
+    'Cote ďIvoire': {'flag':EshopAssets.cotedivoire, 'code': 'CIV'},
+    'Benin': {'flag':EshopAssets.benin, 'code': 'BEN'},
+    'Guinea': {'flag':EshopAssets.guinea, 'code': 'GIN'},
+    'Gabon': {'flag':EshopAssets.gabon, 'code': 'GAB'},
+    'Mali': {'flag':EshopAssets.mali, 'code': 'MLI'},
+    'Liberia': {'flag':EshopAssets.liberia, 'code': 'LBR'},
+    'Togo': {'flag':EshopAssets.togo, 'code': 'TG0'},
   };
 
   @override
@@ -1657,9 +1657,17 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                     enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Appcolors.iconColor)),
                     hintText: 'Country',
-                    prefix: _selectedCountry.isNotEmpty? Text(
-                      _countries[_selectedCountry][1]
-                    ) : null,
+                    prefixIcon: _selectedCountry.isNotEmpty? Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        _countries[_selectedCountry]!['flag']!,
+                         height: 1.sp
+                      ),
+                    )
+                     : null,
+                    suffixText: _selectedCountry.isNotEmpty
+                        ? '(${_countries[_selectedCountry]!['code']})'
+                        : null,
                     hintStyle:
                         GoogleFonts.roboto(color: Appcolors.subtextColor),
                   ),
@@ -1689,7 +1697,9 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                               onSelected(option);
                             },
                             child: ListTile(
+                              leading: Image.asset(_countries[option]!['flag']!, height: 24.h,),
                               title: Text(option),
+                              trailing: Text(_countries[option]!['code']!),
                             ),
                           );
                         },
@@ -1699,26 +1709,6 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 );
               },
             ),
-            // TextFormField(
-            //   focusNode: FocusNode(),
-            //   controller: _countryController,
-            //   validator: (value) {
-            //     if (value!.isEmpty) {
-            //       return 'Please select your country';
-            //     }
-            //     return null;
-            //   },
-            // decoration: InputDecoration(
-            //   enabled: _isEditable,
-            //   border: OutlineInputBorder(
-            //     borderSide: BorderSide(color: Appcolors.iconColor),
-            //   ),
-            //   enabledBorder: const OutlineInputBorder(
-            //       borderSide: BorderSide(color: Appcolors.iconColor)),
-            //   hintText: 'Country',
-            //   hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
-            // ),
-            // ),
             widget.addnewAddress
                 ? Column(
                     children: [
