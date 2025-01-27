@@ -1411,17 +1411,17 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
   bool _saveAddress = true;
 
   final Map<String, Map<String, String>>_countries = {
-    'Ghana': {'flag':EshopAssets.ghana, 'code': 'GHA'}, 
-    'Niger (NG)' : {'flag':EshopAssets.niger, 'code': 'NER'},
-    'Nigeria': {'flag':EshopAssets.nigeria, 'code': 'NGA'},
-    'Burkina Faso': {'flag':EshopAssets.burkina, 'code': 'BFA'},
-    'Cote ďIvoire': {'flag':EshopAssets.cotedivoire, 'code': 'CIV'},
-    'Benin': {'flag':EshopAssets.benin, 'code': 'BEN'},
-    'Guinea': {'flag':EshopAssets.guinea, 'code': 'GIN'},
-    'Gabon': {'flag':EshopAssets.gabon, 'code': 'GAB'},
-    'Mali': {'flag':EshopAssets.mali, 'code': 'MLI'},
-    'Liberia': {'flag':EshopAssets.liberia, 'code': 'LBR'},
-    'Togo': {'flag':EshopAssets.togo, 'code': 'TG0'},
+    'Ghana': {'flag':EshopAssets.ghana, 'code': 'GHA', 'dial_code': '+233'}, 
+    'Niger' : {'flag':EshopAssets.niger, 'code': 'NER', 'dial_code': '+227'},
+    'Nigeria': {'flag':EshopAssets.nigeria, 'code': 'NGA', 'dial_code': '+234'},
+    'Burkina Faso': {'flag':EshopAssets.burkina, 'code': 'BFA', 'dial_code': '+226'},
+    'Cote ďIvoire': {'flag':EshopAssets.cotedivoire, 'code': 'CIV', 'dial_code': '+225'},
+    'Benin': {'flag':EshopAssets.benin, 'code': 'BEN', 'dial_code': '+229'},
+    'Guinea': {'flag':EshopAssets.guinea, 'code': 'GIN', 'dial_code': '+224'},
+    'Gabon': {'flag':EshopAssets.gabon, 'code': 'GAB', 'dial_code': '+241'},
+    'Mali': {'flag':EshopAssets.mali, 'code': 'MLI', 'dial_code': '+223'},
+    'Liberia': {'flag':EshopAssets.liberia, 'code': 'LBR', 'dial_code': '+231'},
+    'Togo': {'flag':EshopAssets.togo, 'code': 'TG0', 'dial_code': '+228'},
   };
 
   @override
@@ -1463,11 +1463,11 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
 
     final email = userEmail;
     final fullName = _fullNameController.text;
-    final phoneNumber = _phoneNumberController.text;
+    final phoneNumber = _countries[_selectedCountry] != null? '${_countries[_selectedCountry]!['dial_code']!}${_phoneNumberController.text.trim()}' : '';
     final addressLine = _addressLineController.text;
     final city = _cityController.text;
     final state = _stateController.text;
-    final country = _countryController.text;
+    final country = _selectedCountry;
 
     if (!_isEditable) {
       debugPrint('Email: $email');
@@ -1548,80 +1548,6 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 enabledBorder: const OutlineInputBorder(
                     borderSide: BorderSide(color: Appcolors.iconColor)),
                 hintText: 'Full Name',
-                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
-              ),
-            ),
-            TextFormField(
-              controller: _phoneNumberController,
-              validator: (value) {
-                if (value!.isEmpty || value.length < 10) {
-                  return 'Please enter a valid phone number';
-                }
-                return null;
-              },
-              keyboardType: TextInputType.phone,
-              decoration: InputDecoration(
-                enabled: _isEditable,
-                hintText: 'Phone Number',
-                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Appcolors.iconColor),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Appcolors.iconColor)),
-              ),
-            ),
-            TextFormField(
-              controller: _addressLineController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter a your address';
-                }
-                return null;
-              },
-              keyboardType: TextInputType.streetAddress,
-              decoration: InputDecoration(
-                enabled: _isEditable,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Appcolors.iconColor),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Appcolors.iconColor)),
-                hintText: 'Address Line',
-                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
-              ),
-            ),
-            TextFormField(
-              controller: _cityController,
-              validator: (value) {
-                if (value!.isEmpty) {
-                  return 'Please enter your city';
-                }
-                return null;
-              },
-              keyboardType: TextInputType.streetAddress,
-              decoration: InputDecoration(
-                enabled: _isEditable,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Appcolors.iconColor),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Appcolors.iconColor)),
-                hintText: 'City',
-                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
-              ),
-            ),
-            TextFormField(
-              controller: _stateController,
-              keyboardType: TextInputType.streetAddress,
-              decoration: InputDecoration(
-                enabled: _isEditable,
-                border: OutlineInputBorder(
-                  borderSide: BorderSide(color: Appcolors.iconColor),
-                ),
-                enabledBorder: const OutlineInputBorder(
-                    borderSide: BorderSide(color: Appcolors.iconColor)),
-                hintText: 'State',
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
             ),
@@ -1709,6 +1635,84 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 );
               },
             ),
+            TextFormField(
+              controller: _phoneNumberController,
+              validator: (value) {
+                if (value!.isEmpty || value.length < 9) {
+                  return 'Please enter a valid phone number';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.phone,
+              decoration: InputDecoration(
+                enabled: _isEditable,
+                hintText: 'Phone Number',
+                prefix: _countries[_selectedCountry] != null
+                    ? Text('${_countries[_selectedCountry]!['dial_code']!} ')
+                    : null,
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
+              ),
+            ),
+            TextFormField(
+              controller: _addressLineController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter a your address';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                enabled: _isEditable,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
+                hintText: 'Address Line',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
+              ),
+            ),
+            TextFormField(
+              controller: _cityController,
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Please enter your city';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                enabled: _isEditable,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
+                hintText: 'City',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
+              ),
+            ),
+            TextFormField(
+              controller: _stateController,
+              keyboardType: TextInputType.streetAddress,
+              decoration: InputDecoration(
+                enabled: _isEditable,
+                border: OutlineInputBorder(
+                  borderSide: BorderSide(color: Appcolors.iconColor),
+                ),
+                enabledBorder: const OutlineInputBorder(
+                    borderSide: BorderSide(color: Appcolors.iconColor)),
+                hintText: 'State',
+                hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
+              ),
+            ),
+            
             widget.addnewAddress
                 ? Column(
                     children: [
