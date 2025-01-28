@@ -608,9 +608,8 @@ class ErrorText extends StatelessWidget {
 }
 
 class ProductWidget extends ConsumerWidget {
-  
-   const ProductWidget({super.key,required this.productList});
-final bool productList;
+  const ProductWidget({super.key, required this.productList});
+  final bool productList;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ref.watch(getsProductsProvider);
@@ -623,7 +622,7 @@ final bool productList;
     return product.when(
         data: (data) {
           return GridView.builder(
-              itemCount: productList? data.length : 10,
+              itemCount: productList ? data.length : 10,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: 20.h),
               physics: const NeverScrollableScrollPhysics(),
@@ -698,7 +697,6 @@ final bool productList;
                               ),
                             IconButton(
                                 onPressed: () {
-                                  print('${wishlistItems}');
                                   if (isInWishlistFlag) {
                                     final wishlistItem = wishlistItems.value!
                                         .firstWhere((item) =>
@@ -1411,18 +1409,34 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
   bool _isEditable = true;
   bool _saveAddress = true;
 
-  final Map<String, Map<String, String>>_countries = {
-    'Ghana': {'flag':EshopAssets.ghana, 'code': 'GHA', 'dial_code': '+233'}, 
-    'Niger' : {'flag':EshopAssets.niger, 'code': 'NER', 'dial_code': '+227'},
-    'Nigeria': {'flag':EshopAssets.nigeria, 'code': 'NGA', 'dial_code': '+234'},
-    'Burkina Faso': {'flag':EshopAssets.burkina, 'code': 'BFA', 'dial_code': '+226'},
-    'Cote ďIvoire': {'flag':EshopAssets.cotedivoire, 'code': 'CIV', 'dial_code': '+225'},
-    'Benin': {'flag':EshopAssets.benin, 'code': 'BEN', 'dial_code': '+229'},
-    'Guinea': {'flag':EshopAssets.guinea, 'code': 'GIN', 'dial_code': '+224'},
-    'Gabon': {'flag':EshopAssets.gabon, 'code': 'GAB', 'dial_code': '+241'},
-    'Mali': {'flag':EshopAssets.mali, 'code': 'MLI', 'dial_code': '+223'},
-    'Liberia': {'flag':EshopAssets.liberia, 'code': 'LBR', 'dial_code': '+231'},
-    'Togo': {'flag':EshopAssets.togo, 'code': 'TG0', 'dial_code': '+228'},
+  final Map<String, Map<String, String>> _countries = {
+    'Ghana': {'flag': EshopAssets.ghana, 'code': 'GHA', 'dial_code': '+233'},
+    'Niger': {'flag': EshopAssets.niger, 'code': 'NER', 'dial_code': '+227'},
+    'Nigeria': {
+      'flag': EshopAssets.nigeria,
+      'code': 'NGA',
+      'dial_code': '+234'
+    },
+    'Burkina Faso': {
+      'flag': EshopAssets.burkina,
+      'code': 'BFA',
+      'dial_code': '+226'
+    },
+    'Cote ďIvoire': {
+      'flag': EshopAssets.cotedivoire,
+      'code': 'CIV',
+      'dial_code': '+225'
+    },
+    'Benin': {'flag': EshopAssets.benin, 'code': 'BEN', 'dial_code': '+229'},
+    'Guinea': {'flag': EshopAssets.guinea, 'code': 'GIN', 'dial_code': '+224'},
+    'Gabon': {'flag': EshopAssets.gabon, 'code': 'GAB', 'dial_code': '+241'},
+    'Mali': {'flag': EshopAssets.mali, 'code': 'MLI', 'dial_code': '+223'},
+    'Liberia': {
+      'flag': EshopAssets.liberia,
+      'code': 'LBR',
+      'dial_code': '+231'
+    },
+    'Togo': {'flag': EshopAssets.togo, 'code': 'TG0', 'dial_code': '+228'},
   };
 
   @override
@@ -1464,7 +1478,9 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
 
     final email = userEmail;
     final fullName = _fullNameController.text;
-    final phoneNumber = _countries[_selectedCountry] != null? '${_countries[_selectedCountry]!['dial_code']!}${_phoneNumberController.text.trim()}' : '';
+    final phoneNumber = _countries[_selectedCountry] != null
+        ? '${_countries[_selectedCountry]!['dial_code']!}${_phoneNumberController.text.trim()}'
+        : '';
     final addressLine = _addressLineController.text;
     final city = _cityController.text;
     final state = _stateController.text;
@@ -1584,14 +1600,14 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                     enabledBorder: const OutlineInputBorder(
                         borderSide: BorderSide(color: Appcolors.iconColor)),
                     hintText: 'Country',
-                    prefixIcon: _selectedCountry.isNotEmpty? Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Image.asset(
-                        _countries[_selectedCountry]!['flag']!,
-                         height: 1.sp
-                      ),
-                    )
-                     : null,
+                    prefixIcon: _selectedCountry.isNotEmpty
+                        ? Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Image.asset(
+                                _countries[_selectedCountry]!['flag']!,
+                                height: 1.sp),
+                          )
+                        : null,
                     suffixText: _selectedCountry.isNotEmpty
                         ? '(${_countries[_selectedCountry]!['code']})'
                         : null,
@@ -1624,7 +1640,10 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                               onSelected(option);
                             },
                             child: ListTile(
-                              leading: Image.asset(_countries[option]!['flag']!, height: 24.h,),
+                              leading: Image.asset(
+                                _countries[option]!['flag']!,
+                                height: 24.h,
+                              ),
                               title: Text(option),
                               trailing: Text(_countries[option]!['code']!),
                             ),
@@ -1713,7 +1732,6 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
                 hintStyle: GoogleFonts.roboto(color: Appcolors.subtextColor),
               ),
             ),
-            
             widget.addnewAddress
                 ? Column(
                     children: [
