@@ -67,8 +67,8 @@ class ProductDetailsPage extends ConsumerWidget {
             Stack(
               children: [
                 Container(
-                  height: 500.h,
-                  decoration: BoxDecoration(color: Appcolors.widgetcolor),
+                  height: 450.h,
+                 // decoration: BoxDecoration(color: Appcolors.widgetcolor),
                   child: Center(
                     child: Image.network(
                       product.image.toString(),
@@ -120,7 +120,7 @@ class ProductDetailsPage extends ConsumerWidget {
                     ))
               ],
             ),
-            SizedBox(height: 15.h),
+            SizedBox(height: 10.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.h),
               child: Column(

@@ -18,6 +18,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'added_address_screen.dart';
+import 'product_list_page.dart';
 
 class EshopHomePage extends StatefulWidget {
   const EshopHomePage({super.key});
@@ -223,7 +224,7 @@ class MyCartPage extends ConsumerWidget {
                                       ),
                                     ),
                                   ),
-                                  title: Text(item.productName),
+                                  title: Text(item.productName, style: GoogleFonts.roboto(fontSize: 14.sp,),),
                                   subtitle: Row(
                                     children: [
                                       IconButton(
@@ -392,7 +393,13 @@ class HomePage extends StatelessWidget {
                                 fontSize: EshopTypography.subtext,
                                 fontWeight: EshopFontweight.semibold)),
                         GestureDetector(
-                          onTap: () {},
+                          onTap: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const ProductListPage(),
+                                ));
+                          },
                           child: Text(
                             'See more',
                             style: GoogleFonts.roboto(
@@ -551,30 +558,36 @@ class WishlistPage extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          title: Text(item.productName),
+                          title: Text(item.productName, style: GoogleFonts.roboto(fontSize: 14.sp),),
                           subtitle: item.oldPrice != null
                               ? Row(
                                   children: [
                                     Text(
                                       '\$${item.oldPrice?.toStringAsFixed(2)}',
                                       style: GoogleFonts.roboto(
+                                        
+                                          fontSize: 13.sp,
                                         decoration: TextDecoration.lineThrough,
                                         decorationColor: Appcolors.promptColor,
                                         color: Appcolors.promptColor,
-                                        fontWeight: EshopFontweight.semibold,
+                                       fontWeight: EshopFontweight.semibold,
                                       ),
                                     ),
                                     SizedBox(width: 5.w),
                                     Text(
                                       '\$${item.price.toStringAsFixed(2)}',
                                       style: GoogleFonts.roboto(
+                                        fontSize: 15.sp,
                                           fontWeight: EshopFontweight.bold),
                                     )
                                   ],
                                 )
                               : Text('\$${item.price.toStringAsFixed(2)}',
                                   style: GoogleFonts.roboto(
-                                      fontWeight: EshopFontweight.bold)),
+                                     fontSize: 15.sp,
+                                      fontWeight: EshopFontweight.bold
+                                      )
+                                      ),
                           trailing: IconButton(
                               onPressed: () {
                                 ref
