@@ -608,8 +608,9 @@ class ErrorText extends StatelessWidget {
 }
 
 class ProductWidget extends ConsumerWidget {
-  const ProductWidget({super.key});
-
+  
+   const ProductWidget({super.key,required this.productList});
+final bool productList;
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final product = ref.watch(getsProductsProvider);
@@ -622,7 +623,7 @@ class ProductWidget extends ConsumerWidget {
     return product.when(
         data: (data) {
           return GridView.builder(
-              itemCount: data.length,
+              itemCount: productList? data.length : 10,
               shrinkWrap: true,
               padding: EdgeInsets.symmetric(horizontal: 20.h),
               physics: const NeverScrollableScrollPhysics(),

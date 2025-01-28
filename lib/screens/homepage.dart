@@ -414,7 +414,7 @@ class HomePage extends StatelessWidget {
                   SizedBox(
                     height: 14.h,
                   ),
-                  ProductWidget(),
+                  ProductWidget(productList: false),
                 ],
               ),
             ),

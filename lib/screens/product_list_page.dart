@@ -16,7 +16,7 @@ class ProductListPage extends StatelessWidget {
           IconButton(onPressed: (){}, icon: Icon(Icons.sort))
         ],
       ),
-      body: SingleChildScrollView(child: ProductWidget()),
+      body: SingleChildScrollView(child: ProductWidget(productList: true)),
     );
   }
 }
