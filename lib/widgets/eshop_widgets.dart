@@ -882,7 +882,6 @@ class RelatedProductsWidget extends ConsumerWidget {
                   bool isInWishlistFlag = isInWishlist(index);
                   return GestureDetector(
                     onTap: () {
-                      print(filteredData.toList());
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -947,7 +946,6 @@ class RelatedProductsWidget extends ConsumerWidget {
                                 ),
                               IconButton(
                                   onPressed: () {
-                                    print('${wishlistItems}');
                                     if (isInWishlistFlag) {
                                       final wishlistItem = wishlistItems.value!
                                           .firstWhere((item) =>
@@ -957,7 +955,7 @@ class RelatedProductsWidget extends ConsumerWidget {
                                           .read(wishlistControllerProvider
                                               .notifier)
                                           .removeFromWishlist(
-                                              wishlistItem.productId);
+                                              filteredData[index].productId);
                                     } else {
                                       final wishlistItem = WishlistItem(
                                           productId:

@@ -68,7 +68,6 @@ class ProductDetailsPage extends ConsumerWidget {
               children: [
                 Container(
                   height: 450.h,
-                 // decoration: BoxDecoration(color: Appcolors.widgetcolor),
                   child: Center(
                     child: Image.network(
                       product.image.toString(),
@@ -91,7 +90,6 @@ class ProductDetailsPage extends ConsumerWidget {
                       children: [
                         IconButton(
                             onPressed: () {
-                              // print('${wishlistItems}');
                               if (isInWishlist) {
                                 final wishlistItem = wishlistItems.value!
                                     .firstWhere((item) => item.productId == product.productId);
