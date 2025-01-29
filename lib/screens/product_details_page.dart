@@ -23,7 +23,7 @@ class ProductDetailsPage extends ConsumerWidget {
     final wishlistItems = ref.watch(wishlistProvider);
     final cartItems = ref.watch(cartProvider);
 
-    bool _isInWishlist = wishlistItems.maybeWhen(
+    bool isInWishlist = wishlistItems.maybeWhen(
       data: (items) => items.any((item) => item.productId == product.productId),
       orElse: () => false,
     );
@@ -33,7 +33,7 @@ class ProductDetailsPage extends ConsumerWidget {
         actions: [
           IconButton(
               onPressed: () {
-                if (_isInWishlist) {
+                if (isInWishlist) {
                   final wishlistItem = wishlistItems.value!.firstWhere(
                       (item) => item.productId == product.productId);
                   ref
@@ -51,8 +51,8 @@ class ProductDetailsPage extends ConsumerWidget {
                       .addToWishlist(wishlistItem);
                 }
               },
-              icon: Icon(_isInWishlist ? Iconsax.heart5 : Iconsax.heart,
-                  color: _isInWishlist
+              icon: Icon(isInWishlist ? Iconsax.heart5 : Iconsax.heart,
+                  color: isInWishlist
                       ? Appcolors.promptColor
                       : Appcolors.textColor)),
           IconButton(
@@ -117,7 +117,7 @@ class ProductDetailsPage extends ConsumerWidget {
                 ),
               ),
             ),
-            SizedBox(height: 10.h),
+            SizedBox(height: 5.h),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 20.h),
               child: Column(
@@ -129,9 +129,13 @@ class ProductDetailsPage extends ConsumerWidget {
                   ),
                   Text(
                     product.categoryname,
+                    style: GoogleFonts.roboto(
+                        fontSize: 13.sp,
+                        fontWeight: EshopFontweight.regular,
+                        color: Appcolors.subtextColor),
                   ),
                   SizedBox(
-                    height: 5.h,
+                    height: 3.h,
                   ),
                   if (product.oldPrice != null)
                     Column(
@@ -183,7 +187,7 @@ class ProductDetailsPage extends ConsumerWidget {
                   Text(
                     product.description,
                     style: GoogleFonts.roboto(
-                        fontSize: EshopTypography.subtext,
+                        fontSize: EshopTypography.termsfont,
                         fontWeight: EshopFontweight.light),
                   ),
                   SizedBox(
