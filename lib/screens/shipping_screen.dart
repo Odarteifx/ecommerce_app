@@ -1,6 +1,11 @@
 import 'package:currency_converter/currency.dart';
 import 'package:currency_converter/currency_converter.dart';
+import 'package:ecommerce_app/controllers/cart_controller.dart';
+import 'package:ecommerce_app/controllers/orders_controller.dart';
 import 'package:ecommerce_app/models/order_models/order_item.dart';
+import 'package:ecommerce_app/models/order_models/orders_model.dart';
+import 'package:ecommerce_app/screens/signup_page.dart';
+import 'package:ecommerce_app/services/orders_services.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -50,6 +55,18 @@ class ShippingScreen extends ConsumerWidget {
                     currency: 'GHS',
                     onSuccessfulTransaction: (data) {
                       debugPrint('Transaction successful');
+
+                      final order = Orders(
+                          orderId: 'order-${Utils.uniqueRefenece()}',
+                          email: email,
+                          total: amountInUSD,
+                          items: orderItems,
+                          status: 'pending',
+                          createdAt: DateTime.now());
+                          ref.read(ordersControllerProvider.notifier).addOrder(order);
+                          debugPrint('Order added');
+
+                          ref.read(cartControllerProvider.notifier).clearCart();
                     },
                     onFailedTransaction: (data) {
                       debugPrint('Transaction failed');

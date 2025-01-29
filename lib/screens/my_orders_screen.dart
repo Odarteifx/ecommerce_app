@@ -12,6 +12,37 @@ class MyOrdersScreen extends StatelessWidget {
         backgroundColor: Appcolors.backgroundColor,
         title: Text('My Orders'),
       ),
-    );
+
+      body: SingleChildScrollView(
+        child: Column(
+          children: [
+            ListTile(
+              title: Text('Order ID: 123456'),
+              subtitle: Text('Order Date: 12/12/2022'),
+              trailing: Text('GHS 200.00'),
+            ),
+            ListTile(
+              title: Text('Order ID: 123456'),
+              subtitle: Text('Order Date: 12/12/2022'),
+              trailing: Text('GHS 200.00'),
+            ),
+            ListTile(
+              title: Text('Order ID: 123456'),
+              subtitle: Text('Order Date: 12/12/2022'),
+              trailing: Text('GHS 200.00'),
+            ),
+            ListTile(
+              title: Text('Order ID: 123456'),
+              subtitle: Text('Order Date: 12/12/2022'),
+              trailing: Text('GHS 200.00'),
+            ),
+            ListTile(
+              title: Text('Order ID: 123456'),
+              subtitle: Text('Order Date: 12/12/2022'),
+              trailing: Text('GHS 200.00'),
+            ),
+          ],
+      ),
+    ));
   }
 }

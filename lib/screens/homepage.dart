@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
@@ -5,6 +6,7 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
 import 'package:ecommerce_app/models/order_models/order_item.dart';
+import 'package:ecommerce_app/models/order_models/orders_model.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/screens/shipping_screen.dart';
 import 'package:ecommerce_app/screens/signin_page.dart';
@@ -338,19 +340,6 @@ class MyCartPage extends ConsumerWidget {
                                                         quantity: item.quantity,
                                                       ))
                                                   .toList())));
-                              createOrder() {
-                                final orderItems = [
-                                  for (final item in items)
-                                    OrderItem(
-                                        productId: item.productId,
-                                        productName: item.productName,
-                                        price: item.price,
-                                        quantity: item.quantity)
-                                ];
-                                
-                              }
-
-                              createOrder();
                             },
                             style: FilledButton.styleFrom(
                                 shape: RoundedRectangleBorder(
