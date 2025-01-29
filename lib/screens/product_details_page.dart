@@ -23,11 +23,49 @@ class ProductDetailsPage extends ConsumerWidget {
     final wishlistItems = ref.watch(wishlistProvider);
     final cartItems = ref.watch(cartProvider);
 
-    bool isInWishlist = wishlistItems.maybeWhen(
+    bool _isInWishlist = wishlistItems.maybeWhen(
       data: (items) => items.any((item) => item.productId == product.productId),
       orElse: () => false,
     );
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Appcolors.backgroundColor,
+        actions: [
+          IconButton(
+              onPressed: () {
+                if (_isInWishlist) {
+                  final wishlistItem = wishlistItems.value!.firstWhere(
+                      (item) => item.productId == product.productId);
+                  ref
+                      .read(wishlistControllerProvider.notifier)
+                      .removeFromWishlist(wishlistItem.productId);
+                } else {
+                  final wishlistItem = WishlistItem(
+                      productId: product.productId,
+                      image: product.image,
+                      productName: product.name,
+                      price: product.price,
+                      oldPrice: product.oldPrice);
+                  ref
+                      .read(wishlistControllerProvider.notifier)
+                      .addToWishlist(wishlistItem);
+                }
+              },
+              icon: Icon(_isInWishlist ? Iconsax.heart5 : Iconsax.heart,
+                  color: _isInWishlist
+                      ? Appcolors.promptColor
+                      : Appcolors.textColor)),
+          IconButton(
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => MyCartPage(),
+                ));
+              },
+              icon: Badge(
+                  label: Text('${cartItems.asData?.value.length}'),
+                  child: Icon(Iconsax.bag_2))),
+        ],
+      ),
       bottomNavigationBar: BottomAppBar(
           color: Appcolors.backgroundColor,
           child:
@@ -48,14 +86,20 @@ class ProductDetailsPage extends ConsumerWidget {
                   SnackBar(content: Text('${product.name} Added to Cart')),
                 );
               },
-              color: Appcolors.backgroundColor, textColorcolor: Appcolors.bottomNavActive, borderColor: Appcolors.bottomNavActive,
+              color: Appcolors.backgroundColor,
+              textColorcolor: Appcolors.bottomNavActive,
+              borderColor: Appcolors.bottomNavActive,
             ),
             ProductActionButton(
               buttonText: 'Buy Now',
               function: () {
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => ShippingScreen(amount: product.price),));
+                Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => ShippingScreen(amount: product.price),
+                ));
               },
-              color: Appcolors.bottomNavActive, textColorcolor: Appcolors.backgroundColor, borderColor: Appcolors.bottomNavActive,
+              color: Appcolors.bottomNavActive,
+              textColorcolor: Appcolors.backgroundColor,
+              borderColor: Appcolors.bottomNavActive,
             )
           ])),
       backgroundColor: Appcolors.backgroundColor,
@@ -64,59 +108,14 @@ class ProductDetailsPage extends ConsumerWidget {
           mainAxisAlignment: MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Stack(
-              children: [
-                Container(
-                  height: 450.h,
-                  child: Center(
-                    child: Image.network(
-                      product.image.toString(),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
+            Container(
+              height: 300.h,
+              child: Center(
+                child: Image.network(
+                  product.image.toString(),
+                  fit: BoxFit.cover,
                 ),
-                Positioned(
-                    top: 50.sp,
-                    left: 5.sp,
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                        },
-                        icon: Icon(Icons.arrow_back_ios_new_sharp))),
-                Positioned(
-                    top: 50.sp,
-                    right: 5.sp,
-                    child: Row(
-                      children: [
-                        IconButton(
-                            onPressed: () {
-                              if (isInWishlist) {
-                                final wishlistItem = wishlistItems.value!
-                                    .firstWhere((item) => item.productId == product.productId);
-                                ref
-                                    .read(wishlistControllerProvider.notifier)
-                                    .removeFromWishlist(wishlistItem.productId);
-                              } else {
-                                final wishlistItem = WishlistItem(
-                                    productId: product.productId,
-                                    image: product.image,
-                                    productName: product.name,
-                                    price: product.price,
-                                    oldPrice: product.oldPrice);
-                                ref.read(wishlistControllerProvider.notifier).addToWishlist(wishlistItem);
-                              }
-                            },
-                            icon: Icon( isInWishlist ? Iconsax.heart5 : Iconsax.heart,
-                                color: isInWishlist? Appcolors.promptColor  : Appcolors.textColor)),
-                        IconButton(
-                            onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(builder: (context) => MyCartPage(),));
-                            },
-                            icon: Badge(
-                                label: Text('${cartItems.asData?.value.length}'), child: Icon(Iconsax.bag_2))),
-                      ],
-                    ))
-              ],
+              ),
             ),
             SizedBox(height: 10.h),
             Padding(

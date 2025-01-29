@@ -858,11 +858,7 @@ class RelatedProductsWidget extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final relatedProducts = ref.watch(getRelatedProductsProvider(categoryname));
     final wishlistItems = ref.watch(wishlistProvider);
-    bool isInWishlist(int index) => wishlistItems.maybeWhen(
-          data: (items) => items.any((item) =>
-              item.productId == relatedProducts.asData!.value[index].productId),
-          orElse: () => false,
-        );
+
     return relatedProducts.when(
         data: (data) {
           final filteredData =
@@ -879,6 +875,11 @@ class RelatedProductsWidget extends ConsumerWidget {
                     crossAxisSpacing: 20.sp,
                     mainAxisExtent: 250.sp),
                 itemBuilder: (context, index) {
+                  bool isInWishlist(int index) => wishlistItems.maybeWhen(
+                        data: (items) => items.any((item) =>
+                            item.productId == filteredData[index].productId),
+                        orElse: () => false,
+                      );
                   bool isInWishlistFlag = isInWishlist(index);
                   return GestureDetector(
                     onTap: () {
@@ -945,53 +946,39 @@ class RelatedProductsWidget extends ConsumerWidget {
                                       color: Appcolors.textColor),
                                 ),
                               IconButton(
-                                                onPressed: () {
-                                                  if (isInWishlistFlag) {
-                                                    final wishlistItem =
-                                                        wishlistItems
-                                                            .value!
-                                                            .firstWhere((item) =>
-                                                                item.productId ==
-                                                                data[index]
-                                                                    .productId);
-                                                    ref
-                                                        .read(
-                                                            wishlistControllerProvider
-                                                                .notifier)
-                                                        .removeFromWishlist(
-                                                            wishlistItem
-                                                                .productId);
-                                                  } else {
-                                                    final wishlistItem =
-                                                        WishlistItem(
-                                                            productId:
-                                                                data[index]
-                                                                    .productId,
-                                                            image: data[index]
-                                                                .image,
-                                                            productName:
-                                                                data[index]
-                                                                    .name,
-                                                            price: data[index]
-                                                                .price,
-                                                            oldPrice:
-                                                                data[index]
-                                                                    .oldPrice);
-                                                    ref
-                                                        .read(
-                                                            wishlistControllerProvider
-                                                                .notifier)
-                                                        .addToWishlist(
-                                                            wishlistItem);
-                                                  }
-                                                },
-                                                icon: Icon(
-                                                    isInWishlistFlag
-                                                        ? Iconsax.heart5
-                                                        : Iconsax.heart,
-                                                    color: isInWishlistFlag
-                                                        ? Appcolors.promptColor
-                                                        : Appcolors.textColor))
+                                  onPressed: () {
+                                    if (isInWishlistFlag) {
+                                      final wishlistItem = wishlistItems.value!
+                                          .firstWhere((item) =>
+                                              item.productId ==
+                                              filteredData[index].productId);
+                                      ref
+                                          .read(wishlistControllerProvider
+                                              .notifier)
+                                          .removeFromWishlist(
+                                              wishlistItem.productId);
+                                    } else {
+                                      final wishlistItem = WishlistItem(
+                                          productId:
+                                              filteredData[index].productId,
+                                          image: filteredData[index].image,
+                                          productName: filteredData[index].name,
+                                          price: filteredData[index].price,
+                                          oldPrice:
+                                              filteredData[index].oldPrice);
+                                      ref
+                                          .read(wishlistControllerProvider
+                                              .notifier)
+                                          .addToWishlist(wishlistItem);
+                                    }
+                                  },
+                                  icon: Icon(
+                                      isInWishlistFlag
+                                          ? Iconsax.heart5
+                                          : Iconsax.heart,
+                                      color: isInWishlistFlag
+                                          ? Appcolors.promptColor
+                                          : Appcolors.textColor))
                             ],
                           ),
                           Text(
