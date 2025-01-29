@@ -4,6 +4,7 @@ import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
+import 'package:ecommerce_app/models/order_models/order_item.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/screens/shipping_screen.dart';
 import 'package:ecommerce_app/screens/signin_page.dart';
@@ -18,6 +19,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
 import 'added_address_screen.dart';
+import 'my_orders_screen.dart';
 import 'product_list_page.dart';
 
 class EshopHomePage extends StatefulWidget {
@@ -224,7 +226,12 @@ class MyCartPage extends ConsumerWidget {
                                       ),
                                     ),
                                   ),
-                                  title: Text(item.productName, style: GoogleFonts.roboto(fontSize: 14.sp,),),
+                                  title: Text(
+                                    item.productName,
+                                    style: GoogleFonts.roboto(
+                                      fontSize: 14.sp,
+                                    ),
+                                  ),
                                   subtitle: Row(
                                     children: [
                                       IconButton(
@@ -317,10 +324,33 @@ class MyCartPage extends ConsumerWidget {
                                   ? ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                           content: Text('No Item to Checkout')))
-                                  : Navigator.of(context).push(
-                                      MaterialPageRoute(
+                                  : Navigator.of(context)
+                                      .push(MaterialPageRoute(
                                           builder: (context) => ShippingScreen(
-                                              amount: totalPrice)));
+                                              amount: totalPrice,
+                                              orderItems: items
+                                                  .map((item) => OrderItem(
+                                                        productId:
+                                                            item.productId,
+                                                        productName:
+                                                            item.productName,
+                                                        price: item.price,
+                                                        quantity: item.quantity,
+                                                      ))
+                                                  .toList())));
+                              createOrder() {
+                                final orderItems = [
+                                  for (final item in items)
+                                    OrderItem(
+                                        productId: item.productId,
+                                        productName: item.productName,
+                                        price: item.price,
+                                        quantity: item.quantity)
+                                ];
+                                
+                              }
+
+                              createOrder();
                             },
                             style: FilledButton.styleFrom(
                                 shape: RoundedRectangleBorder(
@@ -542,10 +572,12 @@ class WishlistPage extends ConsumerWidget {
                         final WishlistItem item = items[index];
                         return ListTile(
                           onTap: () {
-                            // Navigator.push(
-                            //   context,
-                            //   MaterialPageRoute(builder: (context) => ProductDetailsPage(), settings: RouteSettings(arguments: items[index]),),
-                            // );
+                            //     Navigator.push(
+                            // context,
+                            // MaterialPageRoute(
+                            //   builder: (context) => ProductDetailsPage(),
+                            //   settings: RouteSettings(arguments: items[index] as ProductModel),
+                            // ));
                           },
                           leading: Container(
                             height: 50.h,
@@ -558,36 +590,36 @@ class WishlistPage extends ConsumerWidget {
                               ),
                             ),
                           ),
-                          title: Text(item.productName, style: GoogleFonts.roboto(fontSize: 14.sp),),
+                          title: Text(
+                            item.productName,
+                            style: GoogleFonts.roboto(fontSize: 14.sp),
+                          ),
                           subtitle: item.oldPrice != null
                               ? Row(
                                   children: [
                                     Text(
                                       '\$${item.oldPrice?.toStringAsFixed(2)}',
                                       style: GoogleFonts.roboto(
-                                        
-                                          fontSize: 13.sp,
+                                        fontSize: 13.sp,
                                         decoration: TextDecoration.lineThrough,
                                         decorationColor: Appcolors.promptColor,
                                         color: Appcolors.promptColor,
-                                       fontWeight: EshopFontweight.semibold,
+                                        fontWeight: EshopFontweight.semibold,
                                       ),
                                     ),
                                     SizedBox(width: 5.w),
                                     Text(
                                       '\$${item.price.toStringAsFixed(2)}',
                                       style: GoogleFonts.roboto(
-                                        fontSize: 15.sp,
+                                          fontSize: 15.sp,
                                           fontWeight: EshopFontweight.bold),
                                     )
                                   ],
                                 )
                               : Text('\$${item.price.toStringAsFixed(2)}',
                                   style: GoogleFonts.roboto(
-                                     fontSize: 15.sp,
-                                      fontWeight: EshopFontweight.bold
-                                      )
-                                      ),
+                                      fontSize: 15.sp,
+                                      fontWeight: EshopFontweight.bold)),
                           trailing: IconButton(
                               onPressed: () {
                                 ref
@@ -689,7 +721,10 @@ class ProfilePage extends ConsumerWidget {
                   ProfileWidget(
                     icon: Iconsax.box,
                     iconText: 'My Orders',
-                    onpressed: () {},
+                    onpressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const MyOrdersScreen()));
+                    },
                   ),
                   ProfileWidget(
                     icon: Iconsax.crown_1,

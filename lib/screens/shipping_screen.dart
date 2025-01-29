@@ -1,5 +1,6 @@
 import 'package:currency_converter/currency.dart';
 import 'package:currency_converter/currency_converter.dart';
+import 'package:ecommerce_app/models/order_models/order_item.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -8,14 +9,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../constants/colors.dart';
 import '../constants/eshop_typography.dart';
+
 import '../utils/utils.dart';
 import 'payment_page.dart';
 
 class ShippingScreen extends ConsumerWidget {
   final double amount;
+  final List<OrderItem> orderItems;
   const ShippingScreen({
     super.key,
     required this.amount,
+    required this.orderItems,
   });
 
   @override

@@ -3,6 +3,7 @@ import 'package:ecommerce_app/constants/eshop_typography.dart';
 import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/cart_item.dart';
+import 'package:ecommerce_app/models/order_models/order_item.dart';
 import 'package:ecommerce_app/models/product_models.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/screens/homepage.dart';
@@ -94,8 +95,17 @@ class ProductDetailsPage extends ConsumerWidget {
               buttonText: 'Buy Now',
               function: () {
                 Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ShippingScreen(amount: product.price),
-                ));
+                  builder: (context) => ShippingScreen(
+                      amount: product.price,
+                      orderItems: [
+                        OrderItem(
+                          productId: product.productId,
+                          productName: product.name,
+                          price: product.price,
+                          quantity: 1
+                        )
+                      ])),
+                );
               },
               color: Appcolors.bottomNavActive,
               textColorcolor: Appcolors.backgroundColor,
