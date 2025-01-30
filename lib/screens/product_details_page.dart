@@ -15,11 +15,18 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 
-class ProductDetailsPage extends ConsumerWidget {
+class ProductDetailsPage extends ConsumerStatefulWidget {
   const ProductDetailsPage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _ProductDetailsPageState createState() => _ProductDetailsPageState();
+}
+
+class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
+  bool isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
     final product = ModalRoute.of(context)!.settings.arguments as ProductModel;
     final wishlistItems = ref.watch(wishlistProvider);
     final cartItems = ref.watch(cartProvider);
@@ -94,17 +101,16 @@ class ProductDetailsPage extends ConsumerWidget {
             ProductActionButton(
               buttonText: 'Buy Now',
               function: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => ShippingScreen(
-                      amount: product.price,
-                      orderItems: [
-                        OrderItem(
-                          productId: product.productId,
-                          productName: product.name,
-                          price: product.price,
-                          quantity: 1
-                        )
-                      ])),
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          ShippingScreen(amount: product.price, orderItems: [
+                            OrderItem(
+                                productId: product.productId,
+                                productName: product.name,
+                                price: product.price,
+                                quantity: 1)
+                          ])),
                 );
               },
               color: Appcolors.bottomNavActive,
@@ -194,11 +200,35 @@ class ProductDetailsPage extends ConsumerWidget {
                         fontSize: EshopTypography.onboadingbody,
                         fontWeight: EshopFontweight.medium),
                   ),
-                  Text(
-                    product.description,
-                    style: GoogleFonts.roboto(
-                        fontSize: EshopTypography.termsfont,
-                        fontWeight: EshopFontweight.light),
+                  GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        isExpanded = !isExpanded;
+                      });
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          product.description,
+                          maxLines: isExpanded ? null : 4,
+                          overflow: isExpanded
+                              ? TextOverflow.visible
+                              : TextOverflow.ellipsis,
+                          style: GoogleFonts.roboto(
+                              fontSize: EshopTypography.termsfont,
+                              fontWeight: EshopFontweight.light),
+                        ),
+                        Text(
+                          isExpanded ? 'Read less' : 'Read more',
+                          style: TextStyle(
+                              color: Appcolors.primaryColor,
+                              fontSize: EshopTypography.subtext,
+                              fontWeight: EshopFontweight.light),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(
                     height: 30.h,

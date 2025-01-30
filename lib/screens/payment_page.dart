@@ -1,8 +1,6 @@
 // ignore_for_file: use_build_context_synchronously
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/models/paystack_models/paystack_auth_response.dart';
-import 'package:ecommerce_app/screens/homepage.dart';
-import 'package:ecommerce_app/screens/my_orders_screen.dart';
 import 'package:ecommerce_app/services/paystack_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
