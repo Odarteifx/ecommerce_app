@@ -4,7 +4,6 @@ import 'package:ecommerce_app/controllers/cart_controller.dart';
 import 'package:ecommerce_app/controllers/orders_controller.dart';
 import 'package:ecommerce_app/models/order_models/order_item.dart';
 import 'package:ecommerce_app/models/order_models/orders_model.dart';
-import 'package:ecommerce_app/screens/signup_page.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -44,11 +43,13 @@ class ShippingScreen extends ConsumerWidget {
                 );
                 final amountNew = ghsAmount?.toStringAsFixed(0);
                 final amountInCedis = double.parse(amountNew!);
+                final reference = Utils.uniqueRefenece();
                 debugPrint(amountInCedis.toString());
 
                 Navigator.of(context).push(MaterialPageRoute(
+                 
                   builder: (context) => PaymentPage(
-                    reference: Utils.uniqueRefenece(),
+                    reference:reference,
                     amount: amountInCedis,
                     email: FirebaseAuth.instance.currentUser!.email!,
                     currency: 'GHS',
@@ -61,7 +62,9 @@ class ShippingScreen extends ConsumerWidget {
                           total: amountInUSD,
                           items: orderItems,
                           status: 'pending',
-                          createdAt: DateTime.now());
+                          createdAt: DateTime.now(), 
+                          transactionRef: reference, 
+                          );
                           ref.read(ordersControllerProvider.notifier).addOrder(order);
                           debugPrint('Order added');
 

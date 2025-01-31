@@ -4,7 +4,10 @@ import 'package:ecommerce_app/controllers/orders_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+
+import 'order_details.dart';
 
 class MyOrdersScreen extends ConsumerWidget {
   const MyOrdersScreen({super.key});
@@ -23,10 +26,26 @@ class MyOrdersScreen extends ConsumerWidget {
                 itemCount: orders.length,
                 itemBuilder: (context, index) {
                   final order = orders[index];
-                  final formattedDate = DateFormat('dd/MM/yyyy')
+                  final formattedDate = DateFormat('dd MMM, yyyy  hh:mm a')
                       .format(order.createdAt.toLocal());
                   return ListTile(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context,
+                          MaterialPageRoute(builder: (context) {
+                        return OrderDetails(order: order);
+                      }));
+                    },
+                    leading: CircleAvatar(
+                      backgroundColor: order.status == 'pending'
+                          ? Colors.grey
+                          : order.status == 'delivered'
+                              ? Colors.green
+                              : Colors.orange,
+                      child: Icon(
+                        Iconsax.box,
+                        color: Appcolors.backgroundColor,
+                      ),
+                    ),
                     title: Text(
                       'Order ID: #${order.orderId.replaceRange(14, null, '')}',
                       style: TextStyle(
@@ -42,18 +61,26 @@ class MyOrdersScreen extends ConsumerWidget {
                     trailing: order.status == 'pending'
                         ? Text(
                             'Pending',
-                            style: TextStyle(color: Colors.red),
+                            style: TextStyle(
+                                color: Colors.redAccent,
+                                fontSize: EshopTypography.termsfont,
+                                fontWeight: EshopFontweight.semibold),
                           )
                         : order.status == 'delivered'
                             ? Text(
-                                'Delivered',
-                                style: TextStyle(color: Colors.green),
+                                'Completed',
+                                style: TextStyle(
+                                    color: Colors.green,
+                                    fontSize: EshopTypography.termsfont,
+                                    fontWeight: EshopFontweight.semibold),
                               )
                             : Text(
                                 'Processing',
-                                style: TextStyle(color: Colors.grey),
+                                style: TextStyle(
+                                    color: Colors.orange,
+                                    fontSize: EshopTypography.termsfont,
+                                    fontWeight: EshopFontweight.semibold),
                               ),
-                          
                   );
                 },
               )
