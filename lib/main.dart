@@ -23,6 +23,7 @@ class MyApp extends ConsumerWidget {
     return ScreenUtilInit(
       builder: (context, child) => MaterialApp(
         title: 'eShop',
+        debugShowCheckedModeBanner: false,
         theme: ThemeData(
           textTheme: GoogleFonts.robotoTextTheme().apply(
             bodyColor: Appcolors.textColor,

@@ -117,7 +117,7 @@ class OrderTrack extends StatelessWidget {
                         Text(
                           title,
                           style: TextStyle(
-                            fontWeight: FontWeight.bold,
+                            fontWeight: EshopFontweight.medium,
                           ),
                         ),
                         SizedBox(
@@ -145,7 +145,10 @@ class OrderTrack extends StatelessWidget {
               ),
               Text(
                 location,
-                style: GoogleFonts.roboto(fontSize: EshopTypography.termsfont),
+                style: GoogleFonts.roboto(
+                    fontSize: EshopTypography.termsfont,
+                    fontWeight: EshopFontweight.medium,
+                    color: Colors.grey),
               ),
               SizedBox(
                 height: 22.h,
@@ -184,7 +187,7 @@ class OrderTrack extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          'location',
+                          '\$location',
                         ),
                         Spacer(),
                         status == 'delivered'
@@ -195,7 +198,7 @@ class OrderTrack extends StatelessWidget {
                       ],
                     ),
                     Text(
-                      "city",
+                      "\$city",
                     )
                   ],
                 )
