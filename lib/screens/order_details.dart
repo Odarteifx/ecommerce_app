@@ -23,7 +23,7 @@ class _OrderDetailsState extends State<OrderDetails> {
   @override
   Widget build(BuildContext context) {
     final order = widget.order;
-    //final price = widget.order.items[index].price;
+    final price = order.total.toStringAsFixed(2);
     final formattedDate =
         DateFormat('dd MMM, yyyy  hh:mm a').format(order.createdAt.toLocal());
     final formattedDate2 =
@@ -74,7 +74,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     Text(
-                      '\$${order.items[0].price.toString()}',
+                      '\$$price',
                       style: GoogleFonts.roboto(
                           color: Appcolors.backgroundColor,
                           fontSize: 22.sp,

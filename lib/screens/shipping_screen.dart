@@ -47,7 +47,6 @@ class ShippingScreen extends ConsumerWidget {
                 debugPrint(amountInCedis.toString());
 
                 Navigator.of(context).push(MaterialPageRoute(
-                 
                   builder: (context) => PaymentPage(
                     reference:reference,
                     amount: amountInCedis,
@@ -59,7 +58,7 @@ class ShippingScreen extends ConsumerWidget {
                       final order = Orders(
                           orderId: 'order-${Utils.uniqueRefenece()}',
                           email: FirebaseAuth.instance.currentUser!.email!,
-                          total: amountInUSD,
+                          total: amount,
                           items: orderItems,
                           status: 'pending',
                           createdAt: DateTime.now(), 
