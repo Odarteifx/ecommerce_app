@@ -44,16 +44,16 @@ class OrderTrack extends StatelessWidget {
                 border: Border.all(
                   width: 2.sp,
                   color: index == 1
-                      ? const Color(0xFFEFE052)
+                      ? const Color(0xFF4A90E2)
                       : index == 2
-                          ? Colors.grey
-                          : Color(0xFFFCBA88),
+                          ? Color(0xFF1B5E20)
+                          : Color(0xFFFB8C00),
                 ),
                 color: index == 1
-                    ? const Color(0xFFF5E76D)
+                    ? const Color(0xFFE3F2FD)
                     : index == 2
-                        ? Colors.black
-                        : const Color(0xFFFFD187),
+                        ? Color(0xFFD7F3E3)
+                        : const Color(0xFFFFF3E0),
                 borderRadius: BorderRadius.circular(24.r),
               ),
               child: Icon(
@@ -64,10 +64,10 @@ class OrderTrack extends StatelessWidget {
                         : Iconsax.truck_fast,
                 size: 22.sp,
                 color: index == 1
-                    ? Colors.black
+                    ? const Color(0xFF4A90E2)
                     : index == 2
-                        ? Appcolors.backgroundColor
-                        : Colors.black,
+                        ? Color(0xFF1B5E20)
+                        : Color(0xFFFB8C00),
               ),
             ),
             if (index == 2)
@@ -221,7 +221,7 @@ class StatusPoint extends StatelessWidget {
           width: 10.w,
           height: 10.h,
           decoration: BoxDecoration(
-            color: Colors.orange,
+            color: Color(0xFF2E7D32),
             border: Border.all(color: Colors.white),
             shape: BoxShape.circle,
           ),
@@ -249,22 +249,22 @@ class StatusLine extends StatelessWidget {
       } else if (processing) {
         if (index == 1) {
           return index == 1
-              ? Color(0xffecd85c)
+              ? Color(0xFF2E7D32)
               : index == 2
-                  ? Color(0xFFFCBA88)
+                  ? Color(0xFF2E7D32)
                   : Colors.transparent;
         } else if (index == 2) {
           return index == 1
-              ? Color(0xffecd85c)
+              ? Color(0xFF2E7D32)
               : index == 2
-                  ? Color(0xFFFCBA88)
+                  ? Color(0xFF2E7D32)
                   : Colors.transparent;
         }
       } else if (delivered) {
         return index == 1
-            ? Color(0xffecd85c)
+            ? Color(0xFF2E7D32)
             : index == 3
-                ? Color(0xFFFCBA88)
+                ? Color(0xFF2E7D32)
                 : Colors.transparent;
       }
       return const Color(0x393C3C3C);

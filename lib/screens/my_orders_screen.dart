@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
+import 'eshop_pageview.dart';
 import 'order_details.dart';
 
 class MyOrdersScreen extends ConsumerWidget {
@@ -59,27 +60,19 @@ class MyOrdersScreen extends ConsumerWidget {
                       style: TextStyle(fontSize: EshopTypography.termsfont),
                     ),
                     trailing: order.status == 'pending'
-                        ? Text(
-                            'Pending',
-                            style: TextStyle(
-                                color: Colors.redAccent,
-                                fontSize: EshopTypography.termsfont,
-                                fontWeight: EshopFontweight.semibold),
-                          )
+                        ? OrderStatus(
+                            backgroundColor: const Color(0xFFFFEBEE),
+                            statusColor: Colors.redAccent,
+                            status: 'Pending')
                         : order.status == 'delivered'
-                            ? Text(
-                                'Completed',
-                                style: TextStyle(
-                                    color: Colors.green,
-                                    fontSize: EshopTypography.termsfont,
-                                    fontWeight: EshopFontweight.semibold),
-                              )
-                            : Text(
-                                'Processing',
-                                style: TextStyle(
-                                    color: Colors.orange,
-                                    fontSize: EshopTypography.termsfont,
-                                    fontWeight: EshopFontweight.semibold),
+                            ? OrderStatus(
+                                backgroundColor: Color(0xFFE6F4EA),
+                                statusColor: Colors.green,
+                                status: 'Completed')
+                            : OrderStatus(
+                                backgroundColor: const Color(0xFFFFF4E5),
+                                statusColor: Colors.orange,
+                                status: 'Processing',
                               ),
                   );
                 },
@@ -94,3 +87,5 @@ class MyOrdersScreen extends ConsumerWidget {
               ));
   }
 }
+
+

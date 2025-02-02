@@ -8,6 +8,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 import '../models/order_models/order_track.dart';
+import 'eshop_pageview.dart';
 
 class OrderDetails extends StatefulWidget {
   final Orders order;
@@ -31,21 +32,19 @@ class _OrderDetailsState extends State<OrderDetails> {
     final orderRef = order.orderId.replaceRange(14, null, '');
 
     final orderStatus = order.status == 'pending'
-        ? Text(
-            'Pending',
-            style: GoogleFonts.roboto(
-                color: Colors.red, fontWeight: EshopFontweight.semibold),
-          )
+        ? OrderStatus(
+            backgroundColor: const Color(0xFFFFEBEE),
+            statusColor: Colors.redAccent,
+            status: 'Pending')
         : order.status == 'delivered'
-            ? Text(
-                'Completed',
-                style: TextStyle(
-                    color: Colors.green, fontWeight: EshopFontweight.bold),
-              )
-            : Text(
-                'On the way',
-                style: TextStyle(
-                    color: Colors.orange, fontWeight: EshopFontweight.semibold),
+            ? OrderStatus(
+                backgroundColor: Color(0xFFE6F4EA),
+                statusColor: Colors.green,
+                status: 'Completed')
+            : OrderStatus(
+                backgroundColor: const Color(0xFFFFF4E5),
+                statusColor: Colors.orange,
+                status: 'On the way',
               );
     return Scaffold(
       backgroundColor: Appcolors.backgroundColor,
@@ -119,9 +118,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   Text(
                     'Order Details',
                     style: GoogleFonts.roboto(
-                      fontSize: 18.sp,
-                      fontWeight: EshopFontweight.medium
-                    ),
+                        fontSize: 18.sp, fontWeight: EshopFontweight.medium),
                   ),
                   SizedBox(),
                   Row(
@@ -183,9 +180,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                 Text(
                   'Order Status',
                   style: GoogleFonts.roboto(
-                    fontSize: 15.sp,
-                    fontWeight: EshopFontweight.medium
-                  ),
+                      fontSize: 15.sp, fontWeight: EshopFontweight.medium),
                 ),
                 OrderTrack(
                   date: formattedDate2,
@@ -226,9 +221,7 @@ class _OrderDetailsState extends State<OrderDetails> {
                   Text(
                     'Summary (${widget.order.items.length})',
                     style: GoogleFonts.roboto(
-                      fontSize: 15.sp,
-                      fontWeight: EshopFontweight.medium
-                    ),
+                        fontSize: 15.sp, fontWeight: EshopFontweight.medium),
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 0.h),
@@ -241,7 +234,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                               fontWeight: EshopFontweight.medium,
                               fontSize: EshopTypography.onboadingbody),
                         ),
-                        Text('Qty(s)', style: GoogleFonts.roboto(
+                        Text(
+                          'Qty(s)',
+                          style: GoogleFonts.roboto(
                               fontWeight: EshopFontweight.medium,
                               fontSize: EshopTypography.onboadingbody),
                         )
@@ -255,7 +250,9 @@ class _OrderDetailsState extends State<OrderDetails> {
                         return ListTile(
                           title: Text(
                             order.items[index].productName,
-                            style: GoogleFonts.roboto(fontSize: 13.sp,),
+                            style: GoogleFonts.roboto(
+                              fontSize: 13.sp,
+                            ),
                           ),
                           trailing: Text(
                             order.items[index].quantity.toString(),
