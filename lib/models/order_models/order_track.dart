@@ -58,7 +58,7 @@ class OrderTrack extends StatelessWidget {
               ),
               child: Icon(
                 index == 1
-                    ? Iconsax.box_add
+                    ? Icons.inventory_rounded
                     : index == 2
                         ? Iconsax.tick_circle
                         : Iconsax.truck_fast,
