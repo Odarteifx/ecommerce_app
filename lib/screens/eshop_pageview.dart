@@ -113,34 +113,3 @@ class _EshopPageviewState extends State<EshopPageview> {
     );
   }
 }
-
-//Order Status with background
-class OrderStatus extends StatelessWidget {
-  final Color backgroundColor;
-  final Color statusColor;
-  final String status;
-  const OrderStatus({
-    super.key,
-    required this.backgroundColor,
-    required this.statusColor,
-    required this.status,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Text(
-        status,
-        style: TextStyle(
-            color: statusColor,
-            fontSize: EshopTypography.termsfont,
-            fontWeight: EshopFontweight.semibold),
-      ),
-    );
-  }
-}

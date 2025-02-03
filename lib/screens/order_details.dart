@@ -8,7 +8,7 @@ import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
 import '../models/order_models/order_track.dart';
-import 'eshop_pageview.dart';
+import '../widgets/eshop_widgets.dart';
 
 class OrderDetails extends StatefulWidget {
   final Orders order;

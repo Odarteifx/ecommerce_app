@@ -1800,3 +1800,36 @@ class _ShippingFormState extends ConsumerState<ShippingForm> {
     );
   }
 }
+
+
+//Order Status with background
+class OrderStatus extends StatelessWidget {
+  final Color backgroundColor;
+  final Color statusColor;
+  final String status;
+  const OrderStatus({
+    super.key,
+    required this.backgroundColor,
+    required this.statusColor,
+    required this.status,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 4.sp, horizontal: 8.sp),
+      decoration: BoxDecoration(
+        color: backgroundColor,
+        borderRadius: BorderRadius.circular(10.sp),
+      ),
+      child: Text(
+        status,
+        style: TextStyle(
+            color: statusColor,
+            fontSize: EshopTypography.termsfont,
+            fontWeight: EshopFontweight.semibold),
+      ),
+    );
+  }
+}
+

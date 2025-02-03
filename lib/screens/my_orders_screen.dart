@@ -7,7 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 
-import 'eshop_pageview.dart';
+import '../widgets/eshop_widgets.dart';
 import 'order_details.dart';
 
 class MyOrdersScreen extends ConsumerWidget {
