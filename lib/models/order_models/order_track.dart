@@ -4,8 +4,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:iconsax/iconsax.dart';
 
-import '../../constants/colors.dart';
-
 class OrderTrack extends StatelessWidget {
   final String date;
   final String title;
@@ -44,13 +42,13 @@ class OrderTrack extends StatelessWidget {
                 border: Border.all(
                   width: 2.sp,
                   color: index == 1
-                      ? const Color(0xFF4A90E2)
+                      ? Colors.redAccent
                       : index == 2
                           ? Color(0xFF1B5E20)
                           : Color(0xFFFB8C00),
                 ),
                 color: index == 1
-                    ? const Color(0xFFE3F2FD)
+                    ? const Color(0xFFFFEBEE)
                     : index == 2
                         ? Color(0xFFD7F3E3)
                         : const Color(0xFFFFF3E0),
@@ -64,7 +62,7 @@ class OrderTrack extends StatelessWidget {
                         : Iconsax.truck_fast,
                 size: 22.sp,
                 color: index == 1
-                    ? const Color(0xFF4A90E2)
+                    ? Colors.redAccent
                     : index == 2
                         ? Color(0xFF1B5E20)
                         : Color(0xFFFB8C00),
