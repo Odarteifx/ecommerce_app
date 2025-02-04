@@ -50,9 +50,6 @@ This is a **feature-rich E-commerce mobile application** built with **Flutter**.
 ## 🤝 Contributing
 Contributions are welcome! Feel free to submit issues or pull requests.
 
-## 📜 License
-This project is licensed under the **MIT License**.
-
 ---
 ### 📬 Contact
 For inquiries or collaborations, reach out via [LinkedIn](https://www.linkedin.com/in/william-lamptey) or email at **williamlamp512@email.com**.
