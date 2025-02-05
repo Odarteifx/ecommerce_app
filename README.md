@@ -2,6 +2,7 @@
 
 ## 🚀 Overview
 This is a **feature-rich E-commerce mobile application** built with **Flutter**. It provides a seamless shopping experience with Firebase-powered authentication, secure payment processing via Paystack, and an integrated order tracking system.
+**Video snippet of E-commerce App** --> [Click here](https://www.linkedin.com/posts/william-lamptey_flutter-firebase-paystack-activity-7292104310811717633-QG6P?utm_source=share&utm_medium=member_desktop)
 
 ## 🔥 Features
 - **User Authentication** (Sign Up, Login, Forgot Password) using Firebase Authentication.
