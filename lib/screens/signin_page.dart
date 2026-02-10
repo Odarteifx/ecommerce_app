@@ -24,12 +24,17 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
   late final TextEditingController _passwordcontroller;
 
   final _formkey = GlobalKey<FormState>();
+  
+  // Loading states
+  bool _isEmailLoading = false;
+  bool _isGoogleLoading = false;
 
   userLogin() async {
+    setState(() => _isEmailLoading = true);
     try {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
-      Navigator.push(
+      Navigator.pushReplacement(
           context,
           MaterialPageRoute(
             builder: (context) => const EshopHomePage(),
@@ -45,6 +50,23 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text('${e.message}')));
       }
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Error: ${e.toString()}')));
+    } finally {
+      if (mounted) setState(() => _isEmailLoading = false);
+    }
+  }
+
+  googleLogin() async {
+    setState(() => _isGoogleLoading = true);
+    try {
+      await AuthMethods().signInWithGoogle(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Google sign-in failed: ${e.toString()}')));
+    } finally {
+      if (mounted) setState(() => _isGoogleLoading = false);
     }
   }
 
@@ -126,21 +148,44 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
                 SizedBox(
                   height: 20.h,
                 ),
-                MajorButton(
-                    buttonText: 'Log In',
-                    function: () {
-                      if (_formkey.currentState!.validate()) {
-                        email = _emailcontroller.text.trim();
-                        password = _passwordcontroller.text.trim();
-                        userLogin();
-                      } else {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(
-                            content: Text('Please fill in all fields'),
+                _isEmailLoading
+                    ? Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 20.h),
+                        child: SizedBox(
+                          height: 50.h,
+                          width: double.infinity,
+                          child: FilledButton(
+                            style: FilledButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(5.sp)),
+                                backgroundColor: Appcolors.primaryColor),
+                            onPressed: null,
+                            child: SizedBox(
+                              height: 20.h,
+                              width: 20.w,
+                              child: const CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            ),
                           ),
-                        );
-                      }
-                    }),
+                        ),
+                      )
+                    : MajorButton(
+                        buttonText: 'Log In',
+                        function: () {
+                          if (_formkey.currentState!.validate()) {
+                            email = _emailcontroller.text.trim();
+                            password = _passwordcontroller.text.trim();
+                            userLogin();
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Please fill in all fields'),
+                              ),
+                            );
+                          }
+                        }),
                 SizedBox(
                   height: 20.h,
                 ),
@@ -173,10 +218,30 @@ class _EshopSignInPageState extends State<EshopSignInPage> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      SigninIcon(
-                          iconUrl: EshopAssets.googlelogo, function: () {
-                            AuthMethods().signInWithGoogle(context);
-                          }),
+                      _isGoogleLoading
+                          ? SizedBox(
+                              height: 50.h,
+                              width: 150.w,
+                              child: TextButton(
+                                style: TextButton.styleFrom(
+                                    backgroundColor: Appcolors.widgetcolor,
+                                    shape: RoundedRectangleBorder(
+                                        side: const BorderSide(
+                                            color: Appcolors.iconColor, width: 1),
+                                        borderRadius: BorderRadius.circular(15))),
+                                onPressed: null,
+                                child: SizedBox(
+                                  height: 20.h,
+                                  width: 20.w,
+                                  child: const CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                ),
+                              ),
+                            )
+                          : SigninIcon(
+                              iconUrl: EshopAssets.googlelogo,
+                              function: googleLogin),
                       SigninIcon(
                           iconUrl: EshopAssets.applelogo,
                           function: () {})

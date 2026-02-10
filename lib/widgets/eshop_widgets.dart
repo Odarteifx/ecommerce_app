@@ -1,10 +1,12 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:math';
 
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:ecommerce_app/controllers/wishlist_controller.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/services/address_services.dart';
+import 'package:ecommerce_app/utils/cached_image.dart';
 import 'package:ecommerce_app/utils/enums.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -552,13 +554,11 @@ class CategoriesWidget extends ConsumerWidget {
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                Image(
-                                  image: NetworkImage(
-                                      data[index].image.toString()),
+                                CachedImage(
+                                  imageUrl: data[index].image.toString(),
                                   height: 30.h,
-                                  errorBuilder: (context, error, stackTrace) {
-                                    return Icon(Icons.error);
-                                  },
+                                  width: 30.w,
+                                  errorWidget: const Icon(Icons.error),
                                 ),
                                 SizedBox(
                                   width: 8.w,
@@ -655,9 +655,11 @@ class ProductWidget extends ConsumerWidget {
                           decoration: BoxDecoration(
                               color: Appcolors.widgetcolor,
                               borderRadius: BorderRadius.circular(10.sp)),
-                          child: Image.network(
-                            data[index].image.toString(),
+                          child: CachedImage(
+                            imageUrl: data[index].image.toString(),
                             width: 150.w,
+                            height: 165.sp,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         SizedBox(
@@ -904,9 +906,11 @@ class RelatedProductsWidget extends ConsumerWidget {
                             decoration: BoxDecoration(
                                 color: Appcolors.widgetcolor,
                                 borderRadius: BorderRadius.circular(10.sp)),
-                            child: Image.network(
-                              filteredData[index].image.toString(),
+                            child: CachedImage(
+                              imageUrl: filteredData[index].image.toString(),
                               width: 150.w,
+                              height: 165.sp,
+                              fit: BoxFit.contain,
                             ),
                           ),
                           SizedBox(
@@ -1071,9 +1075,11 @@ class SearchProducts extends SearchDelegate {
                           decoration: BoxDecoration(
                               color: Appcolors.widgetcolor,
                               borderRadius: BorderRadius.circular(10.sp)),
-                          child: Image.network(
-                            data[index].image.toString(),
+                          child: CachedImage(
+                            imageUrl: data[index].image.toString(),
                             width: 150.w,
+                            height: 165.sp,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         SizedBox(
@@ -1211,9 +1217,11 @@ class SearchProducts extends SearchDelegate {
                           decoration: BoxDecoration(
                               color: Appcolors.widgetcolor,
                               borderRadius: BorderRadius.circular(10.sp)),
-                          child: Image.network(
-                            data[index].image.toString(),
+                          child: CachedImage(
+                            imageUrl: data[index].image.toString(),
                             width: 150.w,
+                            height: 165.sp,
+                            fit: BoxFit.contain,
                           ),
                         ),
                         SizedBox(

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/constants/eshop_assets.dart';
 import 'package:ecommerce_app/constants/eshop_typography.dart';
@@ -218,7 +219,7 @@ class MyCartPage extends ConsumerWidget {
                                           BorderRadius.circular(10.sp),
                                       image: DecorationImage(
                                         image: item.image != null
-                                            ? NetworkImage(item.image!)
+                                            ? CachedNetworkImageProvider(item.image!)
                                             : const AssetImage(
                                                     EshopAssets.product1)
                                                 as ImageProvider,
@@ -572,7 +573,7 @@ class WishlistPage extends ConsumerWidget {
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(10.sp),
                               image: DecorationImage(
-                                image: NetworkImage(item.image),
+                                image: CachedNetworkImageProvider(item.image),
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -662,7 +663,7 @@ class ProfilePage extends ConsumerWidget {
             children: [
               CircleAvatar(
                 backgroundImage: user?.photoURL != null
-                    ? NetworkImage(user!.photoURL!)
+                    ? CachedNetworkImageProvider(user!.photoURL!)
                     : const AssetImage(EshopAssets.person) as ImageProvider,
                 radius: 25.r,
               ),

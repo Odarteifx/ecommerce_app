@@ -3,6 +3,19 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/shipping_model.dart';
 
+/// Stream provider for real-time address updates
+final addressStreamProvider = StreamProvider<List<ShippingAddress>>((ref) {
+  final addressServices = ref.watch(addressServicesProvider);
+  final user = FirebaseAuth.instance.currentUser;
+  if (user == null) {
+    return Stream.value([]);
+  }
+  return addressServices.getShippingAddress(user.uid);
+});
+
+/// Provider for selected address in shipping screen
+final selectedAddressProvider = StateProvider<ShippingAddress?>((ref) => null);
+
 final addressControllerProvider = StateNotifierProvider<AddressController, List<ShippingAddress>>((ref){
   final addressServices = ref.watch(addressServicesProvider);
   

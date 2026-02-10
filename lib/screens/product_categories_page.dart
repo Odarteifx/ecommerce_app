@@ -1,6 +1,7 @@
 import 'package:ecommerce_app/constants/colors.dart';
 import 'package:ecommerce_app/controllers/product_controller.dart';
 import 'package:ecommerce_app/screens/product_details_page.dart';
+import 'package:ecommerce_app/utils/cached_image.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -80,9 +81,11 @@ class ProductsbyCategoryPage extends ConsumerWidget {
                                               color: Appcolors.widgetcolor,
                                               borderRadius:
                                                   BorderRadius.circular(10.sp)),
-                                          child: Image.network(
-                                            data[index].image.toString(),
+                                          child: CachedImage(
+                                            imageUrl: data[index].image.toString(),
                                             width: 150.w,
+                                            height: 165.sp,
+                                            fit: BoxFit.contain,
                                           ),
                                         ),
                                         SizedBox(

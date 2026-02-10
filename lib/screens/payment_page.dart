@@ -52,13 +52,12 @@ class PaymentPage extends ConsumerWidget {
               if (snapshot.connectionState == ConnectionState.done &&
                   snapshot.hasData &&
                   snapshot.data!.authorizationUrl != null) {
-                PaystackService()
-                    .verifyTransaction(
-                      snapshot.data!.reference!,
-                      onSuccessfulTransaction,
-                      onFailedTransaction,
-                    )
-                    .then((value) => Navigator.of(context).pop());
+                // Verify transaction - callbacks handle navigation
+                await PaystackService().verifyTransaction(
+                  snapshot.data!.reference!,
+                  onSuccessfulTransaction,
+                  onFailedTransaction,
+                );
                 return false;
               }
               return true;
@@ -69,17 +68,16 @@ class PaymentPage extends ConsumerWidget {
                 backgroundColor: Appcolors.backgroundColor,
                 leading: IconButton(
                   icon: Icon(Icons.close),
-                  onPressed: () {
+                  onPressed: () async {
                     if (snapshot.connectionState == ConnectionState.done &&
                         snapshot.hasData &&
                         snapshot.data!.authorizationUrl != null) {
-                      PaystackService()
-                          .verifyTransaction(
-                            snapshot.data!.reference!,
-                            onSuccessfulTransaction,
-                            onFailedTransaction,
-                          )
-                          .then((value) => Navigator.of(context).pop());
+                      // Verify transaction - callbacks handle navigation
+                      await PaystackService().verifyTransaction(
+                        snapshot.data!.reference!,
+                        onSuccessfulTransaction,
+                        onFailedTransaction,
+                      );
                     } else {
                       Navigator.of(context).pop();
                     }

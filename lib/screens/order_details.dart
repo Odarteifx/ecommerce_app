@@ -157,6 +157,44 @@ class _OrderDetailsState extends State<OrderDetails> {
                       ),
                     ],
                   ),
+                  if (order.transactionRef != null)
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Transaction Ref:',
+                          style: GoogleFonts.roboto(
+                            color: Colors.grey,
+                          ),
+                        ),
+                        Text(
+                          order.transactionRef!.length > 12 
+                              ? '${order.transactionRef!.substring(0, 12)}...' 
+                              : order.transactionRef!,
+                          style: GoogleFonts.roboto(
+                            fontWeight: EshopFontweight.regular,
+                          ),
+                        ),
+                      ],
+                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Email:',
+                        style: GoogleFonts.roboto(
+                          color: Colors.grey,
+                        ),
+                      ),
+                      Text(
+                        order.email,
+                        style: GoogleFonts.roboto(
+                          fontWeight: EshopFontweight.regular,
+                        ),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
@@ -185,13 +223,13 @@ class _OrderDetailsState extends State<OrderDetails> {
                 OrderTrack(
                   date: formattedDate2,
                   title: 'Created',
-                  location: 'eShop Parcels, Accra',
+                  location: 'Order placed',
                   index: 1,
                   status: order.status,
                 ),
                 OrderTrack(
-                  date: formattedDate2,
-                  location: 'Accra',
+                  date: order.status == 'processing' || order.status == 'delivered' ? formattedDate2 : '',
+                  location: 'In transit',
                   title: 'On the way',
                   status: order.status,
                   hasDropdown: true,
@@ -204,10 +242,10 @@ class _OrderDetailsState extends State<OrderDetails> {
                   index: 3,
                 ),
                 OrderTrack(
-                    date: '',
+                    date: order.status == 'delivered' ? formattedDate2 : '',
                     title: 'Received',
                     status: widget.order.status,
-                    location: '\$user address',
+                    location: 'Delivery address',
                     hasDropdown: false,
                     index: 2)
               ],

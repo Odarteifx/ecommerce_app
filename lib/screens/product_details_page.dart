@@ -8,6 +8,7 @@ import 'package:ecommerce_app/models/product_models.dart';
 import 'package:ecommerce_app/models/wishlist_model.dart';
 import 'package:ecommerce_app/screens/homepage.dart';
 import 'package:ecommerce_app/screens/shipping_screen.dart';
+import 'package:ecommerce_app/utils/cached_image.dart';
 import 'package:ecommerce_app/widgets/eshop_widgets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -127,9 +128,10 @@ class _ProductDetailsPageState extends ConsumerState<ProductDetailsPage> {
             Container(
               height: 300.h,
               child: Center(
-                child: Image.network(
-                  product.image.toString(),
-                  fit: BoxFit.cover,
+                child: CachedImage(
+                  imageUrl: product.image.toString(),
+                  fit: BoxFit.contain,
+                  height: 300.h,
                 ),
               ),
             ),

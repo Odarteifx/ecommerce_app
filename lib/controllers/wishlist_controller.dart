@@ -4,6 +4,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../models/wishlist_model.dart';
 
 final wishlistProvider = StreamProvider<List<WishlistItem>>((ref) {
+  // Keep the provider alive to cache wishlist data
+  ref.keepAlive();
   final wishlistServices = ref.watch(wishlistServiceProvider);
   final user = FirebaseAuth.instance.currentUser;
   if (user == null) {

@@ -9,18 +9,26 @@ final productControlProvider = StateNotifierProvider<ProductController, bool>((r
 });
 
 final getProductsbyCategoryProvider = StreamProvider.family((ref, String categoryname){
+  // Keep the provider alive to cache data
+  ref.keepAlive();
   return ref.watch(productControlProvider.notifier).getProductsbyCategoryName(categoryname);
 });
 
 final getRelatedProductsProvider = StreamProvider.family((ref, String categoryname){
+  // Keep the provider alive to cache data
+  ref.keepAlive();
   return ref.watch(productControlProvider.notifier).getRelatedProducts(categoryname);
 });
 
 final getsProductsProvider = StreamProvider((ref){
+  // Keep the provider alive to cache data and prevent re-fetching
+  ref.keepAlive();
   return ref.watch(productControlProvider.notifier).getProducts();
 });
 
 final searchProductsProvider = StreamProvider.family((ref, String search){
+  // Keep search results cached
+  ref.keepAlive();
   return ref.watch(productControlProvider.notifier).searchProducts(search);
 });
 

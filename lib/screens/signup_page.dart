@@ -32,6 +32,10 @@ class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
   late final TextEditingController _passwordcontroller;
   late final TextEditingController _confirmpasswordcontroller;
 
+  // Loading states
+  bool _isEmailLoading = false;
+  bool _isGoogleLoading = false;
+
   @override
   void initState() {
     _namecontroller = TextEditingController();
@@ -50,7 +54,20 @@ class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
     super.dispose();
   }
 
+  googleSignUp() async {
+    setState(() => _isGoogleLoading = true);
+    try {
+      await AuthMethods().signInWithGoogle(context);
+    } catch (e) {
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text('Google sign-in failed: ${e.toString()}')));
+    } finally {
+      if (mounted) setState(() => _isGoogleLoading = false);
+    }
+  }
+
   registration() async {
+    setState(() => _isEmailLoading = true);
     if (_formkey.currentState!.validate()) {
       name = _namecontroller.text.trim();
       email = _emailcontroller.text.trim();
@@ -106,8 +123,11 @@ class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Error: ${e.toString()}')),
           );
+        } finally {
+          if (mounted) setState(() => _isEmailLoading = false);
         }
       } else {
+        setState(() => _isEmailLoading = false);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text('Passwords do not match'),
@@ -115,6 +135,7 @@ class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
         );
       }
     } else {
+      setState(() => _isEmailLoading = false);
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text('Please fill in all fields'),
@@ -186,15 +207,38 @@ class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
             SizedBox(
               height: 15.h,
             ),
-            MajorButton(
-                buttonText: 'Sign Up',
-                function: isAccepted
-                    ? registration
-                    : () {
-                        ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                            content: Text(
-                                'Accept Terms of Service and Privacy Policy')));
-                      }),
+            _isEmailLoading
+                ? Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.h),
+                    child: SizedBox(
+                      height: 50.h,
+                      width: double.infinity,
+                      child: FilledButton(
+                        style: FilledButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5.sp)),
+                            backgroundColor: Appcolors.primaryColor),
+                        onPressed: null,
+                        child: SizedBox(
+                          height: 20.h,
+                          width: 20.w,
+                          child: const CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                : MajorButton(
+                    buttonText: 'Sign Up',
+                    function: isAccepted
+                        ? registration
+                        : () {
+                            ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+                                content: Text(
+                                    'Accept Terms of Service and Privacy Policy')));
+                          }),
             const EshopTermsConditions(),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -225,11 +269,30 @@ class _EshopSignupPageState extends ConsumerState<EshopSignupPage> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SigninIcon(
-                      iconUrl: EshopAssets.googlelogo,
-                      function: () {
-                        AuthMethods().signInWithGoogle(context);
-                      }),
+                  _isGoogleLoading
+                      ? SizedBox(
+                          height: 50.h,
+                          width: 150.w,
+                          child: TextButton(
+                            style: TextButton.styleFrom(
+                                backgroundColor: Appcolors.widgetcolor,
+                                shape: RoundedRectangleBorder(
+                                    side: const BorderSide(
+                                        color: Appcolors.iconColor, width: 1),
+                                    borderRadius: BorderRadius.circular(15))),
+                            onPressed: null,
+                            child: SizedBox(
+                              height: 20.h,
+                              width: 20.w,
+                              child: const CircularProgressIndicator(
+                                strokeWidth: 2,
+                              ),
+                            ),
+                          ),
+                        )
+                      : SigninIcon(
+                          iconUrl: EshopAssets.googlelogo,
+                          function: googleSignUp),
                   SigninIcon(iconUrl: EshopAssets.applelogo, function: () {})
                 ],
               ),

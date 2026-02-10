@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:ecommerce_app/models/order_models/order_item.dart';
 
@@ -48,23 +49,46 @@ class Orders {
       'items': items.map((x) => x.toMap()).toList(),
       'transactionRef': transactionRef,
       'status': status,
-      'createdAt': createdAt.millisecondsSinceEpoch,
+      'createdAt': Timestamp.fromDate(createdAt),
     };
   }
 
   factory Orders.fromMap(Map<String, dynamic> map) {
+    // Handle different date formats from Firestore
+    DateTime parsedDate;
+    final createdAtValue = map['createdAt'];
+    if (createdAtValue is Timestamp) {
+      // Firestore Timestamp object
+      parsedDate = createdAtValue.toDate();
+    } else if (createdAtValue is int) {
+      // Milliseconds since epoch
+      parsedDate = DateTime.fromMillisecondsSinceEpoch(createdAtValue);
+    } else if (createdAtValue is String) {
+      // ISO 8601 string format
+      parsedDate = DateTime.tryParse(createdAtValue) ?? DateTime.now();
+    } else {
+      // Default to current time if no valid date
+      parsedDate = DateTime.now();
+    }
+
+    // Handle total which might be int or double
+    final totalValue = map['total'];
+    final double parsedTotal = totalValue is int 
+        ? totalValue.toDouble() 
+        : (totalValue as double?) ?? 0.0;
+
     return Orders(
-      orderId: map['orderId'] as String,
-      email: map['email'] as String,
-      total: map['total'] as double,
+      orderId: map['orderId'] as String? ?? '',
+      email: map['email'] as String? ?? '',
+      total: parsedTotal,
       items: List<OrderItem>.from(
-        (map['items'] as List<dynamic>).map<OrderItem>(
+        (map['items'] as List<dynamic>? ?? []).map<OrderItem>(
           (x) => OrderItem.fromMap(x as Map<String, dynamic>),
         ),
       ),
       transactionRef: map['transactionRef'] as String?,
-      status: map['status'] as String,
-      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt'] as int),
+      status: map['status'] as String? ?? 'pending',
+      createdAt: parsedDate,
     );
   }
 

@@ -4,6 +4,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final cartProvider = StreamProvider<List<CartItem>>((ref) {
+  // Keep the provider alive to cache cart data
+  ref.keepAlive();
   final firebaseCartServices = ref.watch(cartServiceProvider);
   final user = FirebaseAuth.instance.currentUser;
   if (user == null) {

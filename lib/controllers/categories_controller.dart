@@ -9,6 +9,8 @@ final categoriesControllerProvider = StateNotifierProvider<CategoriesController,
 });
 
 final getsCategoriesProvider = StreamProvider((ref){
+  // Keep the provider alive to cache categories data
+  ref.keepAlive();
   final categoriesController = ref.watch(categoriesControllerProvider.notifier);
   return categoriesController.getCategories();
 });

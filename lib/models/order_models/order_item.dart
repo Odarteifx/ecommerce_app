@@ -36,11 +36,17 @@ class OrderItem {
   }
 
   factory OrderItem.fromMap(Map<String, dynamic> map) {
+    // Handle price which might be int or double
+    final priceValue = map['price'];
+    final double parsedPrice = priceValue is int 
+        ? priceValue.toDouble() 
+        : (priceValue as double?) ?? 0.0;
+
     return OrderItem(
-      productId: map['productId'] as String,
-      productName: map['productName'] as String,
-      price: map['price'] as double,
-      quantity: map['quantity'] as int,
+      productId: map['productId'] as String? ?? '',
+      productName: map['productName'] as String? ?? '',
+      price: parsedPrice,
+      quantity: map['quantity'] as int? ?? 1,
     );
   }
 

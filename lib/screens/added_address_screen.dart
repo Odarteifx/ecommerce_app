@@ -14,7 +14,7 @@ class AddedAddressScreen extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final shippingAddress = ref.watch(addressControllerProvider);
+    final addressAsync = ref.watch(addressStreamProvider);
     return Scaffold(
         backgroundColor: Appcolors.backgroundColor,
         appBar: AppBar(
@@ -50,14 +50,17 @@ class AddedAddressScreen extends ConsumerWidget {
         ),
         body: Scaffold(
             backgroundColor: Appcolors.backgroundColor,
-            body: shippingAddress.isEmpty
-                ? Center(
+            body: addressAsync.when(
+              data: (shippingAddress) {
+                if (shippingAddress.isEmpty) {
+                  return Center(
                     child: Text('No Saved Address',
                         style: GoogleFonts.roboto(
                             color: Appcolors.iconColor,
                             fontSize: EshopTypography.onboadingbody)),
-                  )
-                : ListView.builder(
+                  );
+                }
+                return ListView.builder(
                     itemCount: shippingAddress.length,
                     itemBuilder: (context, index) {
                       final savedAddress = shippingAddress[index];
@@ -139,6 +142,7 @@ class AddedAddressScreen extends ConsumerWidget {
                                                           .deleteShippingAddress(
                                                               savedAddress
                                                                   .addressId!);
+                                                      Navigator.pop(context);
                                                     },
                                                     child: Text(
                                                       'Delete Address',
@@ -159,6 +163,20 @@ class AddedAddressScreen extends ConsumerWidget {
                         ),
                       );
                     },
-                  )));
+                  );
+              },
+              loading: () => const Center(
+                child: CircularProgressIndicator(),
+              ),
+              error: (error, stack) => Center(
+                child: Text(
+                  'Error loading addresses',
+                  style: GoogleFonts.roboto(
+                    color: Appcolors.iconColor,
+                    fontSize: EshopTypography.onboadingbody,
+                  ),
+                ),
+              ),
+            )));
   }
 }
